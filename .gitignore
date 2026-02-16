@@ -73,3 +73,21 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Next.js
+.next/
+out/
+.vercel
+.env*.local
+.turbo
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# PM2
+.pm2/
+
+# Logs
+*.log
+logs/

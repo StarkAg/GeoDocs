@@ -1,97 +1,84 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# GeoDocs — Next.js Web App
 
-# Getting Started
+A Next.js web application for **Karnataka geographic documents**: village maps and land records. Search by District → Taluka → Hobli → Village and fetch PDFs from the official land records portal.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Stack
 
-## Step 1: Start Metro
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **PDF backend**: Express + Puppeteer (optional; run separately)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Getting Started
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### 1. Install and run the web app
 
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+```bash
+npm install
+npm run dev
 ```
 
-## Step 2: Build and run your app
+Open [http://localhost:3000](http://localhost:3000).
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### 2. (Optional) Run the PDF backend
 
-### Android
+To actually fetch village map PDFs, run the Puppeteer-based API on port 3001:
 
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```bash
+npm run api
 ```
 
-### iOS
+Then create `.env.local` in the project root:
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```env
+PDF_BACKEND_URL=http://localhost:3001
 ```
 
-Then, and every time you update your native dependencies, run:
+The Next.js app will proxy `/api/get-pdf-url` and `/api/health` to this backend. If you don’t run the backend, the **Documents** and **Village Search** flows will show an error when you click “Get PDF” (expected).
 
-```sh
-bundle exec pod install
+## Scripts
+
+| Command      | Description                          |
+|-------------|--------------------------------------|
+| `npm run dev`   | Start Next.js dev server (port 3000) |
+| `npm run build` | Production build                     |
+| `npm run start` | Run production server                |
+| `npm run api`   | Start PDF backend (port 3001)         |
+
+## Project structure
+
+```
+├── app/
+│   ├── layout.tsx          # Root layout + nav
+│   ├── page.tsx             # Home
+│   ├── documents/page.tsx   # Documents + Village Map form
+│   ├── map/page.tsx         # Map placeholder
+│   ├── profile/page.tsx     # Profile
+│   ├── search/page.tsx      # Village Map search
+│   └── api/
+│       ├── get-pdf-url/     # Proxy to PDF backend
+│       └── health/           # Health check proxy
+├── components/              # Nav, Dropdown
+├── lib/                     # API client
+└── src/data/
+    └── karnatakaLocations.ts  # Karnataka location hierarchy (districts → villages)
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## Features
 
-```sh
-# Using npm
-npm run ios
+- **Home**: Links to Documents, Map, Village Search, Profile
+- **Documents**: Grid of document types; “Village Map” opens a modal with cascading dropdowns (District → Taluka → Hobli → Village) and **Get PDF**
+- **Village Search**: Same cascading dropdowns and **Get PDF** on one page
+- **Map**: Placeholder for future map integration
+- **Profile**: Placeholder for user/settings
 
-# OR using Yarn
-yarn ios
-```
+Location options are loaded from `src/data/karnatakaLocations.ts` (Karnataka districts, taluks, hoblis, villages). PDF URLs are obtained by the backend from the official land records site (via Puppeteer).
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## Environment
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+- **`PDF_BACKEND_URL`** (optional): URL of the PDF API (default `http://localhost:3001`). Used by Next.js API routes to proxy requests.
+- **`NEXT_PUBLIC_API_URL`** (optional): If set, the frontend calls this URL directly instead of the Next.js proxy. Leave unset when using the proxy.
 
-## Step 3: Modify your app
+## Refactor note
 
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+This repo was refactored from a React Native/Expo app to a Next.js web app. The original mobile entry points (`App.tsx`, `index.js`) were removed. The PDF backend in `api/server.js` and the Karnataka location data in `src/data/` are unchanged and used by the web app.

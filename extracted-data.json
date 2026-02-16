@@ -1,0 +1,1542 @@
+[
+  {
+    "value": "2",
+    "label": "Bagalkote",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "JAMAKHANDI",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "BILAGI",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "MUDHOL",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "BADAMI",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "BAGALKOTE",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "HUNGUND",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "GULEDAGUDDA",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "ILKAL",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "RABAKAVI BANAHATTI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "21",
+    "label": "Bangalore Rural",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "NELAMANGALA",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "DODDABALLAPURA",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "DEVANAHALLI",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "HOSKOTE",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "20",
+    "label": "BANGALORE URBAN",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "BANGALORE-NORTH",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "BANGALORE-SOUTH",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "ANEKAL",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "BANGALORE-EAST",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "BANGALORE NORTH(ADDITIONAL)",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "YALAHANKA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "1",
+    "label": "Belgaum",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "CHIKKODI",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "ATHANI",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "RAIBAG",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "GOKAK",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "HUKKERI",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "BELAGAVI",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "KHANAPUR",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "SAVADATTI",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "BAILHONGAL",
+        "hoblis": []
+      },
+      {
+        "value": "10",
+        "label": "RAMADURG",
+        "hoblis": []
+      },
+      {
+        "value": "11",
+        "label": "KITTURA",
+        "hoblis": []
+      },
+      {
+        "value": "12",
+        "label": "NIPPANI",
+        "hoblis": []
+      },
+      {
+        "value": "13",
+        "label": "KAGAVADA",
+        "hoblis": []
+      },
+      {
+        "value": "14",
+        "label": "MUDALAGI",
+        "hoblis": []
+      },
+      {
+        "value": "15",
+        "label": "YARAGATTI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "12",
+    "label": "BELLARY",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "HADAGALI",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "HAGARIBOMMANAHALLI",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "HOSPET",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "SIRUGUPPA",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "BALLARI",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "SANDUR",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "KUDLIGI",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "KURUGODU",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "KOTTURU",
+        "hoblis": []
+      },
+      {
+        "value": "10",
+        "label": "KAMPLI",
+        "hoblis": []
+      },
+      {
+        "value": "11",
+        "label": "HARAPANAHALLI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "5",
+    "label": "Bidar",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "BASAVAKALYAN",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "BHALKI",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "AURAD",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "BIDAR",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "HUMNABAD",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "CHITAGUPPA",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "KAMALANAGARA",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "HULASURA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "3",
+    "label": "Bijapur",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "VIJAYAPURA",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "INDI",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "SINDAGI",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "BASAVAN BAGEWADI",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "MUDDEBIHAL",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "NIDAGUNDI",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "BABALESHVARA",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "CHADACHANA",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "TALIKOTI",
+        "hoblis": []
+      },
+      {
+        "value": "10",
+        "label": "BIJAPUR",
+        "hoblis": []
+      },
+      {
+        "value": "10",
+        "label": "TIKOTA",
+        "hoblis": []
+      },
+      {
+        "value": "11",
+        "label": "KOLHARA",
+        "hoblis": []
+      },
+      {
+        "value": "12",
+        "label": "DEVARA HIPPARAGI",
+        "hoblis": []
+      },
+      {
+        "value": "13",
+        "label": "ALAMELA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "27",
+    "label": "Chamarajanagara",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "GUNDLUPET",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "CHAMARAJANAGARA",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "YALANDUR",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "KOLLEGALA",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "KOLLEGALA(HANUR)",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "28",
+    "label": "Chikkaballapur",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "GAURIBIDANUR",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "CHIKBALLAPUR",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "GUDIBANDE",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "BAGEPALLI",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "SIDLAGHATTA",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "CHINTHAMANI",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "MANCHENAHALLI",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "CHELURU",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "17",
+    "label": "Chikmagalur",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "SRINGERI",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "KOPPA",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "NARASIMHARAJAPURA",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "TARIKERE",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "KADUR",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "CHIKKAMAGALURU",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "MUDIGERE",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "AJJAMPURA",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "KALASA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "13",
+    "label": "chitradurga",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "MOLAKALMUR",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "CHALLAKERE",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "CHITRADURGA",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "HOLALKERE",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "HOSADURGA",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "HIRIYUR",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "24",
+    "label": "Dakshina Kannada",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "MANGALORE",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "BANTWAL",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "BELTHANGADY",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "PUTTUR",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "SULLIA",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "MUDABIDRI",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "KADABA",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "MULKI",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "ULLALA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "14",
+    "label": "Davanagere",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "HARIHAR",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "HARAPANAHALLI",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "JAGALUR",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "DAVANAGERE",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "HONNALI",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "CHANNAGIRI",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "NYAMATI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "9",
+    "label": "DHARWAD",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "DHARWAD",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "NAVALGUND",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "HUBBALLI",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "KALGATGI",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "KUNDGOL",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "HUBBALLI NAGARA",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "ALNAVARA",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "ANNIGERI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "8",
+    "label": "Gadag",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "NARAGUND",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "RON",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "GADAG",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "SHIRAHATTI",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "MUNDARGI",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "GAJENDRAGAD",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "LAXMESHWAR",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "4",
+    "label": "Gulbarga",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "ALAND",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "AFZALPUR",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "KALABURAGI",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "CHINCHOLI",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "SEDAM",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "CHITTAPUR",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "JEVARGI",
+        "hoblis": []
+      },
+      {
+        "value": "11",
+        "label": "KALAGI",
+        "hoblis": []
+      },
+      {
+        "value": "12",
+        "label": "KAMALAPURA",
+        "hoblis": []
+      },
+      {
+        "value": "13",
+        "label": "YADRAMI",
+        "hoblis": []
+      },
+      {
+        "value": "17",
+        "label": "SHAHABADA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "23",
+    "label": "Hassan",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "SAKLESHPURA",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "BELUR",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "ARSIKERE",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "HASSAN",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "ALUR",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "ARKALGUD",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "HOLENARASIPURA",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "CHANNARAYAPATNA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "11",
+    "label": "Haveri",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "SHIGGAON",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "SAVANUR",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "HANGAL",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "HAVERI",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "BYADAGI",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "HIREKERUR",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "RANEBENNUR",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "RATTEEHALLI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "25",
+    "label": "Kodagu",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "MADIKERI",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "SOMAWARPET",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "VIRAJPET",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "PONNAMPETE",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "KUSHALANAGARA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "19",
+    "label": "KOLAR",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "SRINIVASPUR",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "KOLAR",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "MALUR",
+        "hoblis": []
+      },
+      {
+        "value": "10",
+        "label": "BANGARPET",
+        "hoblis": []
+      },
+      {
+        "value": "11",
+        "label": "MULBAGAL",
+        "hoblis": []
+      },
+      {
+        "value": "12",
+        "label": "K.G.F",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "7",
+    "label": "koppal",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "YELBURGA",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "KUSHTAGI",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "GANGAVATHI",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "KOPPAL",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "KARATAGI",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "KUKANURA",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "KANAKAGIRI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "22",
+    "label": "mandya",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "KRPET",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "NAGAMANGALA",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "PANDAVAPURA",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "SRIRANGAPATNA",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "MANDYA",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "MADDUR",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "MALAVALLI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "26",
+    "label": "Mysore",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "PERIYAPATANA",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "HUNSUR",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "K.R.NAGAR",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "MYSORE",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "HEGGADADEVANAKOTE",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "NANJANGUD",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "T.NARASIPURA",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "SARAGURU",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "SALIGRAMA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "6",
+    "label": "Raichur",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "LINGASUGUR",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "DEVDURGA",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "RAICHUR",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "MANVI",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "SINDHANUR",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "MASKI",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "SIRAVARA",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "ARAKERA",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "29",
+    "label": "Ramanagara",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "MAGADI",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "RAMANAGAR",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "CHANNAPATNA",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "KANAKPURA",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "HAROHALLI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "15",
+    "label": "Shimoga",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "SAGAR",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "SORABA",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "SHIKARIPURA",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "HOSANAGAR",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "THIRTHALLY",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "SHIVAMOGGA",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "BHADRAVATHI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "18",
+    "label": "Tumkur",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "CHIKNAYAKANAHALLI",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "SIRA",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "PAVAGADA",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "MADHUGIRI",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "KORATAGERE",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "TUMAKURU",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "GUBBI",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "TIPTUR",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "TURUVEKERE",
+        "hoblis": []
+      },
+      {
+        "value": "10",
+        "label": "KUNIGAL",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "16",
+    "label": "UDUPI",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "KUNDAPURA",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "UDUPI",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "KARKALA",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "BYNDUR",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "BRAMHAVARA",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "KAPU",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "HEBRI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "10",
+    "label": "Uttar Kannada",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "KARWAR",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "JOIDA",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "HALIYAL",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "YELLAPUR",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "MUNDGOD",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "SIRSI",
+        "hoblis": []
+      },
+      {
+        "value": "7",
+        "label": "ANKOLA",
+        "hoblis": []
+      },
+      {
+        "value": "8",
+        "label": "KUMTA",
+        "hoblis": []
+      },
+      {
+        "value": "9",
+        "label": "SIDDAPUR",
+        "hoblis": []
+      },
+      {
+        "value": "10",
+        "label": "HONNAVAR",
+        "hoblis": []
+      },
+      {
+        "value": "11",
+        "label": "BHATKAL",
+        "hoblis": []
+      },
+      {
+        "value": "12",
+        "label": "DANDELI",
+        "hoblis": []
+      }
+    ]
+  },
+  {
+    "value": "30",
+    "label": "Yadagir",
+    "taluks": [
+      {
+        "value": "--Select--",
+        "label": "--Select--",
+        "hoblis": []
+      },
+      {
+        "value": "1",
+        "label": "YADGIR",
+        "hoblis": []
+      },
+      {
+        "value": "2",
+        "label": "SHAHAPUR",
+        "hoblis": []
+      },
+      {
+        "value": "3",
+        "label": "SHORAPUR",
+        "hoblis": []
+      },
+      {
+        "value": "4",
+        "label": "GURUMITAKALA",
+        "hoblis": []
+      },
+      {
+        "value": "5",
+        "label": "VADAGERA",
+        "hoblis": []
+      },
+      {
+        "value": "6",
+        "label": "HUNISIGI",
+        "hoblis": []
+      }
+    ]
+  }
+]

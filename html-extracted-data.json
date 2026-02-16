@@ -1,0 +1,125 @@
+{
+  "districts": [
+    {
+      "value": "2",
+      "label": "Bagalkote"
+    },
+    {
+      "value": "21",
+      "label": "Bangalore Rural"
+    },
+    {
+      "value": "20",
+      "label": "BANGALORE URBAN"
+    },
+    {
+      "value": "1",
+      "label": "Belgaum"
+    },
+    {
+      "value": "12",
+      "label": "BELLARY"
+    },
+    {
+      "value": "5",
+      "label": "Bidar"
+    },
+    {
+      "value": "3",
+      "label": "Bijapur"
+    },
+    {
+      "value": "27",
+      "label": "Chamarajanagara"
+    },
+    {
+      "value": "28",
+      "label": "Chikkaballapur"
+    },
+    {
+      "value": "17",
+      "label": "Chikmagalur"
+    },
+    {
+      "value": "13",
+      "label": "chitradurga"
+    },
+    {
+      "value": "24",
+      "label": "Dakshina Kannada"
+    },
+    {
+      "value": "14",
+      "label": "Davanagere"
+    },
+    {
+      "value": "9",
+      "label": "DHARWAD"
+    },
+    {
+      "value": "8",
+      "label": "Gadag"
+    },
+    {
+      "value": "4",
+      "label": "Gulbarga"
+    },
+    {
+      "value": "23",
+      "label": "Hassan"
+    },
+    {
+      "value": "11",
+      "label": "Haveri"
+    },
+    {
+      "value": "25",
+      "label": "Kodagu"
+    },
+    {
+      "value": "19",
+      "label": "KOLAR"
+    },
+    {
+      "value": "7",
+      "label": "koppal"
+    },
+    {
+      "value": "22",
+      "label": "mandya"
+    },
+    {
+      "value": "26",
+      "label": "Mysore"
+    },
+    {
+      "value": "6",
+      "label": "Raichur"
+    },
+    {
+      "value": "29",
+      "label": "Ramanagara"
+    },
+    {
+      "value": "15",
+      "label": "Shimoga"
+    },
+    {
+      "value": "18",
+      "label": "Tumkur"
+    },
+    {
+      "value": "16",
+      "label": "UDUPI"
+    },
+    {
+      "value": "10",
+      "label": "Uttar Kannada"
+    },
+    {
+      "value": "30",
+      "label": "Yadagir"
+    }
+  ],
+  "note": "This is initial HTML data. Full data may require form submissions to get taluks/hoblis/villages"
+}

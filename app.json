@@ -1,4 +1,32 @@
 {
-  "name": "MyPattaApp",
-  "displayName": "MyPattaApp"
+  "expo": {
+    "name": "GeoDocs",
+    "slug": "geodocs",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.geodocs"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.geodocs"
+    },
+    "web": {
+    },
+    "scheme": "geodocs",
+    "extra": {
+      "apiUrl": "https://c9a0a749a978.ngrok-free.app"
+    }
+  }
 }

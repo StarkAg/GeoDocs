@@ -1,0 +1,638 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="images/citrus.css" rel="stylesheet" type="text/css" />
+    <title>SSLR | Revenue Maps Online</title>
+    <script src="SQLInjectionCheck.js" type="text/javascript"></script>
+    <script src="Scripts/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="Validation.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function download(value) {
+            document.getElementById('url_path').value = value;
+
+        }
+
+        function jsFunctionDisplay() {
+            document.all['dvLoading'].style.display = 'inline';
+        }
+
+        function jsFunctionHide() {
+            document.all['dvLoading'].style.display = 'none';
+        }
+    
+    </script>
+    <style type="text/css">
+        .TFtable
+        {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .TFtable td
+        {
+            padding: 3px;
+            border: #FFFFFF 1px solid;
+        }
+        /* provide some minimal visual accomodation for IE8 and below */
+        .TFtable tr
+        {
+            background: #33FFFF;
+        }
+        /*  Define the background color for all the ODD background rows  */
+        .TFtable tr:nth-child(odd)
+        {
+            background: #B2E6FF;
+        }
+        /*  Define the background color for all the EVEN background rows  */
+        .TFtable tr:nth-child(even)
+        {
+            background: #F0FAFF;
+        }
+        
+        body
+        {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+        h1
+        {
+            color: black;
+            text-align: center;
+        }
+        .Grid td
+        {
+            background-color: #B2E6FF;
+            color: black;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+        .Grid1 td
+        {
+            background-color: #F0FAFF;
+            color: black;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+        .dropdown
+        {
+            background-color: #808080;
+        }
+        .wrap
+        {
+            margin: 0 auto;
+            padding: 0;
+            width: 850px;
+            text-align: left;
+        }
+        .btn
+        {
+            background-color: #87CEFA;
+            font-size: 10pt;
+            padding: 2px 5px;
+            border: 1px Solid #fff;
+            background-repeat: repeat;
+            font-family: Arial;
+            font-weight: normal !important;
+            margin-right: 1px;
+            cursor: pointer;
+        }
+        .Grid th
+        {
+            background-color: #808080;
+            color: White;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+        .ChildGrid td
+        {
+            background-color: #eee !important;
+            color: black;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+        .ChildGrid th
+        {
+            background-color: #6C6C6C !important;
+            color: White;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="Div1" style="float: left;">
+            <img src="images/Logo_Karnataka.png" height="70px" width="70px"></div>
+        <div id="header">
+            <h1 id="logo">
+                <span>&nbsp; Revenue Maps</span> Online</h1>
+            <!-- <h2 id="slogan">File Manager</h2>-->
+            <h2>
+            </h2>
+        </div>
+        <div id="menu">
+            <ul>
+                <li id="current"><a href="Default.aspx">State</a></li>
+                <li><a href="ward.aspx">BBMP</a></li>
+                <li><a href="Lakeencroachment.aspx">Lake(Digital)</a></li>
+                <li><a href="lakesurvey.aspx">Lake(Survey)</a></li>
+                <li><a href="Guidelines.html">Guidelines</a></li>
+                <li><a href="Index.html">Disclaimer</a></li>
+                <li><a href="https://164.100.133.91/rajkalve">Raj Kalve</a></li>
+                <li><a href="knowyourland.aspx">Survey Details</a></li>
+                <li><a href="Circulars.aspx">Circular</a></li>
+            </ul>
+        </div>
+        </br/>
+        <h1>
+            REVENUE MAPS
+        </h1>
+        <!-------------------------------region for ddl for hobli , district and taluk-------------------------------------->
+        <form method="post" action="./" id="frmdata">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+
+
+<script src="/service3/ScriptResource.axd?d=myY3Two0UxZV16VMBw4qxSkeSuX2Rv9iTyVcSshljBckuClgXeuDmbEXXoS9BG4ao4Wx_hz-q41vzLPCSaXAeD9ZcC0s5XplwCVskFiXlQ29HwzNzHwfUI7QEETVEZfM0&amp;t=f2cd5c5" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="C4EEEC0E" />
+<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="6cPrOe4/Rt/5OvSd2Uiq+HuCYClonXodAfo9nduzcQlhqTQdzt1A1yB2HpSXgABu1Ey0qbDywvAUrJeV/qjFRpob5U2F47Pye29o2aF8O/lqu86kQhsvbri/2ZXRR3UhuyPwYhA0T/PfNozCvs0LGy0VW5Iztc1ggdZ/fL2UmeAA1dG3+Spe7BRp6KxbNlTcyoIVJvetsEriDjqZc+QUqtXPJSldiSM2oKkfpJ18PtPS2oPH04HtZekSki329Hz531CEGsE+NRtH+7oYFAMZMcwADFrSHfBqGeTHR1PDidbqLHYkxcyO5+DkZpgyItOv6eSYj2Q/WEbfA9jNJr8d+Fm9YsBpCWjV09Vh5ksK3HwGNUo0IRf9F+Rx8xKUV0i3ACaObyPXJ5dFpiWDDzXCtAtTT6lzk7r9Jk2jmq+RVYlOSQhnkR6LCWzMSFWii0OE+BYlHc94CybbSaU0SarG4D0RqSua2yLBbVExPO4LYPvh0S1qADErqYf60gEgDpcoGuwCFoieE1t5jr0vdV2Hg/3r2w8HCqouU610bU93h85Q0wRqidFsCE1OtEzSNNxQ348bhM4Qeh/jmF58yoVIjreY7N29MkuF/kf4UCjHlgvxGjle1253ZiUdD2Rmy6qaaEBt2nmt8b/R97FsDGRRrRAhjByvMhsFVjQwswn9/1uzlEPWB8LYV4rmcJSHI7fZ+q2HrrUGFjv0mC9NjdOSzicdKzl9Ac72BSp4lTTb/oq6Oqrsi0kX3PbHtzdQeVlmtWTkS+N8CFneTKbfVTDRgSriPim9UOpRGUuKltSHWBmYuG5SMZiT8Jb72ejaK7Bb4lqUj7eyGrughRr/KkXcM7oFuY5NNhO2syCMb4i/u0hMziP4c5QuJPSk7yXb0f1XG4vkfeCLdPgqGH6nSeyCh4/CuZfziS5kOLsy2y8/+pTX+Sh+f1pOID/lw3KsbCzMF8MFrGdaWsHpRF3nu+UcJq9HlWxuKa1+3NTM6ie4gsR+UgW4NivGKa/WXlmsv6A67pWbKHjn65EDK8XKa9U9mdhUG1exoorQGJr3AKshH/ZLh6cqD0ImzbQOhQHx5QZGpGejD9iRAk6SXGgJh+XXuAsOuhbBdqzJINc36joSeQ/KCn5mxXt+1kmSrGzVspJlev2uFNl8sUE3I6XbslvJcAc8Erg00CejCCDi/ayu5CQ/O98HtuuZ6lLsfp/HUgUCUOmHwHBJXrDTK1o+LN8pnp2VpEA0sDA2x7U5jy+zN9M/q8C2Vubj7Ik21u9H/mBxhjKOk4hkWd9t9GIZQmoP4gi2uBqlYyqTsi1ntP9MCs9hn8RQS5EKJeOrLIJTs4GNaWVklRxniedx6/OQJsaaMgcWat9KtU2x9rVVieSKO7pt3LF8ui1a2LF/dI9fXT9FPTWtgtCNKxNxwYJooZBoHRS3QdaftTzzCRxCIDjHcaYEwCLB5MeZBp57+3X87d5zQPB5A9W/augqAnhghhsXATwBeJscRJlt1JlmpLsgN+LwnAr9uHRMzmwyQDOsVWuHMYn0MKJY3c37x9GLNABa49M/7Sq0n+AkxkDEbFwVApo=" />
+        
+        
+        <div id="dvLoading" style="display: none; text-align: center">
+            <img src="Images/loading.gif" />
+            <span class="TexName1">ಆಗುತ್ತಿದೆ ನಿರಿಕ್ಷಿಸು..</span></div>
+        <table>
+            <tr>
+                <td>
+                    <label>
+                        District</label>
+                </td>
+                <td>
+                    <select name="ddl_district" id="ddl_district" onchange="jsFunctionDisplay();">
+	<option selected="selected" value="0">All</option>
+	<option value="2">Bagalkote</option>
+	<option value="21">Bangalore Rural</option>
+	<option value="20">BANGALORE URBAN</option>
+	<option value="1">Belgaum</option>
+	<option value="12">BELLARY</option>
+	<option value="5">Bidar</option>
+	<option value="3">Bijapur</option>
+	<option value="27">Chamarajanagara</option>
+	<option value="28">Chikkaballapur</option>
+	<option value="17">Chikmagalur</option>
+	<option value="13">chitradurga</option>
+	<option value="24">Dakshina Kannada</option>
+	<option value="14">Davanagere</option>
+	<option value="9">DHARWAD</option>
+	<option value="8">Gadag</option>
+	<option value="4">Gulbarga</option>
+	<option value="23">Hassan</option>
+	<option value="11">Haveri</option>
+	<option value="25">Kodagu</option>
+	<option value="19">KOLAR</option>
+	<option value="7">koppal</option>
+	<option value="22">mandya</option>
+	<option value="26">Mysore</option>
+	<option value="6">Raichur</option>
+	<option value="29">Ramanagara</option>
+	<option value="15">Shimoga</option>
+	<option value="18">Tumkur</option>
+	<option value="16">UDUPI</option>
+	<option value="10">Uttar Kannada</option>
+	<option value="30">Yadagir</option>
+
+</select>
+                </td>
+                <td>
+                    <label>
+                        Taluk</label>
+                </td>
+                <td>
+                    <select name="ddl_taluk" id="ddl_taluk" onchange="jsFunctionDisplay();">
+	<option selected="selected" value="All">All</option>
+
+</select>
+                </td>
+                <td>
+                    <label>
+                        Hobli</label>
+                </td>
+                <td>
+                    <select name="ddl_hobli" id="ddl_hobli" onchange="jsFunctionDisplay();">
+	<option selected="selected" value="All">All</option>
+
+</select>
+                </td>
+                <td>
+                    <label>
+                        Map Types</label>
+                </td>
+                <td>
+                    <select name="ddlMaps" id="ddlMaps" onchange="jsFunctionDisplay();">
+	<option selected="selected" value="0">All</option>
+	<option value="1">Cadastral Maps</option>
+	<option value="2">Geo-referenced Cadastral Maps</option>
+
+</select>
+                </td>
+            </tr>
+        </table>
+        
+        <table>
+            <tr>
+                <td>
+                    <label>
+                        Enter Village Name:
+                    </label>
+                </td>
+                <td>
+                    <input name="txtVlgName" type="text" maxlength="70" id="txtVlgName" onblur="validatDefaultVillageNameApphabtOnly()" />
+                </td>
+                <td>
+                    <input type="submit" name="btnSearch" value="Search" id="btnSearch" class="MIceBtn" />
+                </td>
+            </tr>
+        </table>
+        <!-------------------------------region End-------------------------------------->
+        <table>
+            <tr>
+                <td colspan="3">
+                    
+                    
+                    
+                    <div>
+	<table cellspacing="0" rules="all" border="1" id="grdMaps" width="820">
+		<tr>
+			<th scope="col">District</th><th scope="col">Taluk</th><th scope="col">Hobli</th><th scope="col">Village</th><th scope="col">Pdf File</th><th scope="col">KMZ File</th>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_0">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_0">Kadaba</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_0">KADABA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_0">102 NEKKILADI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl02$ImgPdf" id="grdMaps_ImgPdf_0" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_1">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_1">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_1">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_1">102-ADYAR</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl03$ImgPdf" id="grdMaps_ImgPdf_1" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_2">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_2">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_2">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_2">103-NEERUMARGA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl04$ImgPdf" id="grdMaps_ImgPdf_2" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_3">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_3">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_3">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_3">105-ARKULA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl05$ImgPdf" id="grdMaps_ImgPdf_3" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_4">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_4">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_4">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_4">109-MALLURU</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl06$ImgPdf" id="grdMaps_ImgPdf_4" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_5">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_5">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_5">MULKI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_5">10-TOKURU</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl07$ImgPdf" id="grdMaps_ImgPdf_5" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_6">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_6">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_6">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_6">110-ADDURU</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl08$ImgPdf" id="grdMaps_ImgPdf_6" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_7">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_7">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_7">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_7">112-TENKULIPADI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl09$ImgPdf" id="grdMaps_ImgPdf_7" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_8">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_8">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_8">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_8">113-BADAGULIPADI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl10$ImgPdf" id="grdMaps_ImgPdf_8" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_9">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_9">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_9">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_9">114-MOGARU</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl11$ImgPdf" id="grdMaps_ImgPdf_9" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_10">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_10">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_10">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_10">115-MUTTURU</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl12$ImgPdf" id="grdMaps_ImgPdf_10" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_11">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_11">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_11">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_11">116-KELENJARU</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl13$ImgPdf" id="grdMaps_ImgPdf_11" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_12">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_12">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_12">GURUPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_12">117-KULAVURU</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl14$ImgPdf" id="grdMaps_ImgPdf_12" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_13">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_13">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_13">MULKI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_13">11-KAIKUDE</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl15$ImgPdf" id="grdMaps_ImgPdf_13" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_14">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_14">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_14">MULKI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_14">12-PANJA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl16$ImgPdf" id="grdMaps_ImgPdf_14" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_15">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_15">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_15">MULKI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_15">13-ATTURU</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl17$ImgPdf" id="grdMaps_ImgPdf_15" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_16">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_16">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_16">MULKI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_16">15-KEMRAL</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl18$ImgPdf" id="grdMaps_ImgPdf_16" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_17">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_17">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_17">MULKI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_17">16-TALIPADI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl19$ImgPdf" id="grdMaps_ImgPdf_17" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="LightBlue">
+			<td>
+                                    <span id="grdMaps_lblDist_18">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_18">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_18">MULKI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_18">17-KILPADI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl20$ImgPdf" id="grdMaps_ImgPdf_18" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_19">Dakshina Kannada</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_19">Mangalore</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_19">MULKI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_19">18-MANAMPADI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl21$ImgPdf" id="grdMaps_ImgPdf_19" src="images/pdf.jpg" />
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr bgcolor="CornflowerBlue">
+			<td colspan="6"><table>
+				<tr>
+					<td><span>1</span></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$2&#39;)">2</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$3&#39;)">3</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$4&#39;)">4</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$5&#39;)">5</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$6&#39;)">6</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$7&#39;)">7</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$8&#39;)">8</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$9&#39;)">9</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$10&#39;)">10</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$11&#39;)">...</a></td>
+				</tr>
+			</table></td>
+		</tr>
+	</table>
+</div>
+                    
+                    
+                    
+                </td>
+            </tr>
+        </table>
+        
+        <input type="hidden" name="url_path" id="url_path" />
+        <br />
+        <br />
+        
+        
+        </form>
+        <script src="SQLInjectionCheck.js" type="text/javascript"></script>
+</body>
+</html>

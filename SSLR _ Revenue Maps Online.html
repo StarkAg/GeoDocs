@@ -1,0 +1,680 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0046)https://landrecords.karnataka.gov.in/service3/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="./SSLR _ Revenue Maps Online_files/citrus.css" rel="stylesheet" type="text/css">
+    <title>SSLR | Revenue Maps Online</title>
+    <script src="./SSLR _ Revenue Maps Online_files/SQLInjectionCheck.js" type="text/javascript"></script>
+    <script src="./SSLR _ Revenue Maps Online_files/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="./SSLR _ Revenue Maps Online_files/Validation.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function download(value) {
+            document.getElementById('url_path').value = value;
+
+        }
+
+        function jsFunctionDisplay() {
+            document.all['dvLoading'].style.display = 'inline';
+        }
+
+        function jsFunctionHide() {
+            document.all['dvLoading'].style.display = 'none';
+        }
+    
+    </script>
+    <style type="text/css">
+        .TFtable
+        {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .TFtable td
+        {
+            padding: 3px;
+            border: #FFFFFF 1px solid;
+        }
+        /* provide some minimal visual accomodation for IE8 and below */
+        .TFtable tr
+        {
+            background: #33FFFF;
+        }
+        /*  Define the background color for all the ODD background rows  */
+        .TFtable tr:nth-child(odd)
+        {
+            background: #B2E6FF;
+        }
+        /*  Define the background color for all the EVEN background rows  */
+        .TFtable tr:nth-child(even)
+        {
+            background: #F0FAFF;
+        }
+        
+        body
+        {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+        h1
+        {
+            color: black;
+            text-align: center;
+        }
+        .Grid td
+        {
+            background-color: #B2E6FF;
+            color: black;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+        .Grid1 td
+        {
+            background-color: #F0FAFF;
+            color: black;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+        .dropdown
+        {
+            background-color: #808080;
+        }
+        .wrap
+        {
+            margin: 0 auto;
+            padding: 0;
+            width: 850px;
+            text-align: left;
+        }
+        .btn
+        {
+            background-color: #87CEFA;
+            font-size: 10pt;
+            padding: 2px 5px;
+            border: 1px Solid #fff;
+            background-repeat: repeat;
+            font-family: Arial;
+            font-weight: normal !important;
+            margin-right: 1px;
+            cursor: pointer;
+        }
+        .Grid th
+        {
+            background-color: #808080;
+            color: White;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+        .ChildGrid td
+        {
+            background-color: #eee !important;
+            color: black;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+        .ChildGrid th
+        {
+            background-color: #6C6C6C !important;
+            color: White;
+            font-size: 10pt;
+            line-height: 200%;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="Div1" style="float: left;">
+            <img src="./SSLR _ Revenue Maps Online_files/Logo_Karnataka.png" height="70px" width="70px"></div>
+        <div id="header">
+            <h1 id="logo">
+                <span>&nbsp; Revenue Maps</span> Online</h1>
+            <!-- <h2 id="slogan">File Manager</h2>-->
+            <h2>
+            </h2>
+        </div>
+        <div id="menu">
+            <ul>
+                <li id="current"><a href="https://landrecords.karnataka.gov.in/service3/Default.aspx">State</a></li>
+                <li><a href="https://landrecords.karnataka.gov.in/service3/ward.aspx">BBMP</a></li>
+                <li><a href="https://landrecords.karnataka.gov.in/service3/Lakeencroachment.aspx">Lake(Digital)</a></li>
+                <li><a href="https://landrecords.karnataka.gov.in/service3/lakesurvey.aspx">Lake(Survey)</a></li>
+                <li><a href="https://landrecords.karnataka.gov.in/service3/Guidelines.html">Guidelines</a></li>
+                <li><a href="https://landrecords.karnataka.gov.in/service3/Index.html">Disclaimer</a></li>
+                <li><a href="https://164.100.133.91/rajkalve">Raj Kalve</a></li>
+                <li><a href="https://landrecords.karnataka.gov.in/service3/knowyourland.aspx">Survey Details</a></li>
+                <li><a href="https://landrecords.karnataka.gov.in/service3/Circulars.aspx">Circular</a></li>
+            </ul>
+        </div>
+        <br>
+        <h1>
+            REVENUE MAPS
+        </h1>
+        <!-------------------------------region for ddl for hobli , district and taluk-------------------------------------->
+        <form method="post" action="https://landrecords.karnataka.gov.in/service3/" id="frmdata">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['frmdata'];
+if (!theForm) {
+    theForm = document.frmdata;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="./SSLR _ Revenue Maps Online_files/WebResource.axd" type="text/javascript"></script>
+
+
+<script src="./SSLR _ Revenue Maps Online_files/ScriptResource.axd" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="./SSLR _ Revenue Maps Online_files/ScriptResource(1).axd" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="C4EEEC0E">
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="">
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="ITt89XnV/nx/OaUU/UPcfp20oQVHKR8gjPeCC5/mDkqmLm7KcftytCMtNs1YlaGRmv6XF+AM4ipgJa/u9zoRglo6mgSUCbuZVqisc6Fi7coemHV2mtVqxESGg1fTrcCeVxfPuv9d4NTxrzh0BFMcFETtStRHAYGjkB5AEGW6E67QNChNnJCqbc4GE6sU+JNFgjDOUHTTZtJCoPAumNDNiWE4sgYAWYDiqjj1LBT0zuDIJPifjyT+ntO/Oj6KQmfN4xnCe6RJcSrErXlTMcwkmYYMC0mCSg1GH7/wZMDZbeHnJDqpEEzdMiTa1km9yriNUN12gA2jrUtMAcirqg2eg/iwE0gBpnMEpCTThE6y3HCDi/4Sd7F4VuT07P5CvYVxuK+ChjDNk7itDSIz+fMkgWZH1PoYqZT349Kw5yc7Y37dAZ3PUmLNaiOjJQyOk38wwaD7fJ4wC3t+Cv0TXW0CUdrbc69a3aNmu9/7o8S69gwkvSIK4B8Qo+Td1nA03FR3BIseS/HFy2K4t/swKzg9mv1hkRqeF7mG9kBC3ZhJ4tCHF5thVIDSdG4xXFkXJo7fUEsoGVZPBJ/u34rWvpQuABY+4JWXnKb74Lscm5OcKrALzsULRSWoEG1DixJ7ptmyMkpzxUcLeBD4jdm2bKNYlmBa7qey7cbTgAuQuL/d5U9x4lYQ/CY3J15HXXseA2MqrDaqhdxidr4MhTNgwCPFntC7fLakjQ/8wteR8bHr/PCHYY+zeOKL22Rut4SMXMWp/WF/n1t/PPLuUKmXMQGXq3jPQWquA8e1Ljy9bGojAjxDQR0Btc7VZVwqUq0RWRsXZZ3EoBqqhxTiRo3lOxCBjXbiGahTNgszbB8BOdJoCGyLWC3pZKoveFxTQTGSmX8SYC9+wC5MeUuDMMjEi4WPTKuBdFyKT57HGCiU81iqQowrXKnPA+desFu7A7/Ds1SU1EYZD5qkXruzp9VX8x0uay/v4b3b89v+enKPkiSqhoyajgFmQD1UB8sf+5JokldW/CI+dbz+XxV3woib1lAXvqTAz08XRxcnGsdKkQ1mWt29jPN51nS5RVabSF8h9+EtY1yG09ExOSPeawxNoZt3XsyOiejb2RDhF8DzPRzjOb0ubPYTLbiWjQp55zfo3/hqX6A2LzD8gcP7m3wFgtdTWhNtnenCgHw2k4t3Ka4z/VmNi4evoRr7VbyKytJy/AptRMPoRr6q0cU5RR/A1Zd+1ugfFYUMHzLoAPHbQE3Cgbl5nfxoUi8fGuoCJQCgUVbpRh04m5qnfo8L/HaWNdhSL+iFYuxwo1eh/nnF8BThEbS3cp3syW+WzJ16+uKhYDeq/4XE5OY4mBgclXXyBsDzBFSBWi95E7yMzyqv+Y221JpqY4xGEzNSltwPMgeWGh+/JJG08Uu+DqXc4MP/aOy8exrzvRP+IJpqgyGl+P6vgMBLJas2dV++bx69Zk9gxgson26IqAhb8Vnx41dMtYWXVcb+f/g48vrCFmlNRiDvaKQXm7qFCH7mvzKDJXMepnvNJDhQguIAz7ORt/bE3L541ri1y9tiSFN4utoJx1YLaz08hyDatZ3PccKk7I/RHt+kO5AYviRu0wYkJSer/VnjdLctuIqenhkMVxUKBOVLKI31/Lr442FDty9zlTirKJs3HM8KHPatmmooyqcwJwJ/GkLqW1exrRPW9SSKr/1vHNjesoLr5kgqO7BDj3Xe08fUkaBEYB7lw/VU1aidhH7UaHltCYs/26IkWWk9JFUq1OI9ZAed9TmOf8551WtjOw8EjkMt6J7uwSyQVuOGIF1OEHavevlSZdfarUdahulE4OKLpeugnxdO0No9qDBGIwIguPT4/8M4l4uBpcHiQk7xlQ==">
+</div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('scrptmgr', 'frmdata', [], [], [], 90, '');
+//]]>
+</script>
+
+        
+        <div id="dvLoading" style="display: none; text-align: center">
+            <img src="./SSLR _ Revenue Maps Online_files/loading.gif">
+            <span class="TexName1">ಆಗುತ್ತಿದೆ ನಿರಿಕ್ಷಿಸು..</span></div>
+        <table>
+            <tbody><tr>
+                <td>
+                    <label>
+                        District</label>
+                </td>
+                <td>
+                    <select name="ddl_district" onchange="jsFunctionDisplay();setTimeout(&#39;__doPostBack(\&#39;ddl_district\&#39;,\&#39;\&#39;)&#39;, 0)" id="ddl_district" style="width:150px;">
+	<option value="0">All</option>
+	<option selected="selected" value="2">Bagalkote</option>
+	<option value="21">Bangalore Rural</option>
+	<option value="20">BANGALORE URBAN</option>
+	<option value="1">Belgaum</option>
+	<option value="12">BELLARY</option>
+	<option value="5">Bidar</option>
+	<option value="3">Bijapur</option>
+	<option value="27">Chamarajanagara</option>
+	<option value="28">Chikkaballapur</option>
+	<option value="17">Chikmagalur</option>
+	<option value="13">chitradurga</option>
+	<option value="24">Dakshina Kannada</option>
+	<option value="14">Davanagere</option>
+	<option value="9">DHARWAD</option>
+	<option value="8">Gadag</option>
+	<option value="4">Gulbarga</option>
+	<option value="23">Hassan</option>
+	<option value="11">Haveri</option>
+	<option value="25">Kodagu</option>
+	<option value="19">KOLAR</option>
+	<option value="7">koppal</option>
+	<option value="22">mandya</option>
+	<option value="26">Mysore</option>
+	<option value="6">Raichur</option>
+	<option value="29">Ramanagara</option>
+	<option value="15">Shimoga</option>
+	<option value="18">Tumkur</option>
+	<option value="16">UDUPI</option>
+	<option value="10">Uttar Kannada</option>
+	<option value="30">Yadagir</option>
+
+</select>
+                </td>
+                <td>
+                    <label>
+                        Taluk</label>
+                </td>
+                <td>
+                    <select name="ddl_taluk" onchange="jsFunctionDisplay();setTimeout(&#39;__doPostBack(\&#39;ddl_taluk\&#39;,\&#39;\&#39;)&#39;, 0)" id="ddl_taluk" style="width:150px;">
+	<option selected="selected" value="--Select--">--Select--</option>
+	<option value="All">All</option>
+	<option value="1">JAMAKHANDI</option>
+	<option value="2">BILAGI</option>
+	<option value="3">MUDHOL</option>
+	<option value="4">BADAMI</option>
+	<option value="5">BAGALKOTE</option>
+	<option value="6">HUNGUND</option>
+	<option value="7">GULEDAGUDDA</option>
+	<option value="8">ILKAL</option>
+	<option value="9">RABAKAVI BANAHATTI</option>
+
+</select>
+                </td>
+                <td>
+                    <label>
+                        Hobli</label>
+                </td>
+                <td>
+                    <select name="ddl_hobli" onchange="jsFunctionDisplay();setTimeout(&#39;__doPostBack(\&#39;ddl_hobli\&#39;,\&#39;\&#39;)&#39;, 0)" id="ddl_hobli" style="width:150px;">
+	<option selected="selected" value="All">All</option>
+
+</select>
+                </td>
+                <td>
+                    <label>
+                        Map Types</label>
+                </td>
+                <td>
+                    <select name="ddlMaps" onchange="jsFunctionDisplay();setTimeout(&#39;__doPostBack(\&#39;ddlMaps\&#39;,\&#39;\&#39;)&#39;, 0)" id="ddlMaps" style="width:150px;">
+	<option selected="selected" value="0">All</option>
+	<option value="1">Cadastral Maps</option>
+	<option value="2">Geo-referenced Cadastral Maps</option>
+
+</select>
+                </td>
+            </tr>
+        </tbody></table>
+        
+        <table>
+            <tbody><tr>
+                <td>
+                    <label>
+                        Enter Village Name:
+                    </label>
+                </td>
+                <td>
+                    <input name="txtVlgName" type="text" maxlength="70" id="txtVlgName" onblur="validatDefaultVillageNameApphabtOnly()" style="width:100px;">
+                </td>
+                <td>
+                    <input type="submit" name="btnSearch" value="Search" id="btnSearch" class="MIceBtn">
+                </td>
+            </tr>
+        </tbody></table>
+        <!-------------------------------region End-------------------------------------->
+        <table>
+            <tbody><tr>
+                <td colspan="3">
+                    
+                    
+                    
+                    <div>
+	<table cellspacing="0" rules="all" border="1" id="grdMaps" style="width:820px;border-collapse:collapse;">
+		<tbody><tr>
+			<th scope="col">District</th><th scope="col">Taluk</th><th scope="col">Hobli</th><th scope="col">Village</th><th scope="col">Pdf File</th><th scope="col">KMZ File</th>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_0">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_0">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_0">SEETIMANI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_0">ACHANURA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl02$ImgPdf" id="grdMaps_ImgPdf_0" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_1">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_1">Badami</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_1">BADAMI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_1">ADAGALLA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl03$ImgPdf" id="grdMaps_ImgPdf_1" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_2">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_2">Hungund</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_2">KARADI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_2">ADIHALA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl04$ImgPdf" id="grdMaps_ImgPdf_2" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_3">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_3">Jamakhandi</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_3">SAVALAGI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_3">ADIHUDI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl05$ImgPdf" id="grdMaps_ImgPdf_3" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_4">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_4">Badami</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_4">KERURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_4">AGASANAKOPPA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl06$ImgPdf" id="grdMaps_ImgPdf_4" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_5">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_5">Hungund</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_5">AMEENAGADA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_5">AIHOLE</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl07$ImgPdf" id="grdMaps_ImgPdf_5" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_6">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_6">Mudhol</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_6">MUDHOLA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_6">AKKIMARADI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl08$ImgPdf" id="grdMaps_ImgPdf_6" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_7">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_7">Jamakhandi</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_7">JAMAKHANDI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_7">ALABALA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl09$ImgPdf" id="grdMaps_ImgPdf_7" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_8">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_8">Badami</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_8">KULAGERI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_8">ALADAKATTI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl10$ImgPdf" id="grdMaps_ImgPdf_8" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_9">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_9">Mudhol</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_9">LOKAPURA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_9">ALAGUNDI B K</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl11$ImgPdf" id="grdMaps_ImgPdf_9" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_10">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_10">Jamakhandi</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_10">JAMAKHANDI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_10">ALAGURA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl12$ImgPdf" id="grdMaps_ImgPdf_10" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_11">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_11">GULEDAGUDDA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_11">GULEDAGUDDA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_11">ALLURA S P</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl13$ImgPdf" id="grdMaps_ImgPdf_11" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_12">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_12">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_12">SEETIMANI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_12">ALURA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl14$ImgPdf" id="grdMaps_ImgPdf_12" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_13">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_13">Badami</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_13">KULAGERI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_13">ALURA S K</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl15$ImgPdf" id="grdMaps_ImgPdf_13" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_14">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_14">Bilagi</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_14">BEELAGI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_14">AMALAJHARI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl16$ImgPdf" id="grdMaps_ImgPdf_14" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_15">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_15">Hungund</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_15">KARADI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_15">AMARAVADAGI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl17$ImgPdf" id="grdMaps_ImgPdf_15" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_16">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_16">Hungund</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_16">KARADI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_16">AMARAVATI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl18$ImgPdf" id="grdMaps_ImgPdf_16" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_17">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_17">Hungund</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_17">AMEENAGADA</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_17">AMBLIKOPPA</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl19$ImgPdf" id="grdMaps_ImgPdf_17" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:LightBlue;">
+			<td>
+                                    <span id="grdMaps_lblDist_18">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_18">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_18">KALADAGI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_18">ANADINNI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl20$ImgPdf" id="grdMaps_ImgPdf_18" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr>
+			<td>
+                                    <span id="grdMaps_lblDist_19">Bagalkote</span>
+                                </td><td>
+                                    <span id="grdMaps_lblTal_19">Bilagi</span>
+                                </td><td>
+                                    <span id="grdMaps_lblHob_19">ANAGAVADI</span>
+                                </td><td>
+                                    <span id="grdMaps_lblVil_19">ANAGAVADI</span>
+                                </td><td>
+                                    
+                                    <input type="image" name="grdMaps$ctl21$ImgPdf" id="grdMaps_ImgPdf_19" src="./SSLR _ Revenue Maps Online_files/pdf.jpg" style="height:20px;width:20px;">
+                                    
+                                </td><td>
+                                    
+                                    
+                                </td>
+		</tr><tr style="background-color:CornflowerBlue;">
+			<td colspan="6"><table>
+				<tbody><tr>
+					<td><span>1</span></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$2&#39;)">2</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$3&#39;)">3</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$4&#39;)">4</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$5&#39;)">5</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$6&#39;)">6</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$7&#39;)">7</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$8&#39;)">8</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$9&#39;)">9</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$10&#39;)">10</a></td><td><a href="javascript:__doPostBack(&#39;grdMaps&#39;,&#39;Page$11&#39;)">...</a></td>
+				</tr>
+			</tbody></table></td>
+		</tr>
+	</tbody></table>
+</div>
+                    
+                    
+                    
+                </td>
+            </tr>
+        </tbody></table>
+        
+        <input type="hidden" name="url_path" id="url_path">
+        <br>
+        <br>
+        
+        
+        </form>
+        <script src="./SSLR _ Revenue Maps Online_files/SQLInjectionCheck.js" type="text/javascript"></script>
+
+
+</div></body></html>

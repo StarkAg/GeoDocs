@@ -1,0 +1,48 @@
+{
+  "Bagalkote": {
+    "JAMAKHANDI": {
+      "JAMAKHANDI": {
+        "ALABALA": {
+          "url": "https://landrecords.karnataka.gov.in/service3/FileDownload.aspx?file=%5c%5cbhm-db-pp05%5cDistrict%5cMapshared%5c1190.pdf",
+          "district_value": "2",
+          "taluk_value": "1",
+          "hobli_value": "1",
+          "village_value": "1",
+          "timestamp": "2025-12-25T02:03:16.303319"
+        },
+        "ALAGURA": {
+          "url": "https://landrecords.karnataka.gov.in/service3/FileDownload.aspx?file=%5c%5cbhm-db-pp05%5cDistrict%5cMapshared%5c1183.pdf",
+          "district_value": "2",
+          "taluk_value": "1",
+          "hobli_value": "1",
+          "village_value": "2",
+          "timestamp": "2025-12-25T02:03:25.158328"
+        },
+        "BUDNI": {
+          "url": "https://landrecords.karnataka.gov.in/service3/FileDownload.aspx?file=%5c%5cbhm-db-pp05%5cDistrict%5cMapshared%5c1200.pdf",
+          "district_value": "2",
+          "taluk_value": "1",
+          "hobli_value": "1",
+          "village_value": "3",
+          "timestamp": "2025-12-25T02:03:34.134732"
+        },
+        "CHINAGUNDI": {
+          "url": "https://landrecords.karnataka.gov.in/service3/FileDownload.aspx?file=%5c%5cbhm-db-pp05%5cDistrict%5cMapshared%5c1198.pdf",
+          "district_value": "2",
+          "taluk_value": "1",
+          "hobli_value": "1",
+          "village_value": "4",
+          "timestamp": "2025-12-25T02:03:42.949719"
+        },
+        "GANI": {
+          "url": "https://landrecords.karnataka.gov.in/service3/FileDownload.aspx?file=%5c%5cbhm-db-pp05%5cDistrict%5cMapshared%5c1199.pdf",
+          "district_value": "2",
+          "taluk_value": "1",
+          "hobli_value": "1",
+          "village_value": "5",
+          "timestamp": "2025-12-25T02:03:51.755014"
+        }
+      }
+    }
+  }
+}

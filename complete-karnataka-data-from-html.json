@@ -1,0 +1,118 @@
+[
+  {
+    "value": "24",
+    "label": "Dakshina Kannada",
+    "taluks": [
+      {
+        "value": "",
+        "label": "Kadaba",
+        "hoblis": [
+          {
+            "value": "",
+            "label": "KADABA",
+            "villages": [
+              {
+                "value": "1",
+                "label": "102 NEKKILADI"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "value": "",
+        "label": "Mangalore",
+        "hoblis": [
+          {
+            "value": "",
+            "label": "GURUPURA",
+            "villages": [
+              {
+                "value": "1",
+                "label": "102-ADYAR"
+              },
+              {
+                "value": "2",
+                "label": "103-NEERUMARGA"
+              },
+              {
+                "value": "3",
+                "label": "105-ARKULA"
+              },
+              {
+                "value": "4",
+                "label": "109-MALLURU"
+              },
+              {
+                "value": "5",
+                "label": "110-ADDURU"
+              },
+              {
+                "value": "6",
+                "label": "112-TENKULIPADI"
+              },
+              {
+                "value": "7",
+                "label": "113-BADAGULIPADI"
+              },
+              {
+                "value": "8",
+                "label": "114-MOGARU"
+              },
+              {
+                "value": "9",
+                "label": "115-MUTTURU"
+              },
+              {
+                "value": "10",
+                "label": "116-KELENJARU"
+              },
+              {
+                "value": "11",
+                "label": "117-KULAVURU"
+              }
+            ]
+          },
+          {
+            "value": "",
+            "label": "MULKI",
+            "villages": [
+              {
+                "value": "1",
+                "label": "10-TOKURU"
+              },
+              {
+                "value": "2",
+                "label": "11-KAIKUDE"
+              },
+              {
+                "value": "3",
+                "label": "12-PANJA"
+              },
+              {
+                "value": "4",
+                "label": "13-ATTURU"
+              },
+              {
+                "value": "5",
+                "label": "15-KEMRAL"
+              },
+              {
+                "value": "6",
+                "label": "16-TALIPADI"
+              },
+              {
+                "value": "7",
+                "label": "17-KILPADI"
+              },
+              {
+                "value": "8",
+                "label": "18-MANAMPADI"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
