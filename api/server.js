@@ -583,15 +583,15 @@ async function getPdfUrl(district, taluk, hobli, village) {
       }, 30000);
     });
     
-    // Navigate to page
+    // Navigate to page (domcontentloaded fires sooner; proxy can make networkidle slow)
     console.log('Navigating to website...');
-    await page.goto(BASE_URL, { waitUntil: 'networkidle2', timeout: 30000, ignoreHTTPSErrors: true });
+    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded', timeout: 45000, ignoreHTTPSErrors: true });
     console.log('✅ Page loaded successfully');
-    await new Promise(r => setTimeout(r, 2000)); // Wait for JS/form to initialize (slower via proxy)
+    await new Promise(r => setTimeout(r, 5000)); // Wait for ASP.NET form to render (slow via proxy)
     
     // Fill district
     console.log(`Filling district: ${district}...`);
-    await page.waitForSelector('select[name="ddl_district"]', { timeout: 15000 });
+    await page.waitForSelector('select[name="ddl_district"]', { timeout: 30000 });
     await page.evaluate((district) => {
       const select = document.querySelector('select[name="ddl_district"]');
       select.value = district;
