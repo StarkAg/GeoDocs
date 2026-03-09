@@ -183,7 +183,7 @@ async function getPdfUrlHttpWithPuppeteer(district, taluk, hobli, village) {
     }
     browser = await getPuppeteer().launch(launchOptions);
     const page = await browser.newPage();
-    
+    await page.setIgnoreHTTPSErrors(true); // Karnataka site / proxy cert
     // Intercept and collect responses
     const responses = {};
     page.on('response', (response) => {
@@ -535,6 +535,7 @@ async function getPdfUrl(district, taluk, hobli, village) {
     browser = await getPuppeteer().launch(launchOptions);
     
     const page = await browser.newPage();
+    await page.setIgnoreHTTPSErrors(true); // Karnataka site / proxy can trigger cert errors
     if (proxyForPuppeteer && (proxyForPuppeteer.username || proxyForPuppeteer.password)) {
       await page.authenticate({
         username: proxyForPuppeteer.username || '',
