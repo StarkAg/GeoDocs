@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.env
+.env.*
+!.env.example
+*.md
+village_maps
+*.pdf
+.expo
+android
+ios
+*.log
+.DS_Store
