@@ -176,7 +176,7 @@ async function getPdfUrlHttpWithPuppeteer(district, taluk, hobli, village) {
   try {
     const launchOptions = {
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--ignore-certificate-errors'],
     };
     if (process.platform === 'darwin' && require('fs').existsSync('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')) {
       launchOptions.executablePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
@@ -511,6 +511,7 @@ async function getPdfUrl(district, taluk, hobli, village) {
       '--disable-software-rasterizer',
       '--no-zygote',
       '--single-process',
+      '--ignore-certificate-errors',
     ];
     if (proxyForPuppeteer) {
       launchArgs.push(`--proxy-server=${proxyForPuppeteer.server}`);
