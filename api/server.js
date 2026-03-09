@@ -587,11 +587,11 @@ async function getPdfUrl(district, taluk, hobli, village) {
     console.log('Navigating to website...');
     await page.goto(BASE_URL, { waitUntil: 'networkidle2', timeout: 30000, ignoreHTTPSErrors: true });
     console.log('✅ Page loaded successfully');
-    await new Promise(r => setTimeout(r, 800)); // Wait for JS to initialize
+    await new Promise(r => setTimeout(r, 2000)); // Wait for JS/form to initialize (slower via proxy)
     
     // Fill district
     console.log(`Filling district: ${district}...`);
-    await page.waitForSelector('select[name="ddl_district"]', { timeout: 6000 });
+    await page.waitForSelector('select[name="ddl_district"]', { timeout: 15000 });
     await page.evaluate((district) => {
       const select = document.querySelector('select[name="ddl_district"]');
       select.value = district;
@@ -599,7 +599,7 @@ async function getPdfUrl(district, taluk, hobli, village) {
     }, district);
     console.log('✅ District filled');
     
-    // Wait for taluk dropdown to populate
+    // Wait for taluk dropdown to populate (ASP.NET postback can be slow via proxy)
     console.log('Waiting for taluk dropdown...');
     await page.waitForFunction(
       (taluk) => {
@@ -608,7 +608,7 @@ async function getPdfUrl(district, taluk, hobli, village) {
         const options = Array.from(select.options).filter(opt => opt.value && opt.value !== '0');
         return options.length > 0 && options.some(opt => opt.value === taluk);
       },
-      { timeout: 6000 },
+      { timeout: 20000 },
       taluk
     );
     
@@ -630,7 +630,7 @@ async function getPdfUrl(district, taluk, hobli, village) {
         const options = Array.from(select.options).filter(opt => opt.value && opt.value !== '0');
         return options.length > 0 && options.some(opt => opt.value === hobli);
       },
-      { timeout: 6000 },
+      { timeout: 20000 },
       hobli
     );
     
@@ -645,7 +645,7 @@ async function getPdfUrl(district, taluk, hobli, village) {
     
     // Fill village
     console.log(`Filling village: ${village}...`);
-    await page.waitForSelector('input[name="txtVlgName"]', { timeout: 10000 });
+    await page.waitForSelector('input[name="txtVlgName"]', { timeout: 15000 });
     await page.evaluate((village) => {
       const input = document.querySelector('input[name="txtVlgName"]');
       input.value = '';
@@ -657,13 +657,13 @@ async function getPdfUrl(district, taluk, hobli, village) {
     
     // Click search
     console.log('Clicking search button...');
-    await page.waitForSelector('input[name="btnSearch"]', { timeout: 10000 });
+    await page.waitForSelector('input[name="btnSearch"]', { timeout: 15000 });
     await page.click('input[name="btnSearch"]');
     console.log('✅ Search button clicked');
     
     // Wait for results grid
     console.log('Waiting for results grid...');
-    await page.waitForSelector('table[id*="grdMaps"]', { timeout: 10000 });
+    await page.waitForSelector('table[id*="grdMaps"]', { timeout: 15000 });
     console.log('✅ Results grid appeared');
     
     // Wait a bit for grid content to render
@@ -671,7 +671,7 @@ async function getPdfUrl(district, taluk, hobli, village) {
     
     // Wait for PDF button - try specific ID first
     console.log('Waiting for PDF button...');
-    await page.waitForSelector('#grdMaps_ImgPdf_0, img[id*="ImgPdf"]', { timeout: 8000 });
+    await page.waitForSelector('#grdMaps_ImgPdf_0, img[id*="ImgPdf"]', { timeout: 12000 });
     console.log('✅ PDF button found');
     
     // Click the PDF button directly
