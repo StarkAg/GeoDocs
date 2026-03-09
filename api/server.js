@@ -183,7 +183,6 @@ async function getPdfUrlHttpWithPuppeteer(district, taluk, hobli, village) {
     }
     browser = await getPuppeteer().launch(launchOptions);
     const page = await browser.newPage();
-    await page.setIgnoreHTTPSErrors(true); // Karnataka site / proxy cert
     // Intercept and collect responses
     const responses = {};
     page.on('response', (response) => {
@@ -191,7 +190,7 @@ async function getPdfUrlHttpWithPuppeteer(district, taluk, hobli, village) {
     });
     
     // Navigate through the flow using page.goto and page.evaluate
-    await page.goto('https://landrecords.karnataka.gov.in/service3/', { waitUntil: 'domcontentloaded' });
+    await page.goto('https://landrecords.karnataka.gov.in/service3/', { waitUntil: 'domcontentloaded', ignoreHTTPSErrors: true });
     await new Promise(r => setTimeout(r, 500));
     
     // Select district and wait for postback
@@ -535,7 +534,6 @@ async function getPdfUrl(district, taluk, hobli, village) {
     browser = await getPuppeteer().launch(launchOptions);
     
     const page = await browser.newPage();
-    await page.setIgnoreHTTPSErrors(true); // Karnataka site / proxy can trigger cert errors
     if (proxyForPuppeteer && (proxyForPuppeteer.username || proxyForPuppeteer.password)) {
       await page.authenticate({
         username: proxyForPuppeteer.username || '',
@@ -586,7 +584,7 @@ async function getPdfUrl(district, taluk, hobli, village) {
     
     // Navigate to page
     console.log('Navigating to website...');
-    await page.goto(BASE_URL, { waitUntil: 'networkidle2', timeout: 30000 });
+    await page.goto(BASE_URL, { waitUntil: 'networkidle2', timeout: 30000, ignoreHTTPSErrors: true });
     console.log('✅ Page loaded successfully');
     await new Promise(r => setTimeout(r, 800)); // Wait for JS to initialize
     
