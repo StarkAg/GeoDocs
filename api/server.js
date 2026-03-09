@@ -1,8 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const https = require('https');
-const puppeteer = require('puppeteer');
 const { HttpsProxyAgent } = require('https-proxy-agent');
+
+// Lazy-load Puppeteer so server starts even if Chromium fails in container
+let puppeteer = null;
+function getPuppeteer() {
+  if (!puppeteer) puppeteer = require('puppeteer');
+  return puppeteer;
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +21,10 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'ngrok-skip-browser-warning'],
 }));
 app.use(express.json());
+
+// Debug: prove API is up (Railway 404 fix)
+app.get('/api/ping', (req, res) => res.json({ ok: true, service: 'geodocs-api' }));
+app.get('/api/get-pdf-url', (req, res) => res.status(405).json({ error: 'Use POST with body: district, taluk, hobli, village' }));
 
 const BASE_URL = 'https://landrecords.karnataka.gov.in/service3/';
 const HOST = 'landrecords.karnataka.gov.in';
@@ -171,7 +181,7 @@ async function getPdfUrlHttpWithPuppeteer(district, taluk, hobli, village) {
     if (process.platform === 'darwin' && require('fs').existsSync('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')) {
       launchOptions.executablePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
     }
-    browser = await puppeteer.launch(launchOptions);
+    browser = await getPuppeteer().launch(launchOptions);
     const page = await browser.newPage();
     
     // Intercept and collect responses
@@ -494,7 +504,15 @@ async function getPdfUrl(district, taluk, hobli, village) {
   try {
     console.log(`[${new Date().toISOString()}] Starting PDF extraction: ${district}, ${taluk}, ${hobli}, ${village}`);
     
-    const launchArgs = ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'];
+    const launchArgs = [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--disable-software-rasterizer',
+      '--no-zygote',
+      '--single-process',
+    ];
     if (proxyForPuppeteer) {
       launchArgs.push(`--proxy-server=${proxyForPuppeteer.server}`);
       console.log(`[${new Date().toISOString()}] Using proxy: ${proxyForPuppeteer.server}`);
@@ -514,7 +532,7 @@ async function getPdfUrl(district, taluk, hobli, village) {
     if (!IS_DEV) {
       console.log('[Puppeteer] Running in production mode (headless)');
     }
-    browser = await puppeteer.launch(launchOptions);
+    browser = await getPuppeteer().launch(launchOptions);
     
     const page = await browser.newPage();
     if (proxyForPuppeteer && (proxyForPuppeteer.username || proxyForPuppeteer.password)) {
@@ -928,10 +946,15 @@ if (fs.existsSync(outDir)) {
   console.log('[Server] Serving Next.js static export from /out');
 }
 
+// Catch-all so we return JSON 404 (proves Express is running)
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not found', path: req.path, method: req.method });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 GeoDocs running on http://localhost:${PORT}`);
   console.log(`📡 API: POST /api/get-pdf-url, POST /api/download-pdf`);
-  console.log(`💚 Health: GET /health`);
+  console.log(`💚 Health: GET /health, GET /api/ping`);
   console.log(`🔧 Mode: ${IS_DEV ? 'Development (headful)' : 'Production (headless)'}`);
 });
