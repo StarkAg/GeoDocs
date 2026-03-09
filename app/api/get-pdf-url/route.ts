@@ -14,7 +14,10 @@ export async function POST(request: NextRequest) {
     }
     const res = await fetch(`${PDF_BACKEND}/api/get-pdf-url`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': '1',
+      },
       body: JSON.stringify({ district, taluk, hobli, village }),
     });
     const data = await res.json();

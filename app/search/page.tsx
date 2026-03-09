@@ -97,6 +97,54 @@ export default function SearchPage() {
     }
   };
 
+  const handleDownloadPdf = async () => {
+    if (!district || !taluk || !hobli || !village) {
+      setError('Please fill in all fields.');
+      return;
+    }
+    setError(null);
+    setLoading(true);
+    try {
+      const villageLabel = villageOptions.find((v) => v.value === village)?.label || village;
+      
+      // Call download API endpoint
+      const API_URL = process.env.NEXT_PUBLIC_PDF_BACKEND_URL || 'http://localhost:3013';
+      const response = await fetch(`${API_URL}/api/download-pdf`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': '1',
+        },
+        body: JSON.stringify({
+          district,
+          taluk,
+          hobli,
+          village: villageLabel,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to download PDF');
+      }
+
+      // Get the PDF blob and trigger download
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${villageLabel.replace(/[^a-zA-Z0-9]/g, '_')}_Map.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to download PDF.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-xl px-4 py-8">
       <div className="mb-8 text-center">
@@ -141,14 +189,24 @@ export default function SearchPage() {
           <p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>
         )}
 
-        <button
-          type="button"
-          onClick={handleGetPdf}
-          disabled={loading}
-          className="btn-primary w-full"
-        >
-          {loading ? 'Fetching PDF…' : 'Get PDF'}
-        </button>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={handleGetPdf}
+            disabled={loading}
+            className="btn-primary flex-1"
+          >
+            {loading ? 'Loading…' : '👁️ View PDF'}
+          </button>
+          <button
+            type="button"
+            onClick={handleDownloadPdf}
+            disabled={loading}
+            className="flex-1 rounded-lg border-2 border-primary bg-white px-4 py-2 font-medium text-primary transition hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {loading ? 'Loading…' : '⬇️ Download PDF'}
+          </button>
+        </div>
       </div>
     </div>
   );
