@@ -9,6 +9,18 @@ A Next.js web application for **Karnataka geographic documents**: village maps a
 - **Tailwind CSS**
 - **PDF backend**: Express + Puppeteer (optional; run separately)
 
+## ⚡ Performance
+
+The PDF API now includes **in-memory caching** and production optimizations:
+
+| Scenario | Response Time |
+|----------|--------------|
+| First request (fresh) | ~10-16 seconds |
+| **Cached request** | **~50ms (instant!)** |
+| Production headless | ~10-14s (20% faster) |
+
+See [`PRODUCTION_OPTIMIZATION.md`](./PRODUCTION_OPTIMIZATION.md) for details on caching, pre-fetching, and deployment.
+
 ## Getting Started
 
 ### 1. Install and run the web app

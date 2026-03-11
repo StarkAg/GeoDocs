@@ -27,3 +27,28 @@ One container runs both the **Next.js frontend** (static) and the **Express + Pu
 ## Optional: custom domain
 
 In Railway → Settings → Domains, add your domain and point DNS as shown.
+
+---
+
+## Run API on Mac and connect Railway (or any frontend) to it
+
+Use this when you want the **PDF API to run on your Mac** (direct access to Karnataka, no proxy) and your **frontend on Railway** to call it.
+
+### 1. On your Mac
+
+- **API**: `npm run api` (or `PORT=3001 node api/server.js`) — leave this running.
+- **Tunnel**: `ngrok http 3001` — leave this running. Copy the **HTTPS** URL (e.g. `https://xxxx.ngrok-free.app`).
+
+### 2. Connect Railway (or any host) to your Mac API
+
+In your **frontend** deployment (e.g. Railway, Vercel, or any Next.js app that uses the PDF API):
+
+Set this environment variable:
+
+| Variable | Value |
+|----------|--------|
+| `PDF_BACKEND_URL` | Your ngrok URL, e.g. `https://d813-2406-7400-bb-2b37-794e-689f-1109-fc0d.ngrok-free.app` |
+
+The Next.js API routes (`/api/get-pdf-url`, etc.) will then proxy requests to your Mac via ngrok.
+
+**Note:** The ngrok URL changes each time you restart ngrok (free tier). Update `PDF_BACKEND_URL` when it changes.

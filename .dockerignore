@@ -12,3 +12,20 @@ android
 ios
 *.log
 .DS_Store
+# Smaller context = faster upload (exclude heavy/unused)
+*.har
+*.csv
+*.webarchive
+extract-*.js
+download-*.js
+build-*.js
+check-*.js
+filter-*.js
+generate-*.js
+get-sample-*.js
+test-*.js
+update-*.js
+prefetch-*.js
+test_*.py
+download_*.py
+extract_*.py

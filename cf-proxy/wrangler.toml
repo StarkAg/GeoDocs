@@ -1,0 +1,7 @@
+name = "geodocs-proxy"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+TARGET_ORIGIN = "https://landrecords.karnataka.gov.in"
+# Set a secret AUTH_TOKEN via: wrangler secret put AUTH_TOKEN

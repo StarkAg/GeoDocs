@@ -91,3 +91,7 @@ next-env.d.ts
 # Logs
 *.log
 logs/
+.env
+brute_force.log
+download_log.txt
+*.har

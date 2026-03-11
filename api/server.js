@@ -1,6 +1,10 @@
+// Load .env from project root so PROXY_URL etc. can be set without exporting
+try { require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') }); } catch (_) {}
+
 const express = require('express');
 const cors = require('cors');
 const https = require('https');
+const zlib = require('zlib');
 const { HttpsProxyAgent } = require('https-proxy-agent');
 
 // Lazy-load Puppeteer so server starts even if Chromium fails in container
@@ -22,12 +26,76 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// When set (e.g. on Railway), proxy /api to this URL (your Mac via ngrok)
+const PDF_BACKEND_URL = (process.env.PDF_BACKEND_URL || '').replace(/\/$/, '');
+
+async function proxyToPdfBackend(path, req, res) {
+  if (!PDF_BACKEND_URL) return false;
+  const url = path.startsWith('http') ? path : `${PDF_BACKEND_URL}${path}`;
+  try {
+    const isGet = req.method === 'GET';
+    const opts = { method: req.method, headers: { 'ngrok-skip-browser-warning': '1' } };
+    if (!isGet) {
+      opts.headers['Content-Type'] = 'application/json';
+      opts.body = JSON.stringify(req.body || {});
+    }
+    const backendRes = await fetch(url, opts);
+    const contentType = backendRes.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const data = await backendRes.json();
+      res.status(backendRes.status).json(data);
+      return true;
+    }
+    res.status(backendRes.status);
+    backendRes.headers.forEach((v, k) => { if (k.toLowerCase() !== 'transfer-encoding') res.setHeader(k, v); });
+    const { Readable } = require('stream');
+    Readable.fromWeb(backendRes.body).pipe(res);
+    return true;
+  } catch (e) {
+    res.status(502).json({ success: false, error: 'Backend unreachable: ' + e.message });
+    return true;
+  }
+}
+
 // Debug: prove API is up (Railway 404 fix)
 app.get('/api/ping', (req, res) => res.json({ ok: true, service: 'geodocs-api' }));
-app.get('/api/get-pdf-url', (req, res) => res.status(405).json({ error: 'Use POST with body: district, taluk, hobli, village' }));
+// GET link: same as POST but with query params (easy to hit from browser or curl)
+app.get('/api/get-pdf-url', async (req, res) => {
+  if (PDF_BACKEND_URL) {
+    const q = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    const didProxy = await proxyToPdfBackend(`/api/get-pdf-url${q}`, req, res);
+    if (didProxy) return;
+  }
+  const district = req.query.district;
+  const taluk = req.query.taluk;
+  const hobli = req.query.hobli;
+  const village = req.query.village;
+  if (!district || !taluk || !hobli || !village) {
+    return res.status(400).json({ error: 'Add query params: ?district=2&taluk=1&hobli=1&village=ALABALA' });
+  }
+  try {
+    const cacheKey = `${district}-${taluk}-${hobli}-${village}`;
+    if (pdfUrlCache.has(cacheKey)) {
+      return res.json({ success: true, pdfUrl: pdfUrlCache.get(cacheKey), cached: true });
+    }
+    const pdfUrl = await getPdfUrlHttp(district, taluk, hobli, village);
+    if (pdfUrl) {
+      pdfUrlCache.set(cacheKey, pdfUrl);
+      return res.json({ success: true, pdfUrl });
+    }
+    return res.status(404).json({ success: false, error: 'PDF URL not found' });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.message });
+  }
+});
 
-const BASE_URL = 'https://landrecords.karnataka.gov.in/service3/';
-const HOST = 'landrecords.karnataka.gov.in';
+// Cloudflare Worker proxy: when CF_PROXY_URL is set, route all Karnataka
+// requests through it (e.g. https://geodocs-proxy.harshag954.workers.dev)
+const CF_PROXY_URL = (process.env.CF_PROXY_URL || '').replace(/\/$/, '');
+const KARNATAKA_ORIGIN = 'https://landrecords.karnataka.gov.in';
+const BASE_URL = CF_PROXY_URL ? `${CF_PROXY_URL}/service3/` : `${KARNATAKA_ORIGIN}/service3/`;
+const HOST = CF_PROXY_URL ? new URL(CF_PROXY_URL).hostname : 'landrecords.karnataka.gov.in';
+const BASE_HOST_PORT = CF_PROXY_URL ? new URL(CF_PROXY_URL).port || 443 : 443;
 
 // Bright Data / proxy: PROXY_URL = http://user:pass@brd.superproxy.io:33335
 const PROXY_URL = process.env.PROXY_URL || '';
@@ -100,7 +168,7 @@ async function queueRequest(fn) {
 
 const REQUEST_OPTS = {
   hostname: HOST,
-  port: 443,
+  port: Number(BASE_HOST_PORT) || 443,
   headers: {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -121,7 +189,7 @@ const REQUEST_OPTS = {
     'Connection': 'keep-alive',
   },
 };
-const HTTP_TIMEOUT_MS = 15000;
+const HTTP_TIMEOUT_MS = (proxyAgent || CF_PROXY_URL) ? 25000 : 15000; // longer when using proxy/CF
 
 function extractViewState(html) {
   const vs = html.match(/name="__VIEWSTATE" value="([^"]*)"/);
@@ -134,13 +202,37 @@ function extractViewState(html) {
   };
 }
 
+/** Extract all hidden form fields from ASP.NET page for exact POST replay */
+function extractFormHidden(html) {
+  const out = {};
+  const regex = /<input[^>]+type\s*=\s*["']hidden["'][^>]*>/gi;
+  let m;
+  while ((m = regex.exec(html)) !== null) {
+    const tag = m[0];
+    const nameMatch = tag.match(/name\s*=\s*["']([^"']+)["']/i);
+    const valueMatch = tag.match(/value\s*=\s*["']([^"']*)["']/i);
+    if (nameMatch) {
+      const val = valueMatch ? valueMatch[1] : '';
+      out[nameMatch[1]] = val;
+    }
+  }
+  return out;
+}
+
 function httpsRequest(options, body, cookieJar) {
+  // When CF_PROXY_URL is set, use fetch() for cleaner HTTPS handling
+  if (CF_PROXY_URL) {
+    return cfFetchRequest(options, body, cookieJar);
+  }
   return new Promise((resolve, reject) => {
     const jar = cookieJar || [];
     if (jar.length) {
       options.headers = { ...options.headers, Cookie: jar.join('; ') };
     }
-    if (proxyAgent) options.agent = proxyAgent;
+    if (proxyAgent) {
+      options.agent = proxyAgent;
+      options.rejectUnauthorized = false;
+    }
     const req = https.request(options, (res) => {
       if (res.headers['set-cookie']) {
         const newCookies = Array.isArray(res.headers['set-cookie'])
@@ -153,9 +245,21 @@ function httpsRequest(options, body, cookieJar) {
           jar.push(c.split(';')[0].trim());
         }
       }
-      let data = '';
-      res.on('data', (chunk) => { data += chunk; });
-      res.on('end', () => resolve({ statusCode: res.statusCode, headers: res.headers, data, cookieJar: jar }));
+      const chunks = [];
+      res.on('data', (chunk) => chunks.push(chunk));
+      res.on('end', () => {
+        let data = Buffer.concat(chunks);
+        const enc = (res.headers['content-encoding'] || '').toLowerCase();
+        if (enc === 'gzip') {
+          data = zlib.gunzipSync(data);
+        } else if (enc === 'deflate') {
+          data = zlib.inflateSync(data);
+        } else if (enc === 'br') {
+          data = zlib.brotliDecompressSync(data);
+        }
+        const dataStr = Buffer.isBuffer(data) ? data.toString('utf8') : data;
+        resolve({ statusCode: res.statusCode, headers: res.headers, data: dataStr, cookieJar: jar });
+      });
     });
     req.on('error', reject);
     req.setTimeout(HTTP_TIMEOUT_MS, () => {
@@ -165,6 +269,59 @@ function httpsRequest(options, body, cookieJar) {
     if (body) req.write(body);
     req.end();
   });
+}
+
+async function cfFetchRequest(options, body, cookieJar) {
+  const jar = cookieJar || [];
+  const url = `${CF_PROXY_URL}${options.path}`;
+  const headers = { ...options.headers };
+  delete headers['Connection'];
+  delete headers['Upgrade-Insecure-Requests'];
+  delete headers['Accept-Encoding'];
+  // Remove sec-* headers -- they look suspicious through a proxy and can trigger WAF
+  Object.keys(headers).forEach(k => {
+    if (k.toLowerCase().startsWith('sec-')) delete headers[k];
+  });
+  if (jar.length) headers['Cookie'] = jar.join('; ');
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), HTTP_TIMEOUT_MS);
+
+  try {
+    const fetchOpts = {
+      method: options.method || 'GET',
+      headers,
+      signal: controller.signal,
+      redirect: 'manual',
+    };
+    if (body) fetchOpts.body = body;
+
+    const res = await fetch(url, fetchOpts);
+    clearTimeout(timeout);
+
+    // Handle cookies from set-cookie
+    const setCookieHeader = res.headers.get('set-cookie');
+    if (setCookieHeader) {
+      const cookies = setCookieHeader.split(/,(?=\s*\w+=)/);
+      for (const c of cookies) {
+        const name = c.split('=')[0].trim();
+        const idx = jar.findIndex((x) => x.startsWith(name + '='));
+        if (idx >= 0) jar.splice(idx, 1);
+        jar.push(c.split(';')[0].trim());
+      }
+    }
+
+    const data = await res.text();
+    // Convert fetch headers to plain object
+    const respHeaders = {};
+    res.headers.forEach((v, k) => { respHeaders[k] = v; });
+
+    return { statusCode: res.status, headers: respHeaders, data, cookieJar: jar };
+  } catch (e) {
+    clearTimeout(timeout);
+    if (e.name === 'AbortError') throw new Error('HTTP request timeout');
+    throw e;
+  }
 }
 
 /**
@@ -190,7 +347,7 @@ async function getPdfUrlHttpWithPuppeteer(district, taluk, hobli, village) {
     });
     
     // Navigate through the flow using page.goto and page.evaluate
-    await page.goto('https://landrecords.karnataka.gov.in/service3/', { waitUntil: 'domcontentloaded', ignoreHTTPSErrors: true });
+    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded', ignoreHTTPSErrors: true });
     await new Promise(r => setTimeout(r, 500));
     
     // Select district and wait for postback
@@ -332,82 +489,58 @@ async function getPdfUrlHttp(district, taluk, hobli, village) {
     return httpsRequest(opts, body, jar);
   }
 
-  function addCommonFields(params) {
-    params.append('__EVENTARGUMENT', '');
-    params.append('__LASTFOCUS', '');
-    params.append('__VIEWSTATEENCRYPTED', '');
+  /** Build POST body from page hidden fields + overrides (so we send exactly what ASP.NET expects) */
+  function buildPostBody(html, overrides) {
+    const hidden = extractFormHidden(html);
+    const params = new URLSearchParams();
+    for (const [name, value] of Object.entries(hidden)) params.append(name, value);
+    for (const [name, value] of Object.entries(overrides || {})) {
+      params.set(name, String(value));
+    }
+    return params.toString();
   }
+
   // 2. POST district
-  const formDistrict = new URLSearchParams();
-  formDistrict.append('__VIEWSTATE', viewState);
-  formDistrict.append('__VIEWSTATEGENERATOR', viewStateGen);
-  formDistrict.append('__EVENTVALIDATION', eventValidation);
-  formDistrict.append('__EVENTTARGET', 'ddl_district');
-  formDistrict.append('ddl_district', district);
-  formDistrict.append('ddlMaps', '1');
-  addCommonFields(formDistrict);
-  const r1 = await postForm(formDistrict.toString(), cookieJar);
-  const vs1 = extractViewState(r1.data);
-  viewState = vs1.viewState;
-  viewStateGen = vs1.viewStateGen;
-  eventValidation = vs1.eventValidation;
-  console.log('[HTTP] District selected');
-  await delay(300);
+  const r1 = await postForm(buildPostBody(initial.data, {
+    __EVENTTARGET: 'ddl_district',
+    ddl_district: district,
+    ddlMaps: '1',
+  }), cookieJar);
+  console.log('[HTTP] District selected', r1.statusCode);
+  await delay(400);
 
   // 3. POST taluk
-  const formTaluk = new URLSearchParams();
-  formTaluk.append('__VIEWSTATE', viewState);
-  formTaluk.append('__VIEWSTATEGENERATOR', viewStateGen);
-  formTaluk.append('__EVENTVALIDATION', eventValidation);
-  formTaluk.append('__EVENTTARGET', 'ddl_taluk');
-  formTaluk.append('ddl_district', district);
-  formTaluk.append('ddl_taluk', taluk);
-  formTaluk.append('ddlMaps', '1');
-  addCommonFields(formTaluk);
-  const r2 = await postForm(formTaluk.toString(), cookieJar);
-  const vs2 = extractViewState(r2.data);
-  viewState = vs2.viewState;
-  viewStateGen = vs2.viewStateGen;
-  eventValidation = vs2.eventValidation;
-  console.log('[HTTP] Taluk selected');
-  await delay(300);
+  const r2 = await postForm(buildPostBody(r1.data, {
+    __EVENTTARGET: 'ddl_taluk',
+    ddl_district: district,
+    ddl_taluk: taluk,
+    ddlMaps: '1',
+  }), cookieJar);
+  console.log('[HTTP] Taluk selected', r2.statusCode);
+  await delay(400);
 
   // 4. POST hobli
-  const formHobli = new URLSearchParams();
-  formHobli.append('__VIEWSTATE', viewState);
-  formHobli.append('__VIEWSTATEGENERATOR', viewStateGen);
-  formHobli.append('__EVENTVALIDATION', eventValidation);
-  formHobli.append('__EVENTTARGET', 'ddl_hobli');
-  formHobli.append('ddl_district', district);
-  formHobli.append('ddl_taluk', taluk);
-  formHobli.append('ddl_hobli', hobli);
-  formHobli.append('ddlMaps', '1');
-  addCommonFields(formHobli);
-  const r3 = await postForm(formHobli.toString(), cookieJar);
-  const vs3 = extractViewState(r3.data);
-  viewState = vs3.viewState;
-  viewStateGen = vs3.viewStateGen;
-  eventValidation = vs3.eventValidation;
-  console.log('[HTTP] Hobli selected');
-  await delay(300);
+  const r3 = await postForm(buildPostBody(r2.data, {
+    __EVENTTARGET: 'ddl_hobli',
+    ddl_district: district,
+    ddl_taluk: taluk,
+    ddl_hobli: hobli,
+    ddlMaps: '1',
+  }), cookieJar);
+  console.log('[HTTP] Hobli selected', r3.statusCode);
+  await delay(400);
 
-  // 5. POST search (village + btnSearch) – field order and ddlMaps=0 to match browser HAR
-  const formSearch = new URLSearchParams();
-  formSearch.append('__EVENTTARGET', '');
-  formSearch.append('__EVENTARGUMENT', '');
-  formSearch.append('__LASTFOCUS', '');
-  formSearch.append('__VIEWSTATE', viewState);
-  formSearch.append('__VIEWSTATEGENERATOR', viewStateGen);
-  formSearch.append('__VIEWSTATEENCRYPTED', '');
-  formSearch.append('__EVENTVALIDATION', eventValidation);
-  formSearch.append('ddl_district', district);
-  formSearch.append('ddl_taluk', taluk);
-  formSearch.append('ddl_hobli', hobli);
-  formSearch.append('ddlMaps', '0');
-  formSearch.append('txtVlgName', String(village));
-  formSearch.append('btnSearch', 'Search');
-  formSearch.append('url_path', '');
-  let r4 = await postForm(formSearch.toString(), cookieJar);
+  // 5. POST search (village + btnSearch)
+  const r4 = await postForm(buildPostBody(r3.data, {
+    __EVENTTARGET: '',
+    ddl_district: district,
+    ddl_taluk: taluk,
+    ddl_hobli: hobli,
+    ddlMaps: '0',
+    txtVlgName: String(village),
+    btnSearch: 'Search',
+    url_path: '',
+  }), cookieJar);
   let html = r4.data;
   console.log('[HTTP] Search response:', r4.statusCode, 'length:', html.length, 'Object moved:', html.includes('Object moved'), 'grdMaps:', html.includes('grdMaps'));
   if (r4.statusCode === 302 || r4.statusCode === 301) {
@@ -441,25 +574,18 @@ async function getPdfUrlHttp(district, taluk, hobli, village) {
   }
 
   // 7. No PDF in HTML: simulate clicking first PDF button (grdMaps$ctl02$ImgPdf) and follow redirect
-  const vs4 = extractViewState(html);
-  if (vs4.viewState && /grdMaps_ImgPdf|grdMaps\$ctl02\$ImgPdf/i.test(html)) {
-    const formPdf = new URLSearchParams();
-    formPdf.append('__VIEWSTATE', vs4.viewState);
-    formPdf.append('__VIEWSTATEGENERATOR', vs4.viewStateGen || 'C4EEEC0E');
-    formPdf.append('__EVENTVALIDATION', vs4.eventValidation);
-    formPdf.append('__EVENTTARGET', '');
-    formPdf.append('__EVENTARGUMENT', '');
-    formPdf.append('__LASTFOCUS', '');
-    formPdf.append('__VIEWSTATEENCRYPTED', '');
-    formPdf.append('ddl_district', district);
-    formPdf.append('ddl_taluk', taluk);
-    formPdf.append('ddl_hobli', hobli);
-    formPdf.append('ddlMaps', '0');
-    formPdf.append('txtVlgName', String(village));
-    formPdf.append('grdMaps$ctl02$ImgPdf.x', '16');
-    formPdf.append('grdMaps$ctl02$ImgPdf.y', '13');
-    formPdf.append('url_path', '');
-    const r5 = await postForm(formPdf.toString(), cookieJar);
+  if (/grdMaps_ImgPdf|grdMaps\$ctl02\$ImgPdf/i.test(html)) {
+    const r5 = await postForm(buildPostBody(html, {
+      __EVENTTARGET: '',
+      ddl_district: district,
+      ddl_taluk: taluk,
+      ddl_hobli: hobli,
+      ddlMaps: '0',
+      txtVlgName: String(village),
+      url_path: '',
+      'grdMaps$ctl02$ImgPdf.x': '16',
+      'grdMaps$ctl02$ImgPdf.y': '13',
+    }), cookieJar);
     console.log('[HTTP] PDF click response:', r5.statusCode, 'length:', r5.data?.length || 0);
     if (r5.statusCode === 302 && r5.headers?.location) {
       const loc = r5.headers.location;
@@ -523,7 +649,6 @@ async function getPdfUrl(district, taluk, hobli, village) {
       headless: !IS_DEV, // Headless in production for speed
       args: launchArgs,
     };
-    // On Mac, try system Chrome if available
     if (process.platform === 'darwin' && require('fs').existsSync('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')) {
       launchOptions.executablePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
       console.log(`[Puppeteer] Using system Chrome (headless: ${launchOptions.headless})`);
@@ -735,6 +860,10 @@ async function getPdfUrl(district, taluk, hobli, village) {
 
 // API endpoint
 app.post('/api/get-pdf-url', async (req, res) => {
+  if (PDF_BACKEND_URL) {
+    const didProxy = await proxyToPdfBackend('/api/get-pdf-url', req, res);
+    if (didProxy) return;
+  }
   try {
     const { district, taluk, hobli, village } = req.body;
     
@@ -759,11 +888,26 @@ app.post('/api/get-pdf-url', async (req, res) => {
       return res.json({ success: true, pdfUrl: cached, cached: true });
     }
     
-    // Use Puppeteer (most reliable method) with request queuing
-    console.log('[API] Fetching PDF URL with Puppeteer...');
-    
+    // Headless API: HTTP-only by default (no Puppeteer). Set forcePuppeteer: true to use browser.
+    const forcePuppeteer = req.body.forcePuppeteer === true;
     const pdfUrl = await queueRequest(async () => {
-      return await getPdfUrl(district, taluk, hobli, village);
+      if (forcePuppeteer) {
+        console.log('[API] Using Puppeteer (forcePuppeteer)...');
+        const url = await getPdfUrl(district, taluk, hobli, village);
+        if (!url) {
+          console.log('[API] Puppeteer failed, trying HTTP path...');
+          try { return await getPdfUrlHttp(district, taluk, hobli, village); } catch (e) { return null; }
+        }
+        return url;
+      }
+      // Default: headless HTTP only (no browser)
+      console.log('[API] Fetching PDF URL (headless HTTP)...');
+      try {
+        return await getPdfUrlHttp(district, taluk, hobli, village);
+      } catch (e) {
+        console.log('[API] HTTP path failed:', e.message);
+        return null;
+      }
     });
     
     // Cache the result if successful
@@ -794,6 +938,10 @@ app.post('/api/get-pdf-url', async (req, res) => {
 
 // Download PDF endpoint - serves PDF directly with download headers
 app.post('/api/download-pdf', async (req, res) => {
+  if (PDF_BACKEND_URL) {
+    const didProxy = await proxyToPdfBackend('/api/download-pdf', req, res);
+    if (didProxy) return;
+  }
   const { district, taluk, hobli, village } = req.body;
   
   if (!district || !taluk || !hobli || !village) {
@@ -819,7 +967,7 @@ app.post('/api/download-pdf', async (req, res) => {
     // Download PDF and stream to client
     console.log(`[Download] Fetching PDF from: ${result}`);
     
-    const pdfReqOpts = proxyAgent ? { agent: proxyAgent } : {};
+    const pdfReqOpts = proxyAgent ? { agent: proxyAgent, rejectUnauthorized: false } : {};
     https.get(result, pdfReqOpts, (pdfResponse) => {
       if (pdfResponse.statusCode !== 200) {
         return res.status(pdfResponse.statusCode).json({
@@ -954,7 +1102,10 @@ app.use((req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 GeoDocs running on http://localhost:${PORT}`);
-  console.log(`📡 API: POST /api/get-pdf-url, POST /api/download-pdf`);
+  console.log(`📡 API: GET/POST /api/get-pdf-url, POST /api/download-pdf`);
   console.log(`💚 Health: GET /health, GET /api/ping`);
   console.log(`🔧 Mode: ${IS_DEV ? 'Development (headful)' : 'Production (headless)'}`);
+  if (proxyAgent) console.log(`🌐 Proxy: ON (all requests to Karnataka site go via PROXY_URL)`);
+  if (CF_PROXY_URL) console.log(`☁️  CF Proxy: ON (routing via ${CF_PROXY_URL})`);
+  if (PDF_BACKEND_URL) console.log(`🔗 PDF_BACKEND: ON (proxying /api to ${PDF_BACKEND_URL})`);
 });

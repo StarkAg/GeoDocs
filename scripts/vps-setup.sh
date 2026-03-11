@@ -55,16 +55,41 @@ else
 fi
 echo ""
 
-# Stop existing PM2 process if any
+# Install Chrome/Chromium for Puppeteer
+echo "🌐 Installing Chrome for Puppeteer..."
+apt-get update -qq
+apt-get install -y chromium-browser || apt-get install -y chromium || true
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export PUPPETEER_EXECUTABLE_PATH=$(which chromium-browser || which chromium || echo '')
+echo "✅ Chrome installed: $PUPPETEER_EXECUTABLE_PATH"
+echo ""
+
+# Stop existing PM2 processes if any
 echo "🔄 Managing PM2 processes..."
 pm2 stop geodocs 2>/dev/null || true
 pm2 delete geodocs 2>/dev/null || true
+pm2 stop geodocs-api 2>/dev/null || true
+pm2 delete geodocs-api 2>/dev/null || true
 
-# Start with PM2
-echo "🚀 Starting app with PM2..."
+# Start Next.js app with PM2
+echo "🚀 Starting Next.js app with PM2..."
 pm2 start npm --name geodocs -- start
+echo "✅ Next.js app started (port 3000)"
+echo ""
+
+# Start API server in PRODUCTION mode with PM2
+echo "🚀 Starting PDF API in PRODUCTION mode..."
+pm2 start api/server.js \
+  --name geodocs-api \
+  --env production \
+  -i 1 \
+  -- \
+  --node-args="--max-old-space-size=2048"
+echo "✅ API server started (port 3001, headless mode)"
+echo ""
+
 pm2 save
-echo "✅ App started with PM2"
+echo "✅ PM2 config saved"
 echo ""
 
 # Setup PM2 startup
@@ -77,8 +102,15 @@ echo ""
 echo "📊 PM2 status:"
 pm2 status
 echo ""
-echo "🌐 App is running on port 3000"
-echo "   Check logs: pm2 logs geodocs"
-echo "   Restart: pm2 restart geodocs"
-echo "   Stop: pm2 stop geodocs"
+echo "🌐 Services running:"
+echo "   Next.js app:  http://localhost:3000"
+echo "   PDF API:      http://localhost:3001"
+echo ""
+echo "📋 Useful commands:"
+echo "   Check logs:    pm2 logs geodocs-api"
+echo "   Restart API:   pm2 restart geodocs-api"
+echo "   Stop all:      pm2 stop all"
+echo ""
+echo "⚡ Optional: Pre-fetch common villages to warm cache"
+echo "   node prefetch-common-villages.js"
 echo ""

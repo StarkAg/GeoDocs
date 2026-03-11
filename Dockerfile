@@ -1,7 +1,14 @@
-# GeoDocs: Next.js frontend + Express/Puppeteer API in one container (Railway)
+# GeoDocs: Next.js frontend + Express/Puppeteer API (Railway)
+#
+# Why the build takes ~5–10 min:
+#   1. apt-get install chromium + deps (~200MB)  → 3–5 min
+#   2. npm ci (all deps for build)                → 1–3 min
+#   3. npm run build (Next.js static export)      → 1–2 min
+# Railway caches layers; rebuilds are faster when only code changes.
+
 FROM node:20-bookworm-slim
 
-# Chromium for Puppeteer
+# Chromium for Puppeteer (largest step – cached after first build)
 RUN apt-get update && apt-get install -y \
     chromium \
     fonts-liberation \
@@ -16,19 +23,17 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 WORKDIR /app
 
-# Dependencies
+# Dependencies (layer cached when package*.json unchanged)
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-# Build Next.js static export (uses NEXT_PUBLIC_* at build time)
+# Build Next.js static export (layer cached when source unchanged)
 COPY . .
 ENV NEXT_PUBLIC_PDF_BACKEND_URL=
 ENV NEXT_PUBLIC_API_URL=
 RUN npm run build
 
-# Single port: Express serves API + static frontend
 ENV NODE_ENV=production
 ENV PORT=3000
 EXPOSE 3000
-
 CMD ["node", "api/server.js"]
