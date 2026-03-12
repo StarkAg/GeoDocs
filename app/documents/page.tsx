@@ -247,16 +247,17 @@ export default function DocumentsPage() {
       {showForm && (
         <>
           <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.2s_ease]" onClick={() => !loading && setShowForm(false)} />
-          <div
-            ref={sheetRef}
-            className="sheet-enter fixed z-50 overflow-y-auto bg-white/95 shadow-2xl backdrop-blur-xl inset-x-0 bottom-0 max-h-[92dvh] rounded-t-[28px] sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:right-auto sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl sm:max-h-[85vh]"
-          >
-            {/* Drag handle */}
-            <div className="flex justify-center pt-3 sm:hidden">
-              <div className="h-1 w-10 rounded-full bg-slate-300/80" />
-            </div>
+          <div className="fixed inset-0 z-50 flex items-end sm:items-center sm:justify-center">
+            <div
+              ref={sheetRef}
+              className="sheet-enter w-full max-h-[92dvh] overflow-y-auto bg-white/95 shadow-2xl backdrop-blur-xl rounded-t-[28px] sm:w-full sm:max-w-md sm:max-h-[85vh] sm:rounded-3xl"
+            >
+              {/* Drag handle */}
+              <div className="flex justify-center pt-3 sm:hidden">
+                <div className="h-1 w-10 rounded-full bg-slate-300/80" />
+              </div>
 
-            <div className="p-5 sm:p-7">
+              <div className="p-5 sm:p-7">
               {/* Header */}
               <div className="mb-6 flex items-start justify-between">
                 <div>
