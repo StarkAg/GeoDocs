@@ -61,15 +61,9 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (!pdfUrl) return;
-    let cancelled = false;
-    setPdfBlobUrl(null); setPdfLoading(true);
-    const CF = process.env.NEXT_PUBLIC_CF_PROXY_URL || 'https://geodocs-proxy.harshag954.workers.dev';
-    fetch(pdfUrl.replace('https://landrecords.karnataka.gov.in', CF))
-      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.blob(); })
-      .then(blob => { if (!cancelled) setPdfBlobUrl(URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }))); })
-      .catch(() => { if (!cancelled) setPdfBlobUrl(`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`); })
-      .finally(() => { if (!cancelled) setPdfLoading(false); });
-    return () => { cancelled = true; };
+    const PI = process.env.NEXT_PUBLIC_PI_URL || 'https://geodocs-pi.staragroup.in';
+    setPdfBlobUrl(`${PI}/api/pdf?url=${encodeURIComponent(pdfUrl)}`);
+    setPdfLoading(false);
   }, [pdfUrl]);
 
   useEffect(() => {

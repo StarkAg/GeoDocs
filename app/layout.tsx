@@ -14,6 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://geodocs-pi.staragroup.in" />
+        <link rel="dns-prefetch" href="https://geodocs-pi.staragroup.in" />
+      </head>
       <body className="min-h-screen flex flex-col">
         <Nav />
         <main className="flex-1">{children}</main>
