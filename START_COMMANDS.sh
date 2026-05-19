@@ -1,7 +1,7 @@
 #!/bin/bash
-# GeoDocs - Quick Start Commands
+# Ribil - Quick Start Commands
 
-echo "🚀 GeoDocs Startup Commands"
+echo "🚀 Ribil Startup Commands"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
@@ -10,7 +10,7 @@ echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "TERMINAL 1 - API Server:"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "cd \"/Users/mrstark/Desktop/Code PlayGround/GeoDocs\""
+echo "cd \"/Users/mrstark/Desktop/Code PlayGround/Ribil\""
 echo "npm run api"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -25,7 +25,7 @@ echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "TERMINAL 3 - Expo:"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "cd \"/Users/mrstark/Desktop/Code PlayGround/GeoDocs\""
+echo "cd \"/Users/mrstark/Desktop/Code PlayGround/Ribil\""
 echo "npm start"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

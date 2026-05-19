@@ -32,10 +32,10 @@ fi
 
 echo "✅ Found ngrok URL: $NGROK_URL"
 echo ""
-echo "Updating src/api/geodocsApi.js..."
+echo "Updating src/api/ribilApi.js..."
 
 # Update the API_BASE URL
-sed -i '' "s|export const API_BASE = 'https://.*';|export const API_BASE = '$NGROK_URL';|" src/api/geodocsApi.js
+sed -i '' "s|export const API_BASE = 'https://.*';|export const API_BASE = '$NGROK_URL';|" src/api/ribilApi.js
 
 echo "✅ Updated API_BASE to: $NGROK_URL"
 echo ""

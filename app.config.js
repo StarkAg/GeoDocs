@@ -1,7 +1,7 @@
 export default {
   expo: {
-    name: "GeoDocs",
-    slug: "geodocs",
+    name: "Ribil",
+    slug: "ribil",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/icon.png",
@@ -33,7 +33,7 @@ export default {
       //   Windows: ipconfig | findstr IPv4
       //   Or check Network settings
       // Example: "http://192.168.1.100:3000"
-      apiUrl: process.env.API_URL || "http://localhost:3000"
+      apiUrl: process.env.API_URL || "https://ribil.co"
     }
   }
 };

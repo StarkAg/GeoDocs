@@ -1,18 +1,18 @@
-# 🎉 GeoDocs Deployment Status
+# 🎉 Ribil Deployment Status
 
 **Date:** February 16, 2026  
-**Domain:** geodocs.staragroup.in  
+**Domain:** ribil.staragroup.in  
 **VPS IP:** 65.20.69.64
 
 ---
 
 ## ✅ Deployment Complete
 
-Your GeoDocs Next.js app is now **LIVE** and fully functional!
+Your Ribil Next.js app is now **LIVE** and fully functional!
 
 ### 🌐 Access Your Site
 
-- **HTTP:** http://geodocs.staragroup.in
+- **HTTP:** http://ribil.staragroup.in
 - **Direct IP:** http://65.20.69.64
 - **HTTPS:** Coming soon (requires DNS propagation)
 
@@ -32,8 +32,8 @@ Your GeoDocs Next.js app is now **LIVE** and fully functional!
 ┌────┬────────────────┬─────────────┬─────────┬──────────┬────────┐
 │ ID │ Name           │ Status      │ CPU     │ Memory   │ Uptime │
 ├────┼────────────────┼─────────────┼─────────┼──────────┼────────┤
-│ 3  │ geodocs        │ online      │ 0%      │ 45.5mb   │ now    │
-│ 1  │ geodocs-api    │ online      │ 0%      │ 57.3mb   │ 1m     │
+│ 3  │ ribil        │ online      │ 0%      │ 45.5mb   │ now    │
+│ 1  │ ribil-api    │ online      │ 0%      │ 57.3mb   │ 1m     │
 └────┴────────────────┴─────────────┴─────────┴──────────┴────────┘
 ```
 
@@ -61,18 +61,18 @@ Your GeoDocs Next.js app is now **LIVE** and fully functional!
 
 1. **Ensure DNS is pointing to VPS:**
    ```
-   geodocs.staragroup.in → 65.20.69.64
+   ribil.staragroup.in → 65.20.69.64
    ```
 
 2. **Check DNS propagation:**
    ```bash
-   dig geodocs.staragroup.in
+   dig ribil.staragroup.in
    ```
 
 3. **Get SSL certificate once DNS is ready:**
    ```bash
    ssh root@65.20.69.64
-   certbot --nginx -d geodocs.staragroup.in --non-interactive --agree-tos --email harshag954@gmail.com --redirect
+   certbot --nginx -d ribil.staragroup.in --non-interactive --agree-tos --email harshag954@gmail.com --redirect
    ```
 
 4. **Or if using Cloudflare:**
@@ -87,7 +87,7 @@ Your GeoDocs Next.js app is now **LIVE** and fully functional!
 
 ### Test the main app:
 ```bash
-curl http://geodocs.staragroup.in
+curl http://ribil.staragroup.in
 ```
 
 ### Test the PDF API health:
@@ -113,14 +113,14 @@ pm2 status
 
 ### View logs:
 ```bash
-pm2 logs geodocs        # Next.js app logs
-pm2 logs geodocs-api    # PDF API logs
+pm2 logs ribil        # Next.js app logs
+pm2 logs ribil-api    # PDF API logs
 ```
 
 ### Restart services:
 ```bash
-pm2 restart geodocs
-pm2 restart geodocs-api
+pm2 restart ribil
+pm2 restart ribil-api
 ```
 
 ### Stop services:
@@ -130,9 +130,9 @@ pm2 stop all
 
 ### Start services:
 ```bash
-cd /var/www/geodocs
-pm2 start npm --name geodocs -- start
-pm2 start npm --name geodocs-api -- run api
+cd /var/www/ribil
+pm2 start npm --name ribil -- start
+pm2 start npm --name ribil-api -- run api
 pm2 save
 ```
 
@@ -143,7 +143,7 @@ pm2 save
 From your laptop:
 
 ```bash
-cd /Users/mrstark/Desktop/Code\ PlayGround/GeoDocs
+cd /Users/mrstark/Desktop/Code\ PlayGround/Ribil
 
 # Make your changes, commit to git
 git add -A
@@ -160,10 +160,10 @@ git push
 
 ### On VPS:
 
-- **App Directory:** `/var/www/geodocs`
-- **Nginx Config:** `/etc/nginx/sites-available/geodocs`
+- **App Directory:** `/var/www/ribil`
+- **Nginx Config:** `/etc/nginx/sites-available/ribil`
 - **PM2 Config:** `/root/.pm2/dump.pm2`
-- **Environment:** `/var/www/geodocs/.env`
+- **Environment:** `/var/www/ribil/.env`
 
 ### Environment Variables (VPS):
 
@@ -175,7 +175,7 @@ PDF_BACKEND_URL=http://localhost:3001
 
 ## 🎉 Success Metrics
 
-✅ Code pushed to GitHub: https://github.com/StarkAg/GeoDocs  
+✅ Code pushed to GitHub: https://github.com/StarkAg/Ribil  
 ✅ Deployed to VPS: 65.20.69.64  
 ✅ Nginx configured with domain  
 ✅ PM2 running both services  
@@ -190,14 +190,14 @@ PDF_BACKEND_URL=http://localhost:3001
 ### Site not loading?
 
 1. Check PM2 status: `pm2 status`
-2. Check logs: `pm2 logs geodocs`
+2. Check logs: `pm2 logs ribil`
 3. Restart: `pm2 restart all`
 
 ### PDF download not working?
 
 1. Check API: `curl http://localhost:3001/health`
-2. Check API logs: `pm2 logs geodocs-api`
-3. Restart API: `pm2 restart geodocs-api`
+2. Check API logs: `pm2 logs ribil-api`
+3. Restart API: `pm2 restart ribil-api`
 
 ### Need to free up space?
 
@@ -216,13 +216,13 @@ apt-get clean
 
 ## 🎊 You're All Set!
 
-Your GeoDocs application is now **fully deployed and operational** on your VPS!
+Your Ribil application is now **fully deployed and operational** on your VPS!
 
 **Next steps:**
 1. Wait for DNS to propagate (usually 5-30 minutes)
 2. Get SSL certificate for HTTPS
 3. Start using the app!
 
-**Access now:** http://geodocs.staragroup.in or http://65.20.69.64
+**Access now:** http://ribil.staragroup.in or http://65.20.69.64
 
 🚀 Happy mapping!

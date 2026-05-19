@@ -1,5 +1,5 @@
 /**
- * GeoDocs API client for PDF URL.
+ * Ribil API client for PDF URL (ribil.co).
  * Strategy: client-side extraction first (user's device -> CF Worker -> Karnataka),
  * falls back to server API if client-side fails.
  */

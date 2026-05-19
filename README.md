@@ -1,6 +1,8 @@
-# GeoDocs — Next.js Web App
+# Ribil — Karnataka Land Records & Village Maps
 
-A Next.js web application for **Karnataka geographic documents**: village maps and land records. Search by District → Taluka → Hobli → Village and fetch PDFs from the official land records portal.
+**Live:** [https://ribil.co](https://ribil.co)
+
+Next.js web app for **Karnataka land records and village maps**. Search by District → Taluk → Hobli → Village and fetch PDFs from the official land records portal.
 
 ## Stack
 

@@ -1,4 +1,4 @@
-# Ngrok Tunnel Setup for GeoDocs API
+# Ngrok Tunnel Setup for Ribil API
 
 ## Quick Setup
 
@@ -29,7 +29,7 @@
    Copy the `https://xxxx-xx-xx-xx-xx.ngrok-free.app` part.
 
 5. **Update API base URL**:
-   Open `src/api/geodocsApi.js` and replace:
+   Open `src/api/ribilApi.js` and replace:
    ```javascript
    export const API_BASE = 'https://xxxx.ngrok-free.app'; // TODO: Replace
    ```
@@ -52,7 +52,7 @@
 
 ## Important Notes
 
-- **Ngrok free tier**: URLs change each time you restart ngrok. Update `geodocsApi.js` each time.
+- **Ngrok free tier**: URLs change each time you restart ngrok. Update `ribilApi.js` each time.
 - **Ngrok paid tier**: You can get a static domain that doesn't change.
 - **Security**: The ngrok URL is public. Anyone with the URL can access your API.
 - **Development only**: Use ngrok only for development/testing. For production, deploy your API properly.
@@ -70,7 +70,7 @@ If you're on the same WiFi network, you can use your computer's IP instead:
    ipconfig getifaddr en0
    ```
 
-2. Update `geodocsApi.js`:
+2. Update `ribilApi.js`:
    ```javascript
    export const API_BASE = 'http://192.168.1.100:3000'; // Your IP
    ```

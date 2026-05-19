@@ -6,7 +6,7 @@
  * are not blocked by the site.
  *
  * Usage from Railway server.js:
- *   PROXY_CF_URL=https://geodocs-proxy.<your-subdomain>.workers.dev
+ *   PROXY_CF_URL=https://ribil-proxy.<your-subdomain>.workers.dev
  *   fetch(`${PROXY_CF_URL}/service3/`, { ... })
  */
 

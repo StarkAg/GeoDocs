@@ -1,21 +1,48 @@
-# Deploy GeoDocs on Railway (single Docker container)
+# Deploy Ribil (ribil.co) on Railway (single Docker container)
 
 One container runs both the **Next.js frontend** (static) and the **Express + Puppeteer API**.
 
-## Deploy
+## Deploy (Railway CLI)
 
-1. **Railway**: [railway.app](https://railway.app) → New Project → **Deploy from GitHub** (or use Railway CLI).
+1. **Install CLI** (one of):
+   ```bash
+   npm i -g @railway/cli
+   # or: brew install railway
+   ```
 
-2. **Connect repo** and select this project. Railway will detect the `Dockerfile` and build the image.
+2. **Login** and create/link the project:
+   ```bash
+   railway login
+   # from the repo root:
+   railway init   # new project — or: railway link  # existing project
+   ```
+   Railway detects the `Dockerfile` and will use it for the build.
 
-3. **Environment variables** (in Railway dashboard → your service → Variables):
-
+3. **Set environment variables** (CLI or [dashboard](https://railway.app) → service → Variables):
+   ```bash
+   railway variables set NEXT_PUBLIC_APP_URL=https://ribil.co
+   railway variables set PDF_BACKEND_URL=https://ribil.co
+   # optional, if using Bright Data proxy:
+   railway variables set PROXY_URL="http://user:pass@brd.superproxy.io:33335"
+   ```
    | Variable | Required | Description |
    |----------|----------|-------------|
-   | `PROXY_URL` | Recommended | Bright Data proxy, e.g. `http://user:pass@brd.superproxy.io:33335` (needed if Railway IPs are blocked by Karnataka site) |
+   | `PROXY_URL` | Recommended | Bright Data proxy (needed if Railway IPs are blocked by Karnataka site) |
    | `PORT` | No | Set by Railway |
+   | `NEXT_PUBLIC_APP_URL` | For ribil.co | `https://ribil.co` |
+   | `PDF_BACKEND_URL` | For ribil.co | `https://ribil.co` when API is on same domain |
 
-4. **Deploy**: Railway builds and runs the container. The app is available at the generated URL (e.g. `https://geodocs-production.up.railway.app`).
+4. **Deploy**:
+   ```bash
+   railway up
+   ```
+   Use `railway up --detach` to skip streaming logs. The app is available at the generated Railway URL until you add the custom domain.
+
+5. **Use ribil.co**: In Railway → **Settings** → **Domains**, add custom domain **`ribil.co`** (and optionally `www.ribil.co`). Railway shows the CNAME target; in your DNS provider add **CNAME** `ribil.co` → that target. See [DOMAIN_RIBIL.md](./DOMAIN_RIBIL.md) for full steps. SSL is automatic.
+
+### Alternative: Deploy from GitHub
+
+[railway.app](https://railway.app) → New Project → **Deploy from GitHub** → connect this repo. Then set variables in the dashboard and add the custom domain as above.
 
 ## What runs in the container
 
@@ -23,10 +50,6 @@ One container runs both the **Next.js frontend** (static) and the **Express + Pu
 - **Frontend**: Next.js is built with `output: 'export'`; Express serves the `out/` static files.
 - **API**: Same process serves `/api/get-pdf-url`, `/api/download-pdf`, `/health`, etc.
 - **Puppeteer**: Uses Chromium installed in the image; with `PROXY_URL` set, traffic goes through the proxy.
-
-## Optional: custom domain
-
-In Railway → Settings → Domains, add your domain and point DNS as shown.
 
 ---
 

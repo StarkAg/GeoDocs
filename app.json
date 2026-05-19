@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "GeoDocs",
-    "slug": "geodocs",
+    "name": "Ribil",
+    "slug": "ribil",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -14,19 +14,19 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.geodocs"
+      "bundleIdentifier": "co.ribil.app"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
-      "package": "com.geodocs"
+      "package": "co.ribil.app"
     },
     "web": {
     },
-    "scheme": "geodocs",
+    "scheme": "ribil",
     "extra": {
-      "apiUrl": "https://c9a0a749a978.ngrok-free.app"
+      "apiUrl": "https://ribil.co"
     }
   }
 }

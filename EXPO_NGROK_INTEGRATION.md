@@ -6,7 +6,7 @@ This setup allows your Expo Go app to connect to your local API server via an ng
 
 ## Files Created
 
-1. **`src/api/geodocsApi.js`** - API client helper
+1. **`src/api/ribilApi.js`** - API client helper
 2. **`src/screens/SearchScreen.js`** - Sample search screen
 3. **`NGROK_SETUP.md`** - Detailed ngrok setup instructions
 
@@ -14,7 +14,7 @@ This setup allows your Expo Go app to connect to your local API server via an ng
 
 ### 1. Update API Base URL
 
-Open `src/api/geodocsApi.js` and replace the placeholder:
+Open `src/api/ribilApi.js` and replace the placeholder:
 
 ```javascript
 export const API_BASE = 'https://xxxx.ngrok-free.app'; // TODO: Replace
@@ -44,7 +44,7 @@ Copy the HTTPS URL (e.g., `https://abc123.ngrok-free.app`)
 
 ### 4. Update API Base URL Again
 
-Update `src/api/geodocsApi.js` with the ngrok URL from step 3.
+Update `src/api/ribilApi.js` with the ngrok URL from step 3.
 
 ### 5. Start Expo
 
@@ -92,7 +92,7 @@ If you want to use SearchScreen instead of DocumentsScreen, update `AppNavigator
 You can also use the API helper in your existing `DocumentsScreen.tsx`:
 
 ```typescript
-import { fetchPdfUrl } from '../api/geodocsApi';
+import { fetchPdfUrl } from '../api/ribilApi';
 import { Linking } from 'react-native';
 
 // In your handler:
@@ -107,7 +107,7 @@ await Linking.openURL(pdfUrl);
 Fetches PDF URL from API.
 
 ```javascript
-import { fetchPdfUrl } from '../api/geodocsApi';
+import { fetchPdfUrl } from '../api/ribilApi';
 
 const pdfUrl = await fetchPdfUrl({
   district: '2',
@@ -122,7 +122,7 @@ const pdfUrl = await fetchPdfUrl({
 Checks if API is reachable.
 
 ```javascript
-import { checkApiHealth } from '../api/geodocsApi';
+import { checkApiHealth } from '../api/ribilApi';
 
 const isHealthy = await checkApiHealth();
 if (!isHealthy) {
@@ -136,7 +136,7 @@ if (!isHealthy) {
 
 - ✅ Check ngrok is running: `ngrok http 3000`
 - ✅ Verify API server is running: `npm run api`
-- ✅ Confirm API_BASE URL in `geodocsApi.js` matches ngrok URL
+- ✅ Confirm API_BASE URL in `ribilApi.js` matches ngrok URL
 - ✅ Check ngrok web interface: `http://localhost:4040`
 
 ### "Network request failed"
@@ -160,7 +160,7 @@ If you're on the same WiFi network, you can skip ngrok:
    ipconfig getifaddr en0  # macOS
    ```
 
-2. Update `geodocsApi.js`:
+2. Update `ribilApi.js`:
    ```javascript
    export const API_BASE = 'http://192.168.1.100:3000';
    ```

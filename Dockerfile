@@ -1,4 +1,4 @@
-# GeoDocs: Next.js frontend + Express/Puppeteer API (Railway)
+# Ribil: Next.js frontend + Express/Puppeteer API (Railway)
 #
 # Why the build takes ~5–10 min:
 #   1. apt-get install chromium + deps (~200MB)  → 3–5 min

@@ -1,4 +1,4 @@
-package com.geodocs
+package com.ribil
 
 import android.app.Application
 import com.facebook.react.PackageList

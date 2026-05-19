@@ -21,22 +21,22 @@ On your **laptop**:
 
 ```bash
 # Generate key if you don't have one
-ssh-keygen -t ed25519 -f ~/.ssh/geodocs_vps -N ""
+ssh-keygen -t ed25519 -f ~/.ssh/ribil_vps -N ""
 
 # Copy public key to VPS (enter root password when prompted)
-ssh-copy-id -i ~/.ssh/geodocs_vps.pub root@65.20.69.64
+ssh-copy-id -i ~/.ssh/ribil_vps.pub root@65.20.69.64
 
 # Add to ~/.ssh/config for easy access
 cat >> ~/.ssh/config << 'EOF'
 
-Host geodocs-vps
+Host ribil-vps
   HostName 65.20.69.64
   User root
-  IdentityFile ~/.ssh/geodocs_vps
+  IdentityFile ~/.ssh/ribil_vps
 EOF
 
 # Now you can connect without password
-ssh geodocs-vps
+ssh ribil-vps
 ```
 
 ---
@@ -48,7 +48,7 @@ ssh geodocs-vps
 ```bash
 ssh root@65.20.69.64
 pm2 status
-pm2 logs geodocs
+pm2 logs ribil
 ```
 
 ### 2. Access the app
@@ -66,7 +66,7 @@ ssh root@65.20.69.64
 apt-get install -y nginx
 
 # Copy Nginx config
-cat > /etc/nginx/sites-available/geodocs << 'EOF'
+cat > /etc/nginx/sites-available/ribil << 'EOF'
 server {
     listen 80;
     server_name your-domain.com;  # Replace with your domain
@@ -86,7 +86,7 @@ server {
 EOF
 
 # Enable site
-ln -s /etc/nginx/sites-available/geodocs /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/ribil /etc/nginx/sites-enabled/
 nginx -t
 systemctl reload nginx
 
@@ -101,7 +101,7 @@ The PDF backend (Puppeteer) needs to run separately:
 
 ```bash
 ssh root@65.20.69.64
-cd /var/www/geodocs
+cd /var/www/ribil
 
 # Install Puppeteer dependencies
 apt-get install -y \
@@ -134,7 +134,7 @@ npm install --production=false
 echo "PDF_BACKEND_URL=http://localhost:3001" > .env
 
 # Start PDF API with PM2
-pm2 start npm --name geodocs-api -- run api
+pm2 start npm --name ribil-api -- run api
 pm2 save
 ```
 
@@ -147,10 +147,10 @@ pm2 save
 | `./scripts/deploy-to-vps.sh` | Deploy from laptop |
 | `ssh root@65.20.69.64` | Connect to VPS |
 | `pm2 status` | Check app status |
-| `pm2 logs geodocs` | View app logs |
-| `pm2 restart geodocs` | Restart app |
-| `pm2 stop geodocs` | Stop app |
-| `pm2 delete geodocs` | Remove app from PM2 |
+| `pm2 logs ribil` | View app logs |
+| `pm2 restart ribil` | Restart app |
+| `pm2 stop ribil` | Stop app |
+| `pm2 delete ribil` | Remove app from PM2 |
 | `nginx -t` | Test Nginx config |
 | `systemctl reload nginx` | Reload Nginx |
 
@@ -165,8 +165,8 @@ pm2 save
 lsof -ti:3000 | xargs kill -9
 
 # Or change Next.js port
-pm2 delete geodocs
-PORT=3002 pm2 start npm --name geodocs -- start
+pm2 delete ribil
+PORT=3002 pm2 start npm --name ribil -- start
 pm2 save
 ```
 
@@ -187,7 +187,7 @@ ufw allow 443/tcp
 
 ```bash
 ssh root@65.20.69.64
-cd /var/www/geodocs
+cd /var/www/ribil
 
 # Check Node version (needs 18+)
 node -v

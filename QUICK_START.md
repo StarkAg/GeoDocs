@@ -29,7 +29,7 @@ Forwarding  https://abc123.ngrok-free.app -> http://localhost:3000
 
 ### 4. Update API Base URL
 
-Open `src/api/geodocsApi.js` and replace:
+Open `src/api/ribilApi.js` and replace:
 
 ```javascript
 export const API_BASE = 'https://xxxx.ngrok-free.app'; // TODO: Replace
@@ -81,7 +81,7 @@ The existing `DocumentsScreen` can also use the new API. It's already set up to 
 ## ⚠️ Important Notes
 
 - **Ngrok URL changes** each time you restart ngrok (free tier)
-- **Update `API_BASE`** in `geodocsApi.js` each time ngrok restarts
+- **Update `API_BASE`** in `ribilApi.js` each time ngrok restarts
 - **Keep both terminals open**: API server + ngrok tunnel
 - **For production**: Deploy API to proper hosting (not ngrok)
 

@@ -3,8 +3,8 @@ import './globals.css';
 import { Nav } from '@/components/Nav';
 
 export const metadata: Metadata = {
-  title: 'GeoDocs — Geographic Documents',
-  description: 'Karnataka land records and village map documents',
+  title: 'Ribil — Karnataka Land Records & Village Maps',
+  description: 'Karnataka land records, village maps & property documents at ribil.co',
 };
 
 export default function RootLayout({
@@ -15,8 +15,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://geodocs-pi.staragroup.in" />
-        <link rel="dns-prefetch" href="https://geodocs-pi.staragroup.in" />
+        <link rel="preconnect" href="https://ribil.co" />
+        <link rel="dns-prefetch" href="https://ribil.co" />
       </head>
       <body className="min-h-screen flex flex-col">
         <Nav />

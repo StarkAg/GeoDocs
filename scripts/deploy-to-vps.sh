@@ -1,15 +1,15 @@
 #!/bin/bash
 set -e
 
-# GeoDocs VPS Deploy Script
+# Ribil VPS Deploy Script
 # Run from your laptop: ./scripts/deploy-to-vps.sh
 
 VPS_IP="65.20.69.64"
 VPS_USER="root"
-VPS_DIR="/var/www/geodocs"
+VPS_DIR="/var/www/ribil"
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
-echo "🚀 GeoDocs VPS Deployment to $VPS_IP"
+echo "🚀 Ribil VPS Deployment to $VPS_IP"
 echo ""
 
 # Step 1: Add VPS to known_hosts (accept fingerprint)
@@ -64,5 +64,5 @@ echo ""
 echo "📋 Next steps:"
 echo "   1. Set up Nginx reverse proxy (port 80/443 → 3000)"
 echo "   2. Point your domain to $VPS_IP"
-echo "   3. (Optional) Run PDF backend: ssh $VPS_USER@$VPS_IP 'cd $VPS_DIR && pm2 start npm --name geodocs-api -- run api'"
+echo "   3. (Optional) Run PDF backend: ssh $VPS_USER@$VPS_IP 'cd $VPS_DIR && pm2 start npm --name ribil-api -- run api'"
 echo ""

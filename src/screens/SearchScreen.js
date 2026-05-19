@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Linking } from 'react-native';
-import { fetchPdfUrl } from '../api/geodocsApi';
+import { fetchPdfUrl } from '../api/ribilApi';
 
 export default function SearchScreen() {
   const [district, setDistrict] = useState('');

@@ -1,5 +1,5 @@
 /**
- * GeoDocs API Client
+ * Ribil API Client
  * 
  * IMPORTANT: Replace the API_BASE URL below with your ngrok tunnel URL
  * Example: https://xxxx.ngrok-free.app

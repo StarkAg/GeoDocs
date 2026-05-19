@@ -13,7 +13,7 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <Text style={styles.title}>GeoDocs</Text>
+          <Text style={styles.title}>Ribil</Text>
           <Text style={styles.subtitle}>Geographic Documents</Text>
         </View>
 

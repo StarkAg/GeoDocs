@@ -1,4 +1,4 @@
-# GeoDocs Memory
+# Ribil Memory
 
 ## Key Lesson: Karnataka Site IP Blocking
 
@@ -10,7 +10,7 @@
 **The correct approach: run PDF extraction client-side in the user's browser.**
 
 - Browser makes ASP.NET form POSTs through the Cloudflare Worker (for CORS headers only)
-- CF Worker: `https://geodocs-proxy.harshag954.workers.dev`
+- CF Worker: `https://ribil-proxy.harshag954.workers.dev`
 - Client-side extractor: `lib/clientPdfExtractor.ts`
 - Entry point: `lib/api.ts` → `fetchPdfUrl()` tries client-side first, falls back to server API
 
@@ -24,7 +24,7 @@
 User Browser
   └─> lib/api.ts → fetchPdfUrl()
         └─> lib/clientPdfExtractor.ts (client-side, primary)
-              └─> fetch() to geodocs-proxy.harshag954.workers.dev (CF Worker, CORS only)
+              └─> fetch() to ribil-proxy.harshag954.workers.dev (CF Worker, CORS only)
                     └─> landrecords.karnataka.gov.in (Karnataka site)
         └─> /api/get-pdf-url (server fallback, will fail for cloud-blocked IPs)
 ```
@@ -41,7 +41,7 @@ User Browser
 
 ## Infrastructure
 
-- **Railway**: `https://geodocs-production.up.railway.app` — hosts Next.js static export + Express API server
-- **Cloudflare Worker**: `https://geodocs-proxy.harshag954.workers.dev` — CORS proxy only, deployed via `cf-proxy/`
+- **Railway**: `https://ribil-production.up.railway.app` — hosts Next.js static export + Express API server
+- **Cloudflare Worker**: `https://ribil-proxy.harshag954.workers.dev` — CORS proxy only, deployed via `cf-proxy/`
 - **Railway env vars**: `CF_PROXY_URL`, `NEXT_PUBLIC_CF_PROXY_URL` (both set)
 - **No** `PDF_BACKEND_URL` or `PROXY_URL` — both were removed (dead ngrok, broken Bright Data)

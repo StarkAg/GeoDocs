@@ -3,8 +3,8 @@
  * Falls back to CF Worker if Pi is down.
  */
 
-const PI_TUNNEL = process.env.NEXT_PUBLIC_PI_URL || 'https://geodocs-pi.staragroup.in';
-const CF_PROXY = process.env.NEXT_PUBLIC_CF_PROXY_URL || 'https://geodocs-proxy.harshag954.workers.dev';
+const PI_TUNNEL = process.env.NEXT_PUBLIC_PI_URL || 'https://ribil-pi.staragroup.in';
+const CF_PROXY = process.env.NEXT_PUBLIC_CF_PROXY_URL || 'https://ribil-proxy.harshag954.workers.dev';
 const localCache = new Map<string, string>();
 
 export interface ClientPdfParams {

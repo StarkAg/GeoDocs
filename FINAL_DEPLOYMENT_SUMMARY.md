@@ -1,4 +1,4 @@
-# 🎉 GeoDocs - Final Deployment Summary
+# 🎉 Ribil - Final Deployment Summary
 
 **Deployment Date:** February 16, 2026  
 **Status:** ✅ **FULLY OPERATIONAL**
@@ -8,10 +8,10 @@
 ## 🌐 Live URLs
 
 ### Primary Domain (HTTPS - Secure)
-**https://geodocs.staragroup.in** ✅ 🔒
+**https://ribil.staragroup.in** ✅ 🔒
 
 ### HTTP (Redirects to HTTPS)
-**http://geodocs.staragroup.in** ✅
+**http://ribil.staragroup.in** ✅
 
 ### Direct IP Access
 **http://65.20.69.64** ✅
@@ -47,8 +47,8 @@
 
 ### PM2 Status
 ```
-geodocs        → Online (pid 66825, memory: 60MB)
-geodocs-api    → Online (pid 65393, memory: 56MB)
+ribil        → Online (pid 66825, memory: 60MB)
+ribil-api    → Online (pid 65393, memory: 56MB)
 ```
 
 ---
@@ -138,22 +138,22 @@ ssh root@65.20.69.64
 ### Check Services
 ```bash
 pm2 status           # View running processes
-pm2 logs geodocs     # View app logs
-pm2 logs geodocs-api # View API logs
+pm2 logs ribil     # View app logs
+pm2 logs ribil-api # View API logs
 systemctl status nginx # Check Nginx
 ```
 
 ### Restart Services
 ```bash
-pm2 restart geodocs
-pm2 restart geodocs-api
+pm2 restart ribil
+pm2 restart ribil-api
 systemctl restart nginx
 ```
 
 ### Update/Redeploy
 ```bash
 # From your laptop
-cd /Users/mrstark/Desktop/Code\ PlayGround/GeoDocs
+cd /Users/mrstark/Desktop/Code\ PlayGround/Ribil
 git pull
 ./scripts/deploy-to-vps.sh
 ```
@@ -163,7 +163,7 @@ git pull
 ## 📁 File Locations (VPS)
 
 ```
-/var/www/geodocs/              # Application root
+/var/www/ribil/              # Application root
 ├── .next/                     # Next.js build output
 ├── app/                       # Next.js pages
 ├── components/                # React components
@@ -173,9 +173,9 @@ git pull
 ├── package.json               # Dependencies
 └── .env                       # Environment variables
 
-/etc/nginx/sites-available/geodocs    # Nginx config
-/etc/ssl/certs/geodocs.crt            # SSL certificate
-/etc/ssl/private/geodocs.key          # SSL private key
+/etc/nginx/sites-available/ribil    # Nginx config
+/etc/ssl/certs/ribil.crt            # SSL certificate
+/etc/ssl/private/ribil.key          # SSL private key
 ```
 
 ---
@@ -206,7 +206,7 @@ git pull
 
 ### Test Homepage
 ```bash
-curl https://geodocs.staragroup.in
+curl https://ribil.staragroup.in
 ```
 
 ### Test PDF API Health
@@ -216,7 +216,7 @@ curl http://65.20.69.64:3001/health
 
 ### Test SSL
 ```bash
-openssl s_client -connect geodocs.staragroup.in:443 -servername geodocs.staragroup.in
+openssl s_client -connect ribil.staragroup.in:443 -servername ribil.staragroup.in
 ```
 
 ---
@@ -253,10 +253,10 @@ openssl s_client -connect geodocs.staragroup.in:443 -servername geodocs.staragro
 
 ## 🔗 Links
 
-- **Live Site:** https://geodocs.staragroup.in
-- **GitHub:** https://github.com/StarkAg/GeoDocs
+- **Live Site:** https://ribil.staragroup.in
+- **GitHub:** https://github.com/StarkAg/Ribil
 - **VPS IP:** 65.20.69.64
-- **Domain:** geodocs.staragroup.in
+- **Domain:** ribil.staragroup.in
 
 ---
 
@@ -274,14 +274,14 @@ systemctl restart nginx
 **Issue: PDF download not working**
 ```bash
 ssh root@65.20.69.64
-pm2 logs geodocs-api
-pm2 restart geodocs-api
+pm2 logs ribil-api
+pm2 restart ribil-api
 ```
 
 **Issue: HTTPS not working**
 1. Check Cloudflare SSL mode is "Full"
 2. Verify Nginx is running: `systemctl status nginx`
-3. Check SSL cert: `ls -la /etc/ssl/certs/geodocs.crt`
+3. Check SSL cert: `ls -la /etc/ssl/certs/ribil.crt`
 
 ---
 
@@ -312,9 +312,9 @@ pm2 restart geodocs-api
 
 ## 🙏 Deployment Complete!
 
-Your GeoDocs application is now **fully operational** and accessible worldwide at:
+Your Ribil application is now **fully operational** and accessible worldwide at:
 
-### 🌐 https://geodocs.staragroup.in
+### 🌐 https://ribil.staragroup.in
 
 **Status:** ✅ Production-ready  
 **Security:** ✅ HTTPS enabled  

@@ -1,7 +1,7 @@
 # Problems and Questions Summary - PDF Extraction in App
 
 ## Context
-Building a React Native app (GeoDocs) that needs to extract and display PDFs from the Karnataka Land Records website: `https://landrecords.karnataka.gov.in/service3/`
+Building a React Native app (Ribil) that needs to extract and display PDFs from the Karnataka Land Records website: `https://landrecords.karnataka.gov.in/service3/`
 
 ## What Works ✅
 1. **Python test script (`test_website_flow.py`)** - Works perfectly! Successfully extracts PDF URLs

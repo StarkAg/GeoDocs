@@ -1,4 +1,4 @@
-# Expo Go Setup - GeoDocs
+# Expo Go Setup - Ribil
 
 ## Quick Start
 

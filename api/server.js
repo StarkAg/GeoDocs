@@ -58,7 +58,7 @@ async function proxyToPdfBackend(path, req, res) {
 }
 
 // Debug: prove API is up (Railway 404 fix)
-app.get('/api/ping', (req, res) => res.json({ ok: true, service: 'geodocs-api' }));
+app.get('/api/ping', (req, res) => res.json({ ok: true, service: 'ribil-api' }));
 // GET link: same as POST but with query params (easy to hit from browser or curl)
 app.get('/api/get-pdf-url', async (req, res) => {
   if (PDF_BACKEND_URL) {
@@ -90,7 +90,7 @@ app.get('/api/get-pdf-url', async (req, res) => {
 });
 
 // Cloudflare Worker proxy: when CF_PROXY_URL is set, route all Karnataka
-// requests through it (e.g. https://geodocs-proxy.harshag954.workers.dev)
+// requests through it (e.g. https://ribil-proxy.harshag954.workers.dev)
 const CF_PROXY_URL = (process.env.CF_PROXY_URL || '').replace(/\/$/, '');
 const KARNATAKA_ORIGIN = 'https://landrecords.karnataka.gov.in';
 const BASE_URL = CF_PROXY_URL ? `${CF_PROXY_URL}/service3/` : `${KARNATAKA_ORIGIN}/service3/`;
@@ -1101,7 +1101,7 @@ app.use((req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 GeoDocs running on http://localhost:${PORT}`);
+  console.log(`🚀 Ribil running on http://localhost:${PORT} | https://ribil.co`);
   console.log(`📡 API: GET/POST /api/get-pdf-url, POST /api/download-pdf`);
   console.log(`💚 Health: GET /health, GET /api/ping`);
   console.log(`🔧 Mode: ${IS_DEV ? 'Development (headful)' : 'Production (headless)'}`);

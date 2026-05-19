@@ -8,7 +8,7 @@
 4. Click: **Purge Everything**
 5. Confirm the purge
 
-**Wait 30 seconds**, then refresh your browser: https://geodocs.staragroup.in
+**Wait 30 seconds**, then refresh your browser: https://ribil.staragroup.in
 
 ---
 
@@ -28,12 +28,12 @@
 
 ```javascript
 // Test health endpoint
-fetch('https://geodocs.staragroup.in/api/health')
+fetch('https://ribil.staragroup.in/api/health')
   .then(r => r.json())
   .then(console.log);
 
 // Test PDF endpoint
-fetch('https://geodocs.staragroup.in/api/get-pdf-url', {
+fetch('https://ribil.staragroup.in/api/get-pdf-url', {
   method: 'POST',
   headers: {'Content-Type': 'application/json'},
   body: JSON.stringify({
@@ -51,13 +51,13 @@ fetch('https://geodocs.staragroup.in/api/get-pdf-url', {
 
 ```bash
 # Health check
-curl https://geodocs.staragroup.in/api/health
+curl https://ribil.staragroup.in/api/health
 
 # Should return:
 {"status":"ok","timestamp":"2026-02-16T17:36:44.044Z"}
 
 # PDF URL
-curl -X POST https://geodocs.staragroup.in/api/get-pdf-url \
+curl -X POST https://ribil.staragroup.in/api/get-pdf-url \
   -H "Content-Type: application/json" \
   -d '{"district":"2","taluk":"1","hobli":"1","village":"ALABALA"}'
 ```
@@ -72,7 +72,7 @@ curl -X POST https://geodocs.staragroup.in/api/get-pdf-url \
 - **Safari:** Cmd+Option+E (clear cache), then Cmd+R
 
 ### Option 2: Incognito/Private Window
-Open https://geodocs.staragroup.in in an incognito window
+Open https://ribil.staragroup.in in an incognito window
 
 ### Option 3: Clear Browser Cache
 - Chrome: Settings → Privacy → Clear browsing data → Cached images and files
@@ -86,7 +86,7 @@ To prevent caching API routes:
 
 1. Go to **Rules** → **Page Rules**
 2. Create new rule:
-   - URL: `geodocs.staragroup.in/api/*`
+   - URL: `ribil.staragroup.in/api/*`
    - Setting: **Cache Level: Bypass**
 3. Save and deploy
 

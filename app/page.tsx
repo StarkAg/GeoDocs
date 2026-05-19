@@ -43,10 +43,10 @@ export default function HomePage() {
           </svg>
         </div>
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-          GeoDocs
+          Ribil
         </h1>
         <p className="mx-auto mt-3 max-w-md text-base text-slate-500 sm:text-lg">
-          Karnataka land records, village maps & property documents -- all in one place.
+          Karnataka land records, village maps & property documents at <span className="text-slate-700 font-medium">ribil.co</span>.
         </p>
 
         {/* Stats row */}

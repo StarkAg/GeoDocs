@@ -10,7 +10,7 @@
 ## Deploy
 
 ```bash
-# From GeoDocs project folder on your laptop:
+# From Ribil project folder on your laptop:
 ./scripts/deploy-to-vps.sh
 ```
 
@@ -19,8 +19,8 @@ Wait for it to complete (~2-5 minutes first time).
 ## Post-deployment verification
 
 - [ ] SSH into VPS: `ssh root@65.20.69.64`
-- [ ] Check PM2 status: `pm2 status` (should show "geodocs" online)
-- [ ] Check logs: `pm2 logs geodocs --lines 20`
+- [ ] Check PM2 status: `pm2 status` (should show "ribil" online)
+- [ ] Check logs: `pm2 logs ribil --lines 20`
 - [ ] Access app: Open **http://65.20.69.64:3000** in browser
 - [ ] Test navigation: Home, Documents, Village Search, Map, Profile
 
@@ -30,7 +30,7 @@ If you need the PDF fetching feature:
 
 ```bash
 ssh root@65.20.69.64
-cd /var/www/geodocs
+cd /var/www/ribil
 
 # Install Puppeteer system dependencies (Chromium)
 apt-get update && apt-get install -y \
@@ -44,9 +44,9 @@ apt-get update && apt-get install -y \
   libxrandr2
 
 # Start PDF API
-pm2 start npm --name geodocs-api -- run api
+pm2 start npm --name ribil-api -- run api
 pm2 save
-pm2 status  # Should show both geodocs and geodocs-api
+pm2 status  # Should show both ribil and ribil-api
 ```
 
 - [ ] PDF backend running on port 3001
@@ -63,10 +63,10 @@ ssh root@65.20.69.64
 apt-get install -y nginx certbot python3-certbot-nginx
 
 # Copy the provided Nginx config
-nano /etc/nginx/sites-available/geodocs
-# (Paste from scripts/nginx-geodocs.conf, update server_name)
+nano /etc/nginx/sites-available/ribil
+# (Paste from scripts/nginx-ribil.conf, update server_name)
 
-ln -s /etc/nginx/sites-available/geodocs /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/ribil /etc/nginx/sites-enabled/
 nginx -t
 systemctl reload nginx
 
@@ -93,16 +93,16 @@ Re-run the deploy script from your laptop anytime you make changes:
 
 ```bash
 ssh root@65.20.69.64
-pm2 logs geodocs        # Live logs
-pm2 logs geodocs-api    # PDF backend logs
+pm2 logs ribil        # Live logs
+pm2 logs ribil-api    # PDF backend logs
 ```
 
 ### Restart app
 
 ```bash
 ssh root@65.20.69.64
-pm2 restart geodocs
-pm2 restart geodocs-api
+pm2 restart ribil
+pm2 restart ribil-api
 ```
 
 ### Monitor resources
@@ -121,14 +121,14 @@ free -h                 # Memory usage
 
 ```bash
 ssh root@65.20.69.64
-cd /var/www/geodocs
-pm2 logs geodocs --err --lines 50
+cd /var/www/ribil
+pm2 logs ribil --err --lines 50
 ```
 
 Common issues:
 - Missing dependencies: `npm ci`
 - Build failed: `npm run build`
-- Port in use: `pm2 delete geodocs && pm2 start npm --name geodocs -- start`
+- Port in use: `pm2 delete ribil && pm2 start npm --name ribil -- start`
 
 ### Can't access from browser
 
@@ -147,7 +147,7 @@ apt-get install -y chromium-browser
 Check logs:
 
 ```bash
-pm2 logs geodocs-api --lines 50
+pm2 logs ribil-api --lines 50
 ```
 
 ---
@@ -159,7 +159,7 @@ pm2 logs geodocs-api --lines 50
 | Deploy | `./scripts/deploy-to-vps.sh` |
 | SSH to VPS | `ssh root@65.20.69.64` |
 | Status | `pm2 status` |
-| Logs | `pm2 logs geodocs` |
-| Restart | `pm2 restart geodocs` |
-| Stop | `pm2 stop geodocs` |
-| Rebuild | `cd /var/www/geodocs && npm run build && pm2 restart geodocs` |
+| Logs | `pm2 logs ribil` |
+| Restart | `pm2 restart ribil` |
+| Stop | `pm2 stop ribil` |
+| Rebuild | `cd /var/www/ribil && npm run build && pm2 restart ribil` |

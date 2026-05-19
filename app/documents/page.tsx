@@ -90,7 +90,7 @@ export default function DocumentsPage() {
 
   useEffect(() => {
     if (!pdfUrl) return;
-    const PI = process.env.NEXT_PUBLIC_PI_URL || 'https://geodocs-pi.staragroup.in';
+    const PI = process.env.NEXT_PUBLIC_PI_URL || 'https://ribil-pi.staragroup.in';
     setPdfBlobUrl(`${PI}/api/pdf?url=${encodeURIComponent(pdfUrl)}`);
     setPdfLoading(false);
   }, [pdfUrl]);

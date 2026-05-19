@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "GeoDocs.app"
-               BlueprintName = "GeoDocs"
-               ReferencedContainer = "container:GeoDocs.xcodeproj">
+               BuildableName = "Ribil.app"
+               BlueprintName = "Ribil"
+               ReferencedContainer = "container:Ribil.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "GeoDocsTests.xctest"
-               BlueprintName = "GeoDocsTests"
-               ReferencedContainer = "container:GeoDocs.xcodeproj">
+               BuildableName = "RibilTests.xctest"
+               BlueprintName = "RibilTests"
+               ReferencedContainer = "container:Ribil.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "GeoDocs.app"
-            BlueprintName = "GeoDocs"
-            ReferencedContainer = "container:GeoDocs.xcodeproj">
+            BuildableName = "Ribil.app"
+            BlueprintName = "Ribil"
+            ReferencedContainer = "container:Ribil.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "GeoDocs.app"
-            BlueprintName = "GeoDocs"
-            ReferencedContainer = "container:GeoDocs.xcodeproj">
+            BuildableName = "Ribil.app"
+            BlueprintName = "Ribil"
+            ReferencedContainer = "container:Ribil.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

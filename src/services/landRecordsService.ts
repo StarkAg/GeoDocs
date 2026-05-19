@@ -56,7 +56,7 @@ export async function fetchVillageMapPDF(
       method: 'GET',
       headers: {
         'Accept': 'application/pdf, */*',
-        'User-Agent': 'Mozilla/5.0 (compatible; GeoDocs/1.0)',
+        'User-Agent': 'Mozilla/5.0 (compatible; Ribil/1.0)',
       },
     });
 

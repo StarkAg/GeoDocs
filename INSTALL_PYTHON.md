@@ -5,7 +5,7 @@
 Run this command in your terminal:
 
 ```bash
-cd "/Users/mrstark/Desktop/Code PlayGround/GeoDocs"
+cd "/Users/mrstark/Desktop/Code PlayGround/Ribil"
 pip3 install --break-system-packages selenium webdriver-manager
 ```
 

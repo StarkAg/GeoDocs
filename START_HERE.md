@@ -1,4 +1,4 @@
-# 🚀 START HERE — GeoDocs VPS Deployment
+# 🚀 START HERE — Ribil VPS Deployment
 
 ## What you have
 
@@ -14,7 +14,7 @@
 ### 1. From your laptop, run:
 
 ```bash
-cd /Users/mrstark/Desktop/Code\ PlayGround/GeoDocs
+cd /Users/mrstark/Desktop/Code\ PlayGround/Ribil
 ./scripts/deploy-to-vps.sh
 ```
 
@@ -34,22 +34,22 @@ Open: **http://65.20.69.64:3000**
 
 ```bash
 # Generate key
-ssh-keygen -t ed25519 -f ~/.ssh/geodocs_vps -N ""
+ssh-keygen -t ed25519 -f ~/.ssh/ribil_vps -N ""
 
 # Copy to VPS (enter password when asked)
-ssh-copy-id -i ~/.ssh/geodocs_vps.pub root@65.20.69.64
+ssh-copy-id -i ~/.ssh/ribil_vps.pub root@65.20.69.64
 
 # Add to config
 cat >> ~/.ssh/config << 'EOF'
 
-Host geodocs-vps
+Host ribil-vps
   HostName 65.20.69.64
   User root
-  IdentityFile ~/.ssh/geodocs_vps
+  IdentityFile ~/.ssh/ribil_vps
 EOF
 
 # Now connect without password
-ssh geodocs-vps
+ssh ribil-vps
 ```
 
 ---
@@ -81,7 +81,7 @@ Anytime you make changes:
 ```bash
 ssh root@65.20.69.64
 # or if you set up config:
-ssh geodocs-vps
+ssh ribil-vps
 ```
 
 ### Check app status
@@ -89,14 +89,14 @@ ssh geodocs-vps
 ```bash
 ssh root@65.20.69.64
 pm2 status
-pm2 logs geodocs
+pm2 logs ribil
 ```
 
 ### Restart app
 
 ```bash
 ssh root@65.20.69.64
-pm2 restart geodocs
+pm2 restart ribil
 ```
 
 ---
@@ -107,7 +107,7 @@ The Documents and Village Search features need the PDF backend to work.
 
 ```bash
 ssh root@65.20.69.64
-cd /var/www/geodocs
+cd /var/www/ribil
 
 # Install Puppeteer dependencies (Chromium)
 apt-get update && apt-get install -y \
@@ -121,7 +121,7 @@ apt-get update && apt-get install -y \
   libxrandr2
 
 # Start PDF API on port 3001
-pm2 start npm --name geodocs-api -- run api
+pm2 start npm --name ribil-api -- run api
 pm2 save
 pm2 status
 ```
@@ -132,7 +132,7 @@ Now the **Get PDF** button in Documents and Village Search will work.
 
 ## 🌐 Set up domain + SSL (optional)
 
-1. Point your domain (e.g., geodocs.example.com) to **65.20.69.64**
+1. Point your domain (e.g., ribil.example.com) to **65.20.69.64**
 
 2. On VPS:
 
@@ -143,7 +143,7 @@ ssh root@65.20.69.64
 apt-get install -y nginx certbot python3-certbot-nginx
 
 # Create Nginx config (replace your-domain.com)
-cat > /etc/nginx/sites-available/geodocs << 'EOF'
+cat > /etc/nginx/sites-available/ribil << 'EOF'
 server {
     listen 80;
     server_name your-domain.com;
@@ -163,7 +163,7 @@ server {
 EOF
 
 # Enable site
-ln -s /etc/nginx/sites-available/geodocs /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/ribil /etc/nginx/sites-enabled/
 nginx -t
 systemctl reload nginx
 
@@ -195,17 +195,17 @@ ssh root@65.20.69.64
 pm2 status
 
 # Check logs
-pm2 logs geodocs
+pm2 logs ribil
 
 # Restart
-pm2 restart geodocs
+pm2 restart ribil
 ```
 
 ### Build fails?
 
 ```bash
 ssh root@65.20.69.64
-cd /var/www/geodocs
+cd /var/www/ribil
 
 # Check Node version (needs 18+)
 node -v
@@ -214,7 +214,7 @@ node -v
 rm -rf node_modules .next
 npm ci
 npm run build
-pm2 restart geodocs
+pm2 restart ribil
 ```
 
 ---
@@ -238,8 +238,8 @@ pm2 restart geodocs
 | `./scripts/deploy-to-vps.sh` | Deploy/update app |
 | `ssh root@65.20.69.64` | Connect to VPS |
 | `pm2 status` | Check running apps |
-| `pm2 logs geodocs` | View app logs |
-| `pm2 restart geodocs` | Restart app |
+| `pm2 logs ribil` | View app logs |
+| `pm2 restart ribil` | Restart app |
 | `pm2 monit` | Live monitoring |
 
 ---

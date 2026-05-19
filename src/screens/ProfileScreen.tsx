@@ -16,8 +16,8 @@ export default function ProfileScreen() {
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>MP</Text>
           </View>
-          <Text style={styles.name}>GeoDocs User</Text>
-          <Text style={styles.email}>user@geodocs.com</Text>
+          <Text style={styles.name}>Ribil User</Text>
+          <Text style={styles.email}>user@ribil.com</Text>
         </View>
 
         <View style={styles.menuSection}>

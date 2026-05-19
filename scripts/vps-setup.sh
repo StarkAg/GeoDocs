@@ -4,9 +4,9 @@ set -e
 # VPS Setup Script (runs on the VPS)
 # Usage: bash vps-setup.sh [app_directory]
 
-APP_DIR="${1:-/var/www/geodocs}"
+APP_DIR="${1:-/var/www/ribil}"
 
-echo "🔧 Setting up GeoDocs on VPS..."
+echo "🔧 Setting up Ribil on VPS..."
 echo "📁 App directory: $APP_DIR"
 echo ""
 
@@ -66,21 +66,21 @@ echo ""
 
 # Stop existing PM2 processes if any
 echo "🔄 Managing PM2 processes..."
-pm2 stop geodocs 2>/dev/null || true
-pm2 delete geodocs 2>/dev/null || true
-pm2 stop geodocs-api 2>/dev/null || true
-pm2 delete geodocs-api 2>/dev/null || true
+pm2 stop ribil 2>/dev/null || true
+pm2 delete ribil 2>/dev/null || true
+pm2 stop ribil-api 2>/dev/null || true
+pm2 delete ribil-api 2>/dev/null || true
 
 # Start Next.js app with PM2
 echo "🚀 Starting Next.js app with PM2..."
-pm2 start npm --name geodocs -- start
+pm2 start npm --name ribil -- start
 echo "✅ Next.js app started (port 3000)"
 echo ""
 
 # Start API server in PRODUCTION mode with PM2
 echo "🚀 Starting PDF API in PRODUCTION mode..."
 pm2 start api/server.js \
-  --name geodocs-api \
+  --name ribil-api \
   --env production \
   -i 1 \
   -- \
@@ -107,8 +107,8 @@ echo "   Next.js app:  http://localhost:3000"
 echo "   PDF API:      http://localhost:3001"
 echo ""
 echo "📋 Useful commands:"
-echo "   Check logs:    pm2 logs geodocs-api"
-echo "   Restart API:   pm2 restart geodocs-api"
+echo "   Check logs:    pm2 logs ribil-api"
+echo "   Restart API:   pm2 restart ribil-api"
 echo "   Stop all:      pm2 stop all"
 echo ""
 echo "⚡ Optional: Pre-fetch common villages to warm cache"

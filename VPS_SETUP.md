@@ -1,4 +1,4 @@
-# GeoDocs VPS Setup (65.20.69.64)
+# Ribil VPS Setup (65.20.69.64)
 
 ## 1. SSH fingerprint on your laptop
 
@@ -25,37 +25,37 @@ When prompted **“Are you sure you want to continue connecting (yes/no)?”** t
 If you don’t have a key yet:
 
 ```bash
-ssh-keygen -t ed25519 -C "your_email@example.com" -f ~/.ssh/geodocs_vps -N ""
+ssh-keygen -t ed25519 -C "your_email@example.com" -f ~/.ssh/ribil_vps -N ""
 ```
 
 Copy your public key to the VPS (use your root password when asked):
 
 ```bash
-ssh-copy-id -i ~/.ssh/geodocs_vps.pub root@65.20.69.64
+ssh-copy-id -i ~/.ssh/ribil_vps.pub root@65.20.69.64
 ```
 
 Then connect with the key:
 
 ```bash
-ssh -i ~/.ssh/geodocs_vps root@65.20.69.64
+ssh -i ~/.ssh/ribil_vps root@65.20.69.64
 ```
 
 To always use this key for this host, add to `~/.ssh/config` on your laptop:
 
 ```
-Host geodocs-vps
+Host ribil-vps
   HostName 65.20.69.64
   User root
-  IdentityFile ~/.ssh/geodocs_vps
+  IdentityFile ~/.ssh/ribil_vps
 ```
 
-Then you can just run: `ssh geodocs-vps`
+Then you can just run: `ssh ribil-vps`
 
 ---
 
 ## 2. One-command deploy from your laptop
 
-From the **GeoDocs project folder** on your laptop:
+From the **Ribil project folder** on your laptop:
 
 ```bash
 ./scripts/deploy-to-vps.sh
@@ -95,8 +95,8 @@ curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 apt-get install -y nodejs
 
 # Create app directory
-mkdir -p /var/www/geodocs
-cd /var/www/geodocs
+mkdir -p /var/www/ribil
+cd /var/www/ribil
 
 # (Project files should be here via rsync/git/scp)
 
@@ -105,7 +105,7 @@ npm ci
 npm run build
 
 # Run with PM2 (install if needed: npm i -g pm2)
-pm2 start npm --name geodocs -- start
+pm2 start npm --name ribil -- start
 pm2 save && pm2 startup
 ```
 
