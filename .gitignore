@@ -24,6 +24,7 @@ DerivedData
 
 # Android/IntelliJ
 #
+android-react-native/
 build/
 .idea
 .gradle
@@ -32,6 +33,8 @@ local.properties
 *.hprof
 .cxx/
 *.keystore
+*.jks
+android/key.properties
 !debug.keystore
 .kotlin/
 

@@ -58,6 +58,29 @@ The Next.js app will proxy `/api/get-pdf-url` and `/api/health` to this backend.
 | `npm run build` | Production build                     |
 | `npm run start` | Run production server                |
 | `npm run api`   | Start PDF backend (port 3001)         |
+| `npm run cap:sync` | Build the static web app and sync it into Capacitor Android |
+| `npm run android` | Sync and open the Capacitor Android project in Android Studio |
+| `npm run android:run` | Sync and run the Android app on an attached device/emulator |
+| `npm run android:build` | Sync and build a debug APK |
+
+## Android app
+
+This repo includes a Capacitor Android app in `android/`. The app packages the
+static Next.js export from `out/` and loads it in the native Android WebView.
+
+```bash
+npm install
+npm run android:build
+```
+
+The debug APK is generated at:
+
+```text
+android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+The previous React Native Android project was moved to `android-react-native/`
+as a local backup.
 
 ## Project structure
 

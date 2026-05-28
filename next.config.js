@@ -2,7 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: [],
-  output: 'export', // Static export for single-container Docker (Railway)
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
 };
 
 module.exports = nextConfig;

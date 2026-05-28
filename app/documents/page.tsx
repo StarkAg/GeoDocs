@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { Dropdown } from '@/components/Dropdown';
 import {
   getDistricts,
@@ -28,18 +29,8 @@ const accentMap: Record<string, { bg: string; text: string; glow: string; border
   cyan:    { bg: 'bg-cyan-500/10',    text: 'text-cyan-400',    glow: 'shadow-cyan-500/20',    border: 'border-cyan-500/20' },
 };
 
-function FloatingOrbs() {
-  return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute -left-32 top-1/4 h-72 w-72 rounded-full bg-emerald-500/[0.07] blur-3xl animate-[float_20s_ease-in-out_infinite]" />
-      <div className="absolute -right-20 top-1/3 h-60 w-60 rounded-full bg-teal-400/[0.06] blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]" />
-      <div className="absolute bottom-1/4 left-1/3 h-52 w-52 rounded-full bg-cyan-400/[0.05] blur-3xl animate-[float_22s_ease-in-out_infinite_2s]" />
-      <div className="absolute -bottom-10 right-1/4 h-40 w-40 rounded-full bg-emerald-600/[0.04] blur-3xl animate-[float_18s_ease-in-out_infinite_reverse_1s]" />
-    </div>
-  );
-}
-
 export default function DocumentsPage() {
+  const router = useRouter();
   const [district, setDistrict] = useState('');
   const [taluka, setTaluka] = useState('');
   const [hobli, setHobli] = useState('');
@@ -118,12 +109,6 @@ export default function DocumentsPage() {
     <>
       {/* CSS keyframes for animations */}
       <style jsx global>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          25% { transform: translateY(-20px) translateX(10px); }
-          50% { transform: translateY(-10px) translateX(-15px); }
-          75% { transform: translateY(-25px) translateX(5px); }
-        }
         @keyframes shimmer {
           0% { background-position: -200% 0; }
           100% { background-position: 200% 0; }
@@ -152,91 +137,49 @@ export default function DocumentsPage() {
         .sheet-enter { animation: slideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1) both; }
       `}</style>
 
-      <FloatingOrbs />
+      <div className="relative mx-auto max-w-2xl px-4 pb-28 pt-5 sm:px-6 sm:py-10">
+        <div className={`mb-8 h-48 rounded-[1.75rem] border border-emerald-100 bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.08),transparent_32%),linear-gradient(135deg,#e6f2eb,#f7fbf8)] shadow-sm transition-all duration-700 sm:h-64 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} />
 
-      <div className="relative mx-auto max-w-5xl px-4 py-6 pb-24 sm:px-6 sm:py-10">
-        {/* Hero Section */}
-        <div
-          className="relative mb-8 overflow-hidden rounded-2xl border border-emerald-500/10 p-6 sm:mb-10 sm:rounded-3xl sm:p-10"
-          style={{
-            background: 'linear-gradient(135deg, rgba(6,78,59,0.12) 0%, rgba(13,148,136,0.08) 50%, rgba(6,182,212,0.05) 100%)',
-            backgroundSize: '200% 200%',
-            animation: 'gradient-shift 8s ease infinite',
-          }}
-        >
-          <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-emerald-500/10 blur-3xl sm:h-64 sm:w-64" />
-          <div className="absolute -bottom-10 -left-10 h-36 w-36 rounded-full bg-teal-400/10 blur-3xl" />
-          <div className="relative z-10">
-            <div className={`transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-emerald-500 sm:text-sm">Karnataka Land Records</p>
-              <h1 className="text-2xl font-bold text-slate-900 sm:text-4xl">Documents</h1>
-              <p className="mt-2 max-w-md text-sm text-slate-500 sm:text-base">
-                Access, search and download official land records, village maps and property documents.
-              </p>
-            </div>
-          </div>
-          {/* Grid pattern overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.03]"
-            style={{ backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)', backgroundSize: '24px 24px' }}
-          />
-        </div>
-
-        {/* Document Cards */}
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 sm:gap-4">
+        <div className="space-y-5">
           {docs.map((doc, i) => {
             const a = accentMap[doc.accent || 'emerald'];
             const isActive = doc.active;
             return (
               <button
                 key={doc.id}
-                onClick={() => isActive && setShowForm(true)}
-                className={`card-enter group relative flex flex-col rounded-2xl border bg-white/60 p-5 text-left backdrop-blur-md transition-all duration-300 sm:p-6 ${
+                onClick={() => isActive && router.push('/documents/village-map')}
+                className={`card-enter group relative flex min-h-[185px] w-full flex-col rounded-[1.75rem] border bg-white p-7 text-left shadow-sm transition-all duration-300 sm:min-h-[220px] sm:p-9 ${
                   isActive
-                    ? `${a.border} hover:shadow-xl hover:-translate-y-1 active:translate-y-0 cursor-pointer`
-                    : 'border-slate-200/50 opacity-50 cursor-default'
-                } ${isActive ? 'hover:bg-white/80' : ''}`}
+                    ? 'cursor-pointer border-emerald-200 hover:border-emerald-300 hover:shadow-md active:scale-[0.99]'
+                    : 'cursor-default border-slate-100 opacity-60'
+                }`}
                 style={{
                   animationDelay: `${i * 80}ms`,
-                  ...(isActive ? { animation: 'scaleIn 0.4s ease-out both, pulse-glow 3s ease-in-out infinite' } : {}),
                 }}
               >
-                {/* Icon */}
-                <div className={`mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl ${a.bg} sm:h-12 sm:w-12`}>
-                  <svg className={`h-5 w-5 sm:h-6 sm:w-6 ${a.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                <div className={`mb-9 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${a.bg} sm:h-20 sm:w-20`}>
+                  <svg className={`h-7 w-7 sm:h-8 sm:w-8 ${a.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={doc.icon} />
                   </svg>
                 </div>
 
-                {/* Text */}
-                <h3 className="text-[15px] font-semibold text-slate-900 sm:text-base">{doc.name}</h3>
-                <p className="mt-0.5 text-xs text-slate-400 sm:text-sm">{doc.desc}</p>
+                <h3 className={`text-2xl font-bold sm:text-3xl ${isActive ? 'text-slate-900' : 'text-slate-500'}`}>{doc.name}</h3>
+                <p className={`mt-2 text-base sm:text-lg ${isActive ? 'text-slate-400' : 'text-slate-300'}`}>{doc.desc}</p>
 
-                {/* Badge */}
-                <div className="mt-3">
+                <div className="mt-7">
                   {isActive ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-500">
-                      <span className="relative flex h-1.5 w-1.5">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                        <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-bold uppercase tracking-[0.18em] text-emerald-500">
+                      <span className="relative flex h-4 w-4 items-center justify-center rounded-full bg-emerald-100">
+                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
                       </span>
                       Available
                     </span>
                   ) : (
-                    <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                    <span className="inline-flex rounded-full bg-slate-50 px-4 py-2 text-sm font-bold uppercase tracking-[0.18em] text-slate-300">
                       Coming soon
                     </span>
                   )}
                 </div>
-
-                {/* Hover arrow for active */}
-                {isActive && (
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2">
-                    <svg className="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
-                )}
               </button>
             );
           })}

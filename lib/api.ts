@@ -5,10 +5,11 @@
  */
 
 import { extractPdfUrlClient } from './clientPdfExtractor';
+import { Capacitor } from '@capacitor/core';
 
 const API_BASE =
   typeof window !== 'undefined'
-    ? (process.env.NEXT_PUBLIC_API_URL ?? '')
+    ? (process.env.NEXT_PUBLIC_API_URL ?? (Capacitor.isNativePlatform() ? 'https://ribil.co' : ''))
     : (process.env.NEXT_PUBLIC_API_URL ?? '');
 
 export interface PdfParams {
@@ -17,6 +18,7 @@ export interface PdfParams {
   hobli: string;
   village: string;
   onProgress?: (step: string) => void;
+  serverFallback?: boolean;
 }
 
 export interface PdfResponse {
@@ -26,7 +28,7 @@ export interface PdfResponse {
 }
 
 export async function fetchPdfUrl(params: PdfParams): Promise<string> {
-  const { onProgress, ...apiParams } = params;
+  const { onProgress, serverFallback = true, ...apiParams } = params;
 
   // Try client-side extraction first (runs in user's browser through CF Worker)
   if (typeof window !== 'undefined') {
@@ -35,6 +37,9 @@ export async function fetchPdfUrl(params: PdfParams): Promise<string> {
       const url = await extractPdfUrlClient({ ...apiParams, onProgress });
       return url;
     } catch (clientErr) {
+      if (!serverFallback) {
+        throw clientErr;
+      }
       console.warn('[client-side] Failed, trying server API:', clientErr);
       onProgress?.('Client failed, trying server...');
     }

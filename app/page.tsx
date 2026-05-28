@@ -1,119 +1,85 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getDistricts } from '@/src/data/karnatakaLocations';
 
-const features = [
-  { href: '/documents', name: 'Documents', desc: 'Village maps, property deeds, land records', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', accent: 'emerald', ready: true },
-  { href: '/search', name: 'Village Search', desc: 'Quick search by district, taluk, hobli & village', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', accent: 'blue', ready: true },
-  { href: '/map', name: 'Map View', desc: 'Browse Karnataka districts on interactive map', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7', accent: 'violet', ready: true },
-  { href: '/profile', name: 'Profile', desc: 'Account settings, saved locations & history', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z', accent: 'amber', ready: true },
+const trending = [
+  { title: 'Village Map', subtitle: 'Survey boundary layout', href: '/documents/village-map', tone: 'bg-sky-100' },
+  { title: 'RTC / Pahani', subtitle: 'Land record extract', href: '/documents', tone: 'bg-violet-100' },
+  { title: 'Sale Deed', subtitle: 'Ownership document', href: '/documents', tone: 'bg-emerald-100' },
+  { title: 'Survey Map', subtitle: 'Coordinates and area', href: '/documents', tone: 'bg-amber-100' },
 ];
 
-const accentColors: Record<string, string> = {
-  emerald: 'bg-emerald-500/10 text-emerald-500',
-  blue: 'bg-blue-500/10 text-blue-500',
-  violet: 'bg-violet-500/10 text-violet-500',
-  amber: 'bg-amber-500/10 text-amber-500',
-};
+const documents = [
+  { label: 'Village Map', href: '/documents/village-map', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7' },
+  { label: 'RTC / Pahani', href: '/documents', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586L19 8.414V19a2 2 0 01-2 2z' },
+  { label: 'Signed RTC', href: '/documents', icon: 'M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z' },
+  { label: 'Survey Doc', href: '/documents', icon: 'M9 6h6M9 12h6m-6 6h3M5 3h14v18H5V3z' },
+  { label: 'Khata Extract', href: '/documents', icon: 'M4 19.5A2.5 2.5 0 016.5 17H20M4 4.5A2.5 2.5 0 016.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15z' },
+  { label: 'Tax Receipt', href: '/documents', icon: 'M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z' },
+  { label: 'EC', href: '/documents', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' },
+  { label: 'Mutation', href: '/documents', icon: 'M8 7h8M8 12h8M8 17h5M5 3h14v18H5V3z' },
+];
 
 export default function HomePage() {
   const [districtCount, setDistrictCount] = useState(0);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     setDistrictCount(getDistricts().length);
   }, []);
 
   return (
-    <div className="relative mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-14">
-      {/* Floating background orbs */}
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -left-32 top-1/4 h-72 w-72 rounded-full bg-emerald-500/[0.06] blur-3xl" style={{ animation: 'float 20s ease-in-out infinite' }} />
-        <div className="absolute -right-20 top-1/2 h-60 w-60 rounded-full bg-teal-400/[0.05] blur-3xl" style={{ animation: 'float 25s ease-in-out infinite reverse' }} />
-      </div>
-
-      {/* Hero */}
-      <div className={`mb-12 text-center transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-        <div className="mx-auto mb-5 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 sm:h-20 sm:w-20">
-          <svg className="h-8 w-8 text-emerald-500 sm:h-10 sm:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-          </svg>
+    <div className="mx-auto max-w-2xl pb-28">
+      <section className="bg-gradient-to-b from-[#fff0ba] to-[#fff8df] px-4 pb-6 pt-5 sm:rounded-b-[2rem]">
+        <div className="mb-6 flex items-center justify-between">
+          <p className="text-lg font-bold tracking-tight text-slate-950">RIBIL</p>
+          <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-slate-700">{districtCount} districts</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-          Ribil
-        </h1>
-        <p className="mx-auto mt-3 max-w-md text-base text-slate-500 sm:text-lg">
-          Karnataka land records, village maps & property documents at <span className="text-slate-700 font-medium">ribil.co</span>.
-        </p>
 
-        {/* Stats row */}
-        <div className="mt-6 flex items-center justify-center gap-6 text-sm text-slate-400">
-          <div className="flex items-center gap-1.5">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-            </span>
-            Live
-          </div>
-          <span>{districtCount} Districts</span>
-          <span>Free & Open</span>
-        </div>
-      </div>
-
-      {/* Feature cards */}
-      <div className="grid gap-4 sm:grid-cols-2">
-        {features.map((f, i) => (
-          <Link
-            key={f.href}
-            href={f.href}
-            className="group flex items-start gap-4 rounded-2xl border border-slate-200/60 bg-white/60 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300/80 hover:bg-white/80 hover:shadow-lg active:translate-y-0 sm:p-6"
-            style={{ animation: `scaleIn 0.4s ease-out ${i * 80}ms both` }}
-          >
-            <div className={`shrink-0 inline-flex h-12 w-12 items-center justify-center rounded-xl ${accentColors[f.accent]}`}>
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
-                <path strokeLinecap="round" strokeLinejoin="round" d={f.icon} />
-              </svg>
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-base font-semibold text-slate-900 sm:text-lg">{f.name}</h2>
-              <p className="mt-0.5 text-sm text-slate-400">{f.desc}</p>
-            </div>
-            <svg className="mt-1 h-5 w-5 shrink-0 text-slate-300 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-        ))}
-      </div>
-
-      {/* Quick action */}
-      <div className="mt-10 text-center">
-        <Link
-          href="/documents"
-          className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-700 hover:shadow-emerald-500/30 active:scale-[0.98]"
-        >
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+        <Link href="/documents" className="flex h-12 items-center gap-3 rounded-xl bg-white px-4 text-sm text-slate-400 shadow-sm">
+          <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m1.6-5.4a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          Get Village Map
+          Search district, taluk, village
         </Link>
-        <p className="mt-3 text-xs text-slate-400">No signup required</p>
-      </div>
+      </section>
 
-      <style jsx global>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          25% { transform: translateY(-20px) translateX(10px); }
-          50% { transform: translateY(-10px) translateX(-15px); }
-          75% { transform: translateY(-25px) translateX(5px); }
-        }
-        @keyframes scaleIn {
-          from { opacity: 0; transform: scale(0.95) translateY(10px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-      `}</style>
+      <section className="px-4 py-5">
+        <div className="mb-3 flex items-center justify-between">
+          <h1 className="text-base font-bold text-slate-950">Trending documents</h1>
+          <span className="text-sm text-amber-500">~</span>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          {trending.map((item) => (
+            <Link key={item.title} href={item.href} className={`${item.tone} min-h-[120px] rounded-2xl p-4 shadow-sm`}>
+              <p className="text-sm font-bold text-slate-950">{item.title}</p>
+              <p className="mt-1 max-w-[9rem] text-xs leading-4 text-slate-600">{item.subtitle}</p>
+              <span className="mt-5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-700">
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-4">
+        <h2 className="mb-3 text-base font-bold text-slate-950">Property Documents</h2>
+        <div className="grid grid-cols-4 gap-x-3 gap-y-6">
+          {documents.map((item) => (
+            <Link key={item.label} href={item.href} className="flex flex-col items-center text-center">
+              <span className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-700 shadow-sm">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                </svg>
+              </span>
+              <span className="text-[11px] font-semibold leading-4 text-slate-700">{item.label}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

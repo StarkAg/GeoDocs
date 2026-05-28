@@ -3,26 +3,27 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #f0fdf4;
+  --color-bg: #f7f7f5;
   --color-surface: #ffffff;
-  --color-primary: #0f766e;
-  --color-primary-hover: #0d9488;
+  --color-primary: #1f1f22;
+  --color-primary-hover: #0f0f11;
+  --color-brand-soft: #fff2c7;
   --color-muted: #64748b;
-  --color-border: #e2e8f0;
+  --color-border: #e7e5df;
 }
 
 body {
-  @apply bg-[var(--color-bg)] text-slate-900 antialiased;
+  @apply bg-[var(--color-bg)] text-slate-950 antialiased;
 }
 
 @layer components {
   .card {
-    @apply rounded-xl bg-white shadow-sm border border-slate-200/80;
+    @apply rounded-2xl bg-white shadow-sm border border-slate-200/80;
   }
   .btn-primary {
-    @apply bg-primary hover:bg-primary-hover text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed;
+    @apply bg-primary hover:bg-primary-hover text-white font-semibold py-3 px-6 rounded-full transition-colors disabled:opacity-60 disabled:cursor-not-allowed;
   }
   .input-field {
-    @apply w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition;
+    @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10 outline-none transition;
   }
 }
