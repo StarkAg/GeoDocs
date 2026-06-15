@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 const tabs = [
   {
-    href: '/',
+    href: '/app',
     label: 'Search',
     icon: 'M21 21l-4.35-4.35m1.6-5.4a7 7 0 11-14 0 7 7 0 0114 0z',
   },
@@ -17,7 +17,7 @@ const tabs = [
   {
     href: '/orders',
     label: 'Orders',
-    icon: 'M6.75 3.75h10.5A2.25 2.25 0 0119.5 6v14.25l-2.25-1.5-2.25 1.5-2.25-1.5-2.25 1.5-2.25-1.5-2.25 1.5V6a2.25 2.25 0 012.25-2.25zM9 8h6M9 12h6M9 16h3',
+    icon: 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
   },
   {
     href: '/account',
@@ -29,11 +29,16 @@ const tabs = [
 export function Nav() {
   const pathname = usePathname();
 
+  // The desktop marketing site (root) has its own header/footer chrome.
+  if (pathname === '/') {
+    return null;
+  }
+
   return (
     <>
       <header className="sticky top-0 z-40 hidden border-b border-slate-200/50 bg-white/85 backdrop-blur-xl md:block">
         <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/app" className="flex items-center gap-2">
             <span className="text-lg font-bold tracking-tight text-slate-900">RIBIL</span>
           </Link>
           <ul className="hidden items-center gap-1 md:flex">

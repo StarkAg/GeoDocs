@@ -17,6 +17,14 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://ribil.co" />
         <link rel="dns-prefetch" href="https://ribil.co" />
+        {/* Inside the Capacitor native app, skip the marketing landing and load
+            the mobile home (/app) before first paint. No-op in web browsers. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(window.Capacitor&&(location.pathname==='/'||location.pathname==='')){location.replace('/app/');}}catch(e){}",
+          }}
+        />
       </head>
       <body className="min-h-screen flex flex-col">
         <Nav />

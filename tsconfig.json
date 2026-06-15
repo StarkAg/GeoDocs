@@ -24,6 +24,7 @@
     "src/screens",
     "src/components",
     "src/services",
-    "src/api"
+    "src/api",
+    "convex"
   ]
 }

@@ -1,5 +1,9 @@
-// Load .env from project root so PROXY_URL etc. can be set without exporting
+// Load .env from project root so PROXY_URL etc. can be set without exporting.
+// Also load .env.local (where `convex dev` writes CONVEX_URL). dotenv does not
+// override already-set keys, so .env wins for shared keys and .env.local only
+// fills in the rest (e.g. the Convex deployment URL).
 try { require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') }); } catch (_) {}
+try { require('dotenv').config({ path: require('path').join(__dirname, '..', '.env.local') }); } catch (_) {}
 
 const express = require('express');
 const cors = require('cors');
@@ -25,6 +29,43 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'ngrok-skip-browser-warning'],
 }));
 app.use(express.json());
+
+// --- Convex cache (stores resolved village-map URLs + the options that made them) ---
+const { makeFunctionReference } = require('convex/server');
+const CONVEX_URL = process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL || '';
+let convexClient = null; // null = not tried, false = disabled
+function getConvex() {
+  if (convexClient !== null) return convexClient;
+  if (!CONVEX_URL) { convexClient = false; return false; }
+  try {
+    const { ConvexHttpClient } = require('convex/browser');
+    convexClient = new ConvexHttpClient(CONVEX_URL);
+    console.log(`[Convex] Cache enabled -> ${CONVEX_URL}`);
+  } catch (e) {
+    console.log('[Convex] Disabled:', e.message);
+    convexClient = false;
+  }
+  return convexClient;
+}
+const CONVEX_GET = makeFunctionReference('villageMaps:getByKey');
+const CONVEX_SAVE = makeFunctionReference('villageMaps:save');
+const CONVEX_HIT = makeFunctionReference('villageMaps:recordHit');
+
+async function convexLookup(key) {
+  const c = getConvex();
+  if (!c) return null;
+  try {
+    const doc = await c.query(CONVEX_GET, { key });
+    if (doc) { c.mutation(CONVEX_HIT, { id: doc._id }).catch(() => {}); }
+    return doc;
+  } catch (e) { console.log('[Convex] lookup failed:', e.message); return null; }
+}
+async function convexSave(entry) {
+  const c = getConvex();
+  if (!c) return;
+  try { await c.mutation(CONVEX_SAVE, entry); }
+  catch (e) { console.log('[Convex] save failed:', e.message); }
+}
 
 // When set (e.g. on Railway), proxy /api to this URL (your Mac via ngrok)
 const PDF_BACKEND_URL = (process.env.PDF_BACKEND_URL || '').replace(/\/$/, '');
@@ -60,7 +101,7 @@ async function proxyToPdfBackend(path, req, res) {
 // Debug: prove API is up (Railway 404 fix)
 app.get('/api/ping', (req, res) => res.json({ ok: true, service: 'ribil-api' }));
 // GET link: same as POST but with query params (easy to hit from browser or curl)
-app.get('/api/get-pdf-url', async (req, res) => {
+const handleGetPdfUrl = async (req, res) => {
   if (PDF_BACKEND_URL) {
     const q = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
     const didProxy = await proxyToPdfBackend(`/api/get-pdf-url${q}`, req, res);
@@ -73,19 +114,62 @@ app.get('/api/get-pdf-url', async (req, res) => {
   if (!district || !taluk || !hobli || !village) {
     return res.status(400).json({ error: 'Add query params: ?district=2&taluk=1&hobli=1&village=ALABALA' });
   }
+  const state = req.query.state || 'Karnataka';
   try {
     const cacheKey = `${district}-${taluk}-${hobli}-${village}`;
+    // 1) in-memory cache (fastest)
     if (pdfUrlCache.has(cacheKey)) {
-      return res.json({ success: true, pdfUrl: pdfUrlCache.get(cacheKey), cached: true });
+      return res.json({ success: true, pdfUrl: pdfUrlCache.get(cacheKey), cached: 'memory' });
     }
+    // 2) Convex cache (survives restarts, shared across servers)
+    const convexKey = `${state}-${cacheKey}`;
+    const cachedDoc = await convexLookup(convexKey);
+    if (cachedDoc) {
+      pdfUrlCache.set(cacheKey, cachedDoc.pdfUrl);
+      return res.json({ success: true, pdfUrl: cachedDoc.pdfUrl, cached: 'convex' });
+    }
+    // 3) scrape live, then persist to both caches
     const pdfUrl = await getPdfUrlHttp(district, taluk, hobli, village);
     if (pdfUrl) {
       pdfUrlCache.set(cacheKey, pdfUrl);
+      convexSave({ key: convexKey, state, district, taluk, hobli, village, pdfUrl }).catch(() => {});
       return res.json({ success: true, pdfUrl });
     }
     return res.status(404).json({ success: false, error: 'PDF URL not found' });
   } catch (e) {
     return res.status(500).json({ success: false, error: e.message });
+  }
+};
+// App calls /api/extract (client extractor) — same logic/shape as /api/get-pdf-url
+app.get('/api/get-pdf-url', handleGetPdfUrl);
+app.get('/api/extract', handleGetPdfUrl);
+
+// Stream a remote PDF through this server — the in-app viewer iframe loads
+// `${PI}/api/pdf?url=<karnataka pdf url>` to avoid CORS / mixed-content issues.
+app.get('/api/pdf', async (req, res) => {
+  const target = req.query.url;
+  if (!target) return res.status(400).json({ success: false, error: 'Missing url param' });
+  try {
+    const upstream = await fetch(target, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
+        'Referer': 'https://landrecords.karnataka.gov.in/service3/',
+        'Accept': 'application/pdf,*/*',
+      },
+      redirect: 'follow',
+    });
+    if (!upstream.ok || !upstream.body) {
+      return res.status(upstream.status || 502).json({ success: false, error: `Upstream ${upstream.status}` });
+    }
+    res.setHeader('Content-Type', upstream.headers.get('content-type') || 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    const len = upstream.headers.get('content-length');
+    if (len) res.setHeader('Content-Length', len);
+    const { Readable } = require('stream');
+    Readable.fromWeb(upstream.body).pipe(res);
+  } catch (e) {
+    res.status(502).json({ success: false, error: 'PDF proxy failed: ' + e.message });
   }
 });
 

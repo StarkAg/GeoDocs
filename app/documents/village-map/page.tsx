@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Dropdown } from '@/components/Dropdown';
+import { DocumentInfoSheet, type DocInfo } from '@/components/DocumentInfoSheet';
+import { ProgressModal } from '@/components/ProgressModal';
 import { fetchPdfUrl } from '@/lib/api';
 import {
   getDistricts,
@@ -10,6 +12,42 @@ import {
   getTaluks,
   getVillages,
 } from '@/src/data/karnatakaLocations';
+
+const VILLAGE_MAP_INFO: DocInfo = {
+  title: 'Village Map',
+  whatsappNumber: '8709964141',
+  whatsappMessage: 'Hi, I need help with a Village Map.',
+  about:
+    "A Village Map in Karnataka is a comprehensive graphical depiction of a village's land layout, showcasing individual plots, boundaries, and the geographic arrangement of land parcels. It provides critical details such as survey numbers, village limits, water bodies, roads, and notable landmarks. Serving both administrative and legal purposes, Village Maps are instrumental in managing land records, verifying ownership, and facilitating the resolution of land disputes.",
+  useCases: [
+    'Land Ownership Verification',
+    'Buy or Sell Property',
+    'Legal Disputes / Litigations',
+    'Agricultural Planning',
+  ],
+  faqs: [
+    {
+      q: 'Can I use a Village Map for property registration?',
+      a: 'While a Village Map provides essential geographical details, it is not a substitute for property registration documents but can be used as supporting evidence.',
+    },
+    {
+      q: 'What details are included in a Village Map?',
+      a: 'A Karnataka Village Map includes survey numbers (unique identifiers for land parcels), delineated land boundaries representing individual holdings, natural features such as rivers, lakes, and hills, man-made elements like roads and pathways, and plot classifications that highlight various land uses.',
+    },
+    {
+      q: 'Is a Village Map necessary for agricultural loans?',
+      a: 'Yes, a Village Map can be used to verify agricultural land details, which may be required for loan applications.',
+    },
+    {
+      q: 'Are Village Maps updated regularly?',
+      a: 'Yes, Village Maps are updated periodically by the Revenue Department to reflect changes in land usage, ownership, or village infrastructure.',
+    },
+    {
+      q: 'What should I do if there are discrepancies in my Village Map?',
+      a: 'If there are discrepancies, you should report them to the local Revenue Office or Panchayat Office for rectification.',
+    },
+  ],
+};
 
 export default function VillageMapPage() {
   const router = useRouter();
@@ -25,6 +63,8 @@ export default function VillageMapPage() {
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState<string | null>(null);
   const [showComingSoon, setShowComingSoon] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
+  const [infoTab, setInfoTab] = useState<'About' | 'Sample'>('About');
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
   const [pdfVillage, setPdfVillage] = useState('');
@@ -138,7 +178,16 @@ export default function VillageMapPage() {
               </svg>
             </button>
             <h1 className="text-center text-xl font-bold tracking-tight text-[#202124]">Village Map</h1>
-            <span />
+            <button
+              type="button"
+              onClick={() => { setInfoTab('About'); setInfoOpen(true); }}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-slate-950 shadow-sm active:scale-95"
+              aria-label="About Village Map"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25h1.5v5.25M12 7.5h.008M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
           </div>
 
         </header>
@@ -198,12 +247,6 @@ export default function VillageMapPage() {
             />
           </section>
 
-          {progress && (
-            <div className="mt-2 flex items-center gap-3 rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
-              <span className="h-4 w-4 shrink-0 animate-spin rounded-full border-2 border-emerald-200 border-t-emerald-600" />
-              <span>{progress}</span>
-            </div>
-          )}
           {error && (
             <div className="mt-2 rounded-2xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
               {error}
@@ -245,6 +288,7 @@ export default function VillageMapPage() {
           <div className="mt-4 flex items-center gap-3 border-t border-slate-100 pt-4">
             <button
               type="button"
+              onClick={() => { setInfoTab('Sample'); setInfoOpen(true); }}
               className="min-h-11 flex-1 rounded-full text-sm font-bold text-[#202124] active:bg-slate-50"
             >
               View Sample
@@ -265,6 +309,19 @@ export default function VillageMapPage() {
           </div>
         </div>
       </main>
+
+      <ProgressModal
+        open={loading}
+        title="Getting Village Map (~1min)"
+        step="Almost there! The Village map is being prepared."
+      />
+
+      <DocumentInfoSheet
+        open={infoOpen}
+        onClose={() => setInfoOpen(false)}
+        info={VILLAGE_MAP_INFO}
+        initialTab={infoTab}
+      />
 
       {pdfUrl && (
         <div className="fixed inset-0 z-[60] flex flex-col bg-slate-950">
