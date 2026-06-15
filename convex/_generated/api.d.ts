@@ -8,6 +8,8 @@
  * @module
  */
 
+import type * as documents from "../documents.js";
+import type * as serverLease from "../serverLease.js";
 import type * as villageMaps from "../villageMaps.js";
 
 import type {
@@ -17,6 +19,8 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  documents: typeof documents;
+  serverLease: typeof serverLease;
   villageMaps: typeof villageMaps;
 }>;
 

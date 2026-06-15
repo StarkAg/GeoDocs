@@ -4,13 +4,13 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 const trending = [
-  { title: 'RTC / Pahani', subtitle: 'Scanned land record extract', href: '/documents', tone: 'bg-sky-100', big: true },
+  { title: 'RTC / Pahani', subtitle: 'Scanned land record extract', href: '/documents/rtc', tone: 'bg-sky-100', big: true },
   { title: 'Village Map', subtitle: 'Survey boundary', href: '/documents/village-map', tone: 'bg-violet-100' },
   { title: 'Encumbrance Certificate', subtitle: 'EC search', href: '/documents', tone: 'bg-pink-100' },
 ];
 
 const documents = [
-  { label: 'RTC / Pahani', href: '/documents', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586L19 8.414V19a2 2 0 01-2 2z' },
+  { label: 'RTC / Pahani', href: '/documents/rtc', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586L19 8.414V19a2 2 0 01-2 2z' },
   { label: 'Signed RTC', href: '/documents', icon: 'M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z' },
   { label: 'Village Map', href: '/documents/village-map', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7' },
   { label: 'Survey Map', href: '/documents', icon: 'M9 6h6M9 12h6m-6 6h3M5 3h14v18H5V3z' },

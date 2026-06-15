@@ -12,10 +12,10 @@ import {
 import { fetchPdfUrl } from '@/lib/api';
 
 const docs = [
-  { id: '1', name: 'Village Map', desc: 'Survey & boundary layout', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7', accent: 'emerald', active: true },
-  { id: '2', name: 'Survey Map', desc: 'Coordinates & area records', icon: 'M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', accent: 'blue' },
-  { id: '3', name: 'Property Deed', desc: 'Ownership documents', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', accent: 'violet' },
-  { id: '4', name: 'Land Records', desc: 'RTC & mutation extracts', icon: 'M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4', accent: 'amber' },
+  { id: '1', name: 'Village Map', desc: 'Survey & boundary layout', href: '/documents/village-map', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7', accent: 'emerald', active: true },
+  { id: '2', name: 'RTC / Pahani', desc: 'Scanned land record extract', href: '/documents/rtc', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586L19 8.414V19a2 2 0 01-2 2z', accent: 'amber', active: true },
+  { id: '3', name: 'Survey Map', desc: 'Coordinates & area records', icon: 'M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', accent: 'blue' },
+  { id: '4', name: 'Property Deed', desc: 'Ownership documents', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', accent: 'violet' },
   { id: '5', name: 'Tax Receipt', desc: 'Revenue payment slips', icon: 'M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z', accent: 'rose' },
   { id: '6', name: 'Encumbrance', desc: 'EC & charge details', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', accent: 'cyan' },
 ];
@@ -147,7 +147,7 @@ export default function DocumentsPage() {
             return (
               <button
                 key={doc.id}
-                onClick={() => isActive && router.push('/documents/village-map')}
+                onClick={() => isActive && doc.href && router.push(doc.href)}
                 className={`card-enter group relative flex min-h-[185px] w-full flex-col rounded-[1.75rem] border bg-white p-7 text-left shadow-sm transition-all duration-300 sm:min-h-[220px] sm:p-9 ${
                   isActive
                     ? 'cursor-pointer border-emerald-200 hover:border-emerald-300 hover:shadow-md active:scale-[0.99]'

@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "api": "PORT=3001 node api/server.js",
+    "serve": "./ribil-serve",
     "cap:add:android": "cap add android",
     "cap:copy": "npm run build && cap copy android",
     "cap:sync": "npm run build && cap sync android",

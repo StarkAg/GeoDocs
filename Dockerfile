@@ -31,6 +31,13 @@ RUN npm ci
 COPY . .
 ENV NEXT_PUBLIC_PDF_BACKEND_URL=
 ENV NEXT_PUBLIC_API_URL=
+# Frontend (served by Railway) calls the home-machine scraping API at api.ribil.co,
+# because the Karnataka gov site only accepts requests from an Indian IP.
+# Override via Railway build args if the hostname changes.
+ARG NEXT_PUBLIC_PI_URL=https://api.ribil.co
+ARG NEXT_PUBLIC_CF_PROXY_URL=https://api.ribil.co
+ENV NEXT_PUBLIC_PI_URL=$NEXT_PUBLIC_PI_URL
+ENV NEXT_PUBLIC_CF_PROXY_URL=$NEXT_PUBLIC_CF_PROXY_URL
 RUN npm run build
 
 ENV NODE_ENV=production

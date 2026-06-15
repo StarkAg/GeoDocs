@@ -30,6 +30,15 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Canonical host: redirect www.ribil.co -> ribil.co (keeps one production URL).
+app.use((req, res, next) => {
+  const host = (req.headers.host || '').toLowerCase();
+  if (host === 'www.ribil.co') {
+    return res.redirect(301, `https://ribil.co${req.originalUrl}`);
+  }
+  next();
+});
+
 // --- Convex cache (stores resolved village-map URLs + the options that made them) ---
 const { makeFunctionReference } = require('convex/server');
 const CONVEX_URL = process.env.CONVEX_URL || process.env.NEXT_PUBLIC_CONVEX_URL || '';
@@ -66,6 +75,27 @@ async function convexSave(entry) {
   try { await c.mutation(CONVEX_SAVE, entry); }
   catch (e) { console.log('[Convex] save failed:', e.message); }
 }
+
+// Generic document cache (documents table: any scraped type)
+const CONVEX_DOC_GET = makeFunctionReference('documents:getByKey');
+const CONVEX_DOC_SAVE = makeFunctionReference('documents:save');
+const CONVEX_DOC_HIT = makeFunctionReference('documents:recordHit');
+async function convexDocLookup(type, key) {
+  const c = getConvex();
+  if (!c) return null;
+  try {
+    const doc = await c.query(CONVEX_DOC_GET, { type, key });
+    if (doc) c.mutation(CONVEX_DOC_HIT, { id: doc._id }).catch(() => {});
+    return doc;
+  } catch (e) { console.log('[Convex] doc lookup failed:', e.message); return null; }
+}
+async function convexDocSave(entry) {
+  const c = getConvex();
+  if (!c) return;
+  try { await c.mutation(CONVEX_DOC_SAVE, entry); }
+  catch (e) { console.log('[Convex] doc save failed:', e.message); }
+}
+
 
 // When set (e.g. on Railway), proxy /api to this URL (your Mac via ngrok)
 const PDF_BACKEND_URL = (process.env.PDF_BACKEND_URL || '').replace(/\/$/, '');
@@ -144,9 +174,93 @@ const handleGetPdfUrl = async (req, res) => {
 app.get('/api/get-pdf-url', handleGetPdfUrl);
 app.get('/api/extract', handleGetPdfUrl);
 
+// RTC cascading dropdown options. Levels: district, taluk, hobli, village,
+// surnoc, hissa, period, year. Stable levels (district..village) are cached in
+// Convex; survey-dependent levels (surnoc..year) are always fetched live.
+const RTC_STABLE_LEVELS = new Set(['district', 'taluk', 'hobli', 'village']);
+const RTC_LEVEL_DEPS = {
+  district: [],
+  taluk: ['district'],
+  hobli: ['district', 'taluk'],
+  village: ['district', 'taluk', 'hobli'],
+  surnoc: ['district', 'taluk', 'hobli', 'village', 'surveyNo'],
+  hissa: ['district', 'taluk', 'hobli', 'village', 'surveyNo', 'surnoc'],
+  period: ['district', 'taluk', 'hobli', 'village', 'surveyNo', 'surnoc', 'hissa'],
+  year: ['district', 'taluk', 'hobli', 'village', 'surveyNo', 'surnoc', 'hissa', 'period'],
+};
+app.get('/api/rtc/options', async (req, res) => {
+  if (PDF_BACKEND_URL) {
+    const q = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    if (await proxyToPdfBackend(`/api/rtc/options${q}`, req, res)) return;
+  }
+  const level = req.query.level;
+  if (!level || !RTC_LEVEL_DEPS[level]) {
+    return res.status(400).json({ success: false, error: `Invalid level. Use one of: ${Object.keys(RTC_LEVEL_DEPS).join(', ')}` });
+  }
+  const deps = RTC_LEVEL_DEPS[level];
+  const sel = {};
+  for (const d of deps) {
+    if (!req.query[d]) return res.status(400).json({ success: false, error: `Missing ${d} for level ${level}` });
+    sel[d] = req.query[d];
+  }
+  const cacheKey = `opts:${level}:${deps.map((d) => sel[d]).join('-')}`;
+  try {
+    if (RTC_STABLE_LEVELS.has(level)) {
+      const cached = await convexDocLookup('rtc-opts', cacheKey);
+      if (cached && cached.options && cached.options.list) {
+        return res.json({ success: true, level, options: cached.options.list, cached: 'convex' });
+      }
+    }
+    const options = await getRtcOptions(level, sel);
+    if (RTC_STABLE_LEVELS.has(level) && options.length) {
+      convexDocSave({ type: 'rtc-opts', key: cacheKey, state: 'Karnataka', options: { list: options }, urls: [] }).catch(() => {});
+    }
+    return res.json({ success: true, level, options });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// RTC (Record of Rights) — returns the generated RTC image URL(s), cached in Convex.
+app.get('/api/rtc', async (req, res) => {
+  if (PDF_BACKEND_URL) {
+    const q = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    if (await proxyToPdfBackend(`/api/rtc${q}`, req, res)) return;
+  }
+  const { district, taluk, hobli, village, surveyNo, surnoc, hissa, period, year } = req.query;
+  const state = req.query.state || 'Karnataka';
+  const required = { district, taluk, hobli, village, surveyNo, surnoc, hissa, period, year };
+  const missing = Object.entries(required).filter(([, v]) => !v).map(([k]) => k);
+  if (missing.length) {
+    return res.status(400).json({ success: false, error: `Missing params: ${missing.join(', ')}` });
+  }
+  const opts = { district, taluk, hobli, village, surveyNo, surnoc, hissa, period, year };
+  const key = `${state}-${district}-${taluk}-${hobli}-${village}-${surveyNo}-${surnoc}-${hissa}-${period}-${year}`;
+  try {
+    // Convex cache first
+    const cached = await convexDocLookup('rtc', key);
+    if (cached && cached.urls && cached.urls.length) {
+      return res.json({ success: true, imageUrls: cached.urls, cached: 'convex' });
+    }
+    // live scrape
+    const urls = await getRtcImageUrlsHttp(opts);
+    if (!urls.length) {
+      return res.status(404).json({ success: false, error: 'RTC image not found (no preview generated)' });
+    }
+    convexDocSave({ type: 'rtc', key, state, options: opts, urls }).catch(() => {});
+    return res.json({ success: true, imageUrls: urls });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.message });
+  }
+});
+
 // Stream a remote PDF through this server — the in-app viewer iframe loads
 // `${PI}/api/pdf?url=<karnataka pdf url>` to avoid CORS / mixed-content issues.
 app.get('/api/pdf', async (req, res) => {
+  if (PDF_BACKEND_URL) {
+    const q = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    if (await proxyToPdfBackend(`/api/pdf${q}`, req, res)) return;
+  }
   const target = req.query.url;
   if (!target) return res.status(400).json({ success: false, error: 'Missing url param' });
   try {
@@ -406,6 +520,183 @@ async function cfFetchRequest(options, body, cookieJar) {
     if (e.name === 'AbortError') throw new Error('HTTP request timeout');
     throw e;
   }
+}
+
+// ===================== RTC (service2/RTC.aspx) — HTTP only =====================
+// Drives the ASP.NET UpdatePanel (AJAX) postback chain, then reads PreviewRTC.aspx
+// to collect the generated RTC image URL(s). No browser.
+
+const RTC_ORIGIN = 'https://landrecords.karnataka.gov.in';
+const RTC_PATH = '/service2/RTC.aspx';
+const RTC_PREVIEW_PATH = '/service2/PreviewRTC.aspx';
+
+/** Pull a hidden field value out of an ASP.NET partial-postback (delta) response. */
+function parseDeltaHidden(delta, name) {
+  const marker = `|hiddenField|${name}|`;
+  const i = delta.indexOf(marker);
+  if (i < 0) return null;
+  const start = i + marker.length;
+  const end = delta.indexOf('|', start);
+  return end < 0 ? null : delta.substring(start, end);
+}
+
+/** Collect RTC image URLs from any HTML/delta blob. */
+function extractRtcImageUrls(html) {
+  const urls = new Set();
+  const re = /(?:src|href)\s*=\s*["']([^"']*(?:RTCPreviewPng|RTC_NonPki|RTC_Pki)[^"']*\.(?:png|jpg|jpeg|tif|tiff))["']/gi;
+  let m;
+  while ((m = re.exec(html)) !== null) urls.add(m[1]);
+  // also catch bare URLs (e.g. inside a window.open script)
+  const re2 = /(?:https?:\/\/[^\s"'<>]+|\/?service2images\/[^\s"'<>]+)\.(?:png|jpg|jpeg|tif|tiff)/gi;
+  let m2;
+  while ((m2 = re2.exec(html)) !== null) {
+    if (/RTCPreviewPng|RTC_NonPki|RTC_Pki/i.test(m2[0])) urls.add(m2[0]);
+  }
+  return [...urls].map((s) => {
+    if (s.startsWith('http')) return s;
+    return `${RTC_ORIGIN}/${s.replace(/^\.?\//, '')}`;
+  });
+}
+
+/** Parse <option value=.. >label</option> from a named <select> inside HTML/delta. */
+function parseRtcOptions(html, selectId) {
+  const m = html.match(new RegExp(`<select[^>]*id=["']${selectId}["'][^>]*>([\\s\\S]*?)</select>`, 'i'));
+  if (!m) return [];
+  const out = [];
+  const re = /<option[^>]*value=["']([^"']*)["'][^>]*>([\s\S]*?)<\/option>/gi;
+  let o;
+  while ((o = re.exec(m[1])) !== null) {
+    const label = o[2].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').trim();
+    const value = o[1];
+    // skip placeholder options like "Select Taluk"
+    if (/^select /i.test(label) || value === '' || /^select/i.test(value)) continue;
+    out.push({ value, label });
+  }
+  return out;
+}
+
+const RTC_P = 'ctl00$MainContent$';
+
+/** A stateful RTC.aspx session: maintains cookies + ViewState across postbacks. */
+function createRtcSession() {
+  const jar = [];
+  const hidden = { viewState: '', viewStateGen: '', eventValidation: '' };
+  const f = {
+    [`${RTC_P}ddlCDistrict`]: 'Select District',
+    [`${RTC_P}ddlCTaluk`]: 'Select Taluk',
+    [`${RTC_P}ddlCHobli`]: 'Select Hobli',
+    [`${RTC_P}ddlCVillage`]: 'Select Village',
+    [`${RTC_P}txtCSurveyNo`]: '',
+    [`${RTC_P}ddlCSurnocNo`]: 'Select Surnoc',
+    [`${RTC_P}ddlCHissaNo`]: 'Select Hissa',
+    [`${RTC_P}ddlCPeriod`]: 'Select Period',
+  };
+  const headers = (ajax) => {
+    const h = { ...REQUEST_OPTS.headers, Referer: `${RTC_ORIGIN}${RTC_PATH}` };
+    if (ajax) {
+      h['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+      h['X-MicrosoftAjax'] = 'Delta=true';
+      h['X-Requested-With'] = 'XMLHttpRequest';
+      h['Accept'] = '*/*';
+      h['sec-fetch-dest'] = 'empty';
+      h['sec-fetch-mode'] = 'cors';
+      delete h['Upgrade-Insecure-Requests'];
+    }
+    return h;
+  };
+  async function init() {
+    const resp = await httpsRequest({ ...REQUEST_OPTS, method: 'GET', path: RTC_PATH, headers: headers(false) }, null, jar);
+    const hf = extractFormHidden(resp.data);
+    hidden.viewState = hf['__VIEWSTATE'] || '';
+    hidden.viewStateGen = hf['__VIEWSTATEGENERATOR'] || '';
+    hidden.eventValidation = hf['__EVENTVALIDATION'] || '';
+    if (!hidden.viewState) throw new Error('RTC: could not load initial ViewState');
+    return resp.data;
+  }
+  async function postback({ target, button, changes }) {
+    if (changes) Object.assign(f, changes);
+    const smTarget = button || target || '';
+    const p = new URLSearchParams();
+    p.set(`${RTC_P}ScriptManager1`, `${RTC_P}UpdatePanel1|${smTarget}`);
+    for (const [k, v] of Object.entries(f)) p.set(k, v);
+    p.set('__EVENTTARGET', target || '');
+    p.set('__EVENTARGUMENT', '');
+    p.set('__LASTFOCUS', '');
+    p.set('__VIEWSTATE', hidden.viewState);
+    p.set('__VIEWSTATEGENERATOR', hidden.viewStateGen);
+    p.set('__VIEWSTATEENCRYPTED', '');
+    p.set('__EVENTVALIDATION', hidden.eventValidation);
+    p.set('__ASYNCPOST', 'true');
+    if (button) p.set(button, button.endsWith('btnCGo') ? 'Go' : button.endsWith('btnCFetchDetails') ? 'Fetch details' : button.endsWith('btnCPreview') ? 'View' : '');
+    const r = await httpsRequest({ ...REQUEST_OPTS, method: 'POST', path: RTC_PATH, headers: headers(true) }, p.toString(), jar);
+    const nvs = parseDeltaHidden(r.data, '__VIEWSTATE');
+    const nev = parseDeltaHidden(r.data, '__EVENTVALIDATION');
+    const ngen = parseDeltaHidden(r.data, '__VIEWSTATEGENERATOR');
+    if (nvs) hidden.viewState = nvs;
+    if (nev) hidden.eventValidation = nev;
+    if (ngen) hidden.viewStateGen = ngen;
+    return r.data;
+  }
+  async function getPreview() {
+    const prev = await httpsRequest({ ...REQUEST_OPTS, method: 'GET', path: RTC_PREVIEW_PATH, headers: headers(false) }, null, jar);
+    return prev.data;
+  }
+  return { jar, headers, init, postback, getPreview, P: RTC_P };
+}
+
+// Levels in cascade order; each maps to (select id to read, how to advance to it).
+const RTC_LEVELS = ['district', 'taluk', 'hobli', 'village', 'surnoc', 'hissa', 'period', 'year'];
+
+/** Run the cascade up to `level` and return that dropdown's options. */
+async function getRtcOptions(level, sel) {
+  const s = createRtcSession();
+  const initData = await s.init();
+  if (level === 'district') return parseRtcOptions(initData, 'ctl00_MainContent_ddlCDistrict');
+
+  let data = await s.postback({ target: `${s.P}ddlCDistrict`, changes: { [`${s.P}ddlCDistrict`]: String(sel.district) } });
+  if (level === 'taluk') return parseRtcOptions(data, 'ctl00_MainContent_ddlCTaluk');
+
+  data = await s.postback({ target: `${s.P}ddlCTaluk`, changes: { [`${s.P}ddlCTaluk`]: String(sel.taluk) } });
+  if (level === 'hobli') return parseRtcOptions(data, 'ctl00_MainContent_ddlCHobli');
+
+  data = await s.postback({ target: `${s.P}ddlCHobli`, changes: { [`${s.P}ddlCHobli`]: String(sel.hobli) } });
+  if (level === 'village') return parseRtcOptions(data, 'ctl00_MainContent_ddlCVillage');
+
+  data = await s.postback({ target: `${s.P}ddlCVillage`, changes: { [`${s.P}ddlCVillage`]: String(sel.village) } });
+  data = await s.postback({ button: `${s.P}btnCGo`, changes: { [`${s.P}txtCSurveyNo`]: String(sel.surveyNo) } });
+  if (level === 'surnoc') return parseRtcOptions(data, 'ctl00_MainContent_ddlCSurnocNo');
+
+  data = await s.postback({ target: `${s.P}ddlCSurnocNo`, changes: { [`${s.P}ddlCSurnocNo`]: String(sel.surnoc) } });
+  if (level === 'hissa') return parseRtcOptions(data, 'ctl00_MainContent_ddlCHissaNo');
+
+  data = await s.postback({ target: `${s.P}ddlCHissaNo`, changes: { [`${s.P}ddlCHissaNo`]: String(sel.hissa) } });
+  if (level === 'period') return parseRtcOptions(data, 'ctl00_MainContent_ddlCPeriod');
+
+  data = await s.postback({ target: `${s.P}ddlCPeriod`, changes: { [`${s.P}ddlCPeriod`]: String(sel.period) } });
+  if (level === 'year') return parseRtcOptions(data, 'ctl00_MainContent_ddlCYear');
+
+  return [];
+}
+
+/** Full cascade → fetch details → View → resolve RTC image URL(s). */
+async function getRtcImageUrlsHttp(opts) {
+  const { district, taluk, hobli, village, surveyNo, surnoc, hissa, period, year } = opts;
+  const s = createRtcSession();
+  await s.init();
+  await s.postback({ target: `${s.P}ddlCDistrict`, changes: { [`${s.P}ddlCDistrict`]: String(district) } });
+  await s.postback({ target: `${s.P}ddlCTaluk`, changes: { [`${s.P}ddlCTaluk`]: String(taluk) } });
+  await s.postback({ target: `${s.P}ddlCHobli`, changes: { [`${s.P}ddlCHobli`]: String(hobli) } });
+  await s.postback({ target: `${s.P}ddlCVillage`, changes: { [`${s.P}ddlCVillage`]: String(village) } });
+  await s.postback({ button: `${s.P}btnCGo`, changes: { [`${s.P}txtCSurveyNo`]: String(surveyNo) } });
+  await s.postback({ target: `${s.P}ddlCSurnocNo`, changes: { [`${s.P}ddlCSurnocNo`]: String(surnoc) } });
+  await s.postback({ target: `${s.P}ddlCHissaNo`, changes: { [`${s.P}ddlCHissaNo`]: String(hissa) } });
+  await s.postback({ target: `${s.P}ddlCPeriod`, changes: { [`${s.P}ddlCPeriod`]: String(period) } });
+  const fetchResp = await s.postback({ button: `${s.P}btnCFetchDetails`, changes: { [`${s.P}ddlCYear`]: String(year) } });
+  const previewResp = await s.postback({ button: `${s.P}btnCPreview` });
+
+  let urls = extractRtcImageUrls(previewResp).concat(extractRtcImageUrls(fetchResp));
+  if (!urls.length) urls = extractRtcImageUrls(await s.getPreview());
+  return [...new Set(urls)];
 }
 
 /**
